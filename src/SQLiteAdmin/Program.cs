@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* Copyright Xeno Innovations, Inc. 2011-2017
+ * Author:  Damian Suess
+ * Date:    2017-01-24
+ * File:    Program.cs
+ * Description:
+ *  
+ * To Do:
+ * Change Log:
+ *  2017-0124 * Initial creation
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +27,7 @@ namespace SQLiteAdmin
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new Form1());
+      Application.Run(new MainIde());
     }
   }
 }
