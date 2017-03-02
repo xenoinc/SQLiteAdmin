@@ -56,6 +56,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\SyntaxEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\SyntaxEditor.Designer.cs">
+      <DependentUpon>SyntaxEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainIde.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     <Compile Include="Views\Session.Designer.cs">
       <DependentUpon>Session.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Control\SyntaxEditor.resx">
+      <DependentUpon>SyntaxEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainIde.resx">
       <DependentUpon>MainIde.cs</DependentUpon>
     </EmbeddedResource>

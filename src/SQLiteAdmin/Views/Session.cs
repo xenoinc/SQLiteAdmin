@@ -10,34 +10,23 @@
  */
 
 using System;
-
 using System.Windows.Forms;
-using ICSharpCode.AvalonEdit;
 
 namespace SQLiteAdmin.Views
 {
   public partial class Session : Form
   {
-    public TextEditor Editor { get; set; }
+
 
     public Session()
     {
       InitializeComponent();
-
-      Editor = new ICSharpCode.AvalonEdit.TextEditor();
-      elementHost1.Child = Editor;
     }
 
     private void Session_Load(object sender, EventArgs e)
     {
 
     }
-    
-    public void SetSyntax(string res)
-    {
-      // this.Editor.SyntaxHighlighting = 
-    }
  
-
   }
 }
