@@ -1,0 +1,43 @@
+﻿extensions: .cs .cpp .h .sql
+/* Copyright Xeno Innovations, Inc. 2017
+ * Author:  Damian Suess
+ * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+ * File:    %FileName%
+ * Description:
+ *  
+ * To Do:
+ * Change Log:
+ *  %CurrentYear%-%CurrentMonth%%CurrentDay% * Initial creation
+ */
+
+extensions: .aspx .ascx
+<%-- 
+  Copyright Xeno Innovations, Inc. 2017
+  Author:  Damian Suess
+  Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+  File:    %FileName%
+  Description:
+
+  To Do:
+  Change Log:
+    %CurrentYear%-%CurrentMonth%%CurrentDay% * Initial creation
+--%>
+
+extensions: .vb
+' Copyright Xeno Innovations, Inc. 2017
+' Author: Damian Suess
+' Date:   %CurrentYear%-%CurrentMonth%-%CurrentDay%
+' File:   %FileName%
+
+extensions:  .xml .config .xsd .xaml
+<!--
+Copyright Xeno Innovations, Inc. 2017
+ * Author:  Damian Suess
+ * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+ * File:    %FileName%
+ * Description:
+ *  
+ * To Do:
+ * Change Log:
+ *  %CurrentYear%-%CurrentMonth%%CurrentDay% * Initial creation
+-->
