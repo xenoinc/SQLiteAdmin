@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2017
+﻿/* Copyright Xeno Innovations, Inc. 2011-2017
  * Author:  Damian Suess
  * Date:    2017-3-3
  * File:    SyntaxEditor.cs
@@ -8,7 +8,7 @@
  * Resources:
  *  https://github.com/icsharpcode/AvalonEdit
  * Change Log:
- *  2017-33 * Initial creation
+ *  2017-0303 * Initial creation
  */
 
 using System;
@@ -130,7 +130,6 @@ namespace Xeno.AvalonEditWF
     }
 
     #endregion Properties
-
 
     #region Wrapped Methods
 
