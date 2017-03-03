@@ -1,4 +1,4 @@
-﻿namespace SQLiteAdmin
+﻿namespace Xeno.SQLiteAdmin
 {
   partial class MainIde
   {
@@ -28,18 +28,14 @@
     /// </summary>
     private void InitializeComponent()
     {
-      ICSharpCode.AvalonEdit.TextEditor textEditor4 = new ICSharpCode.AvalonEdit.TextEditor();
-      ICSharpCode.AvalonEdit.Document.TextDocument textDocument4 = new ICSharpCode.AvalonEdit.Document.TextDocument();
-      System.ComponentModel.Design.ServiceContainer serviceContainer4 = new System.ComponentModel.Design.ServiceContainer();
-      ICSharpCode.AvalonEdit.Document.UndoStack undoStack4 = new ICSharpCode.AvalonEdit.Document.UndoStack();
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainIde));
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.menuNew = new System.Windows.Forms.ToolStripMenuItem();
       this.panel1 = new System.Windows.Forms.Panel();
-      this.button3 = new System.Windows.Forms.Button();
-      this.button2 = new System.Windows.Forms.Button();
-      this.button1 = new System.Windows.Forms.Button();
-      this.syntaxEditor1 = new SQLiteAdmin.Control.SyntaxEditor();
+      this.btnTestGetText = new System.Windows.Forms.Button();
+      this.btnTestToggleLines = new System.Windows.Forms.Button();
+      this.btnTestSetText = new System.Windows.Forms.Button();
+      this.syntaxEditor1 = new Xeno.SQLiteAdmin.Control.SyntaxEditor();
+      this.textEditor1 = new Xeno.AvalonEditWF.TextEditor();
       this.menuStrip1.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -63,9 +59,10 @@
       // 
       // panel1
       // 
-      this.panel1.Controls.Add(this.button3);
-      this.panel1.Controls.Add(this.button2);
-      this.panel1.Controls.Add(this.button1);
+      this.panel1.Controls.Add(this.textEditor1);
+      this.panel1.Controls.Add(this.btnTestGetText);
+      this.panel1.Controls.Add(this.btnTestToggleLines);
+      this.panel1.Controls.Add(this.btnTestSetText);
       this.panel1.Controls.Add(this.syntaxEditor1);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.panel1.Location = new System.Drawing.Point(0, 24);
@@ -73,44 +70,53 @@
       this.panel1.Size = new System.Drawing.Size(562, 244);
       this.panel1.TabIndex = 1;
       // 
-      // button3
+      // btnTestGetText
       // 
-      this.button3.Location = new System.Drawing.Point(199, 13);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(75, 23);
-      this.button3.TabIndex = 3;
-      this.button3.Text = "Get Text";
-      this.button3.UseVisualStyleBackColor = true;
-      this.button3.Click += new System.EventHandler(this.button3_Click);
+      this.btnTestGetText.Location = new System.Drawing.Point(199, 13);
+      this.btnTestGetText.Name = "btnTestGetText";
+      this.btnTestGetText.Size = new System.Drawing.Size(75, 23);
+      this.btnTestGetText.TabIndex = 3;
+      this.btnTestGetText.Text = "Get Text";
+      this.btnTestGetText.UseVisualStyleBackColor = true;
+      this.btnTestGetText.Click += new System.EventHandler(this.btnTestGetText_Click);
       // 
-      // button2
+      // btnTestToggleLines
       // 
-      this.button2.Location = new System.Drawing.Point(94, 13);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(99, 23);
-      this.button2.TabIndex = 2;
-      this.button2.Text = "Toggle Lines";
-      this.button2.UseVisualStyleBackColor = true;
-      this.button2.Click += new System.EventHandler(this.button2_Click);
+      this.btnTestToggleLines.Location = new System.Drawing.Point(94, 13);
+      this.btnTestToggleLines.Name = "btnTestToggleLines";
+      this.btnTestToggleLines.Size = new System.Drawing.Size(99, 23);
+      this.btnTestToggleLines.TabIndex = 2;
+      this.btnTestToggleLines.Text = "Toggle Lines";
+      this.btnTestToggleLines.UseVisualStyleBackColor = true;
+      this.btnTestToggleLines.Click += new System.EventHandler(this.btnTestToggleLines_Click);
       // 
-      // button1
+      // btnTestSetText
       // 
-      this.button1.Location = new System.Drawing.Point(13, 13);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 1;
-      this.button1.Text = "Set Text";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.button1_Click);
+      this.btnTestSetText.Location = new System.Drawing.Point(13, 13);
+      this.btnTestSetText.Name = "btnTestSetText";
+      this.btnTestSetText.Size = new System.Drawing.Size(75, 23);
+      this.btnTestSetText.TabIndex = 1;
+      this.btnTestSetText.Text = "Set Text";
+      this.btnTestSetText.UseVisualStyleBackColor = true;
+      this.btnTestSetText.Click += new System.EventHandler(this.btnTestSetText_Click);
       // 
       // syntaxEditor1
       // 
       this.syntaxEditor1.Location = new System.Drawing.Point(12, 42);
       this.syntaxEditor1.Name = "syntaxEditor1";
       this.syntaxEditor1.ShowLineNumbers = false;
-      this.syntaxEditor1.Size = new System.Drawing.Size(538, 190);
+      this.syntaxEditor1.Size = new System.Drawing.Size(269, 190);
       this.syntaxEditor1.SyntaxHighlighting = null;
       this.syntaxEditor1.TabIndex = 0;
+      // 
+      // textEditor1
+      // 
+      this.textEditor1.Location = new System.Drawing.Point(287, 42);
+      this.textEditor1.Name = "textEditor1";
+      this.textEditor1.ShowLineNumbers = true;
+      this.textEditor1.Size = new System.Drawing.Size(272, 190);
+      this.textEditor1.SyntaxHighlighting = null;
+      this.textEditor1.TabIndex = 4;
       // 
       // MainIde
       // 
@@ -136,10 +142,11 @@
     private System.Windows.Forms.MenuStrip menuStrip1;
     private System.Windows.Forms.ToolStripMenuItem menuNew;
     private System.Windows.Forms.Panel panel1;
-    private System.Windows.Forms.Button button3;
-    private System.Windows.Forms.Button button2;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button btnTestGetText;
+    private System.Windows.Forms.Button btnTestToggleLines;
+    private System.Windows.Forms.Button btnTestSetText;
     private Control.SyntaxEditor syntaxEditor1;
+    private AvalonEditWF.TextEditor textEditor1;
   }
 }
 

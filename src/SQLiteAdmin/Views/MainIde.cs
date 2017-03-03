@@ -13,7 +13,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SQLiteAdmin
+namespace Xeno.SQLiteAdmin
 {
   public partial class MainIde : Form
   {
@@ -33,25 +33,25 @@ namespace SQLiteAdmin
       frm.Show();
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void btnTestSetText_Click(object sender, EventArgs e)
     {
-      syntaxEditor1.Text = "Set text test";
-
-      // syntaxEditor1.Editor.Text = "Something else";
-
+      syntaxEditor1.Text = "Lorem Ipsum can be boring";
+      textEditor1.Text = "Here is an external control";
     }
 
-    private void button2_Click(object sender, EventArgs e)
+    private void btnTestToggleLines_Click(object sender, EventArgs e)
     {
-      if (syntaxEditor1.ShowLineNumbers)
-        syntaxEditor1.ShowLineNumbers = false;
-      else
-        syntaxEditor1.ShowLineNumbers = true;
+      syntaxEditor1.ShowLineNumbers = !syntaxEditor1.ShowLineNumbers;
+      textEditor1.ShowLineNumbers = !textEditor1.ShowLineNumbers;
     }
 
-    private void button3_Click(object sender, EventArgs e)
+    private void btnTestGetText_Click(object sender, EventArgs e)
     {
-      MessageBox.Show(syntaxEditor1.Text);
+      string tmp;
+      tmp = syntaxEditor1.Text;
+      syntaxEditor1.Text = textEditor1.Text;
+      textEditor1.Text = tmp;
     }
+
   }
 }

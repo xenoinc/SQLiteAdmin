@@ -1,4 +1,4 @@
-﻿/* Copyright Xeno Innovations, Inc. 2011-2017
+﻿/* Copyright Xeno Innovations, Inc. 2017
  * Author:  Damian Suess
  * Date:    2017-01-24
  * File:    Session.cs
@@ -12,7 +12,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SQLiteAdmin.Views
+namespace Xeno.SQLiteAdmin.Views
 {
   public partial class Session : Form
   {

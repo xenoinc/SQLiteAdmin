@@ -1,4 +1,15 @@
-﻿using System.Reflection;
+﻿/* Copyright Xeno Innovations, Inc. 2011-2017
+ * Author:  Damian Suess
+ * Date:    2017-1-1
+ * File:    AssemblyInfo.cs
+ * Description:
+ *  
+ * To Do:
+ * Change Log:
+ *  2017-33 * Initial creation
+ */
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,9 +19,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SQLiteAdmin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Xeno Innovations")]
 [assembly: AssemblyProduct("SQLiteAdmin")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © Xeno Innovations 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

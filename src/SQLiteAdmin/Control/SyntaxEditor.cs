@@ -19,7 +19,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 
-namespace SQLiteAdmin.Control
+namespace Xeno.SQLiteAdmin.Control
 {
   public partial class SyntaxEditor : UserControl
   {

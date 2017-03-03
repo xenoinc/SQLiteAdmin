@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SQLiteAdmin
+namespace Xeno.SQLiteAdmin
 {
   static class Program
   {

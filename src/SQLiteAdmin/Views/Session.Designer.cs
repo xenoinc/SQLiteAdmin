@@ -1,4 +1,4 @@
-﻿namespace SQLiteAdmin.Views
+﻿namespace Xeno.SQLiteAdmin.Views
 {
   partial class Session
   {

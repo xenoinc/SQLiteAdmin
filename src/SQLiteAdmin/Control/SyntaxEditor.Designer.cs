@@ -9,7 +9,7 @@
  *  2017-32 * Initial creation
  */
 
-namespace SQLiteAdmin.Control
+namespace Xeno.SQLiteAdmin.Control
 {
   partial class SyntaxEditor
   {
