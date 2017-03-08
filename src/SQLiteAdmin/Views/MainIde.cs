@@ -33,25 +33,44 @@ namespace Xeno.SQLiteAdmin
       frm.Show();
     }
 
+    
     private void btnTestSetText_Click(object sender, EventArgs e)
     {
-      syntaxEditor1.Text = "Lorem Ipsum can be boring";
       textEditor1.Text = "Here is an external control";
     }
 
     private void btnTestToggleLines_Click(object sender, EventArgs e)
     {
-      syntaxEditor1.ShowLineNumbers = !syntaxEditor1.ShowLineNumbers;
       textEditor1.ShowLineNumbers = !textEditor1.ShowLineNumbers;
     }
 
     private void btnTestGetText_Click(object sender, EventArgs e)
     {
       string tmp;
-      tmp = syntaxEditor1.Text;
-      syntaxEditor1.Text = textEditor1.Text;
+      tmp = textEditor1.Text;
+      tmp += "Here's more text";
       textEditor1.Text = tmp;
     }
 
+    private void MenuOptions_Click(object sender, EventArgs e)
+    {
+      Form frm = new Views.Options();
+      frm.ShowDialog(this);
+    }
+
+    private void tsExecute_Click(object sender, EventArgs e)
+    {
+      tsExecuteAll_Click(sender, e);
+    }
+
+    private void tsExecuteAll_Click(object sender, EventArgs e)
+    {
+      sqlSession1.Execute(false);
+    }
+
+    private void tsExecuteSelection_Click(object sender, EventArgs e)
+    {
+      sqlSession1.Execute(true);
+    }
   }
 }

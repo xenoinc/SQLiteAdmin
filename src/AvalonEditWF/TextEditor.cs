@@ -81,7 +81,7 @@ namespace Xeno.AvalonEditWF
       _editor.TextArea.TextEntering += Editor_TextArea_TextEntering;
       _editor.TextArea.TextEntered += Editor_TextArea_TextEntered;
 
-      _editor.Text = "Sample AvalonEdit text";
+      _editor.Text = "-- Welcome to SQLite Admin";
       _editor.ShowLineNumbers = true;
 
       //DispatcherTimer foldingUpdateTimer = new DispatcherTimer();
@@ -99,6 +99,7 @@ namespace Xeno.AvalonEditWF
     public TextDocument Document { get; set; }
 
     /// <summary>Specifies whether line numbers are shown on the left to the text view.</summary>
+    [Description("Show line numbers"), Category("Data")]
     public bool ShowLineNumbers
     {
       get { return _editor.ShowLineNumbers; }
@@ -112,6 +113,8 @@ namespace Xeno.AvalonEditWF
     /// <summary>Gets/Sets the text of the current document</summary>
     [DefaultValue("")]
     [Localizability(LocalizationCategory.Text)]
+    [Description("Display text"), Category("Data")]
+    [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
     public override string Text
     {
       get { return _editor.Text; }
