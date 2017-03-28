@@ -21,6 +21,65 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class SQLiteProvider : IDatabaseProvider
   {
+    private SQLiteConnection _sqlCon;
+    private SQLiteCommand _sqlCmd;
+    private SQLiteDataAdapter _sqlAdapter;
+
+    private DataSet _ds = new DataSet();
+    private DataTable _dt = new DataTable();
+
+    #region Properties
+
+    public string DbFile { get; set; }
+
+    public string Password { get; set; }
+
+    public string SQLiteVersion { get { return "3"; } }
+
+    #endregion Properties
+
+    #region Constructor
+
+    public SQLiteProvider() : this(string.Empty, string.Empty) { }
+
+    public SQLiteProvider(string dbFile) : this(dbFile, string.Empty) { }
+
+    public SQLiteProvider(string dbFile, string password)
+    {
+      this.DbFile = dbFile;
+      this.Password = password;
+    }
+
+    public string ConnectionString
+    {
+      get
+      {
+        string cs = $"Data Source={this.DbFile};Version={this.SQLiteVersion};New=False;Compress=True;";
+
+        if (!string.IsNullOrEmpty(this.Password))
+          cs += $";Password={this.Password};";
+
+        return cs;
+      }
+    }
+
+    #endregion Constructor
+
+    #region Methods
+
+    public bool UpdatePassword(string newPassword)
+    {
+      this._sqlCon = new SQLiteConnection(this.ConnectionString);
+
+      this._sqlCon.Open();
+      this._sqlCon.ChangePassword(newPassword);
+      this.Password = newPassword;
+
+      this._sqlCon.Close(); 
+
+      return false;
+    }
+
 
     public int ExecuteNonQuery(string query)
     {
@@ -28,6 +87,25 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
       throw new NotImplementedException();
 
+      _sqlCon = new SQLiteConnection(this.ConnectionString);
+      _sqlCon.Open();
+
+
+      // Method 1
+      using (SQLiteCommand cmd = new SQLiteCommand())
+      {
+        cmd.Connection = _sqlCon;
+        cmd.CommandText = query;
+        rowsAffected = cmd.ExecuteNonQuery();
+      }
+
+      // Method 2
+      //_sqlCmd = _sqlCon.CreateCommand();
+      //_sqlCmd.CommandText = query;
+      //rowsAffected = _sqlCmd.ExecuteNonQuery();
+
+      _sqlCon.Close();
+      
       return rowsAffected;
     }
 
@@ -35,8 +113,20 @@ namespace Xeno.SQLiteAdmin.Data.Provider
     {
       var ds = new DataSet();
 
+      // Reference: https://www.codeproject.com/Tips/988690/WinForms-WPF-Using-SQLite-DataBase
+
+
       return ds;
     }
 
+    //private bool ConnectionOpen()
+    //{
+    //}
+
+    //private bool ConnectionClose()
+    //{
+    //}
+
+    #endregion Methods
   }
 }
