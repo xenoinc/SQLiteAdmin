@@ -36,20 +36,20 @@ namespace Xeno.SQLiteAdmin
     
     private void btnTestSetText_Click(object sender, EventArgs e)
     {
-      textEditor1.Text = "Here is an external control";
+      TextEditor1.Text = "Here is an external control";
     }
 
     private void btnTestToggleLines_Click(object sender, EventArgs e)
     {
-      textEditor1.ShowLineNumbers = !textEditor1.ShowLineNumbers;
+      TextEditor1.ShowLineNumbers = !TextEditor1.ShowLineNumbers;
     }
 
     private void btnTestGetText_Click(object sender, EventArgs e)
     {
       string tmp;
-      tmp = textEditor1.Text;
+      tmp = TextEditor1.Text;
       tmp += "Here's more text";
-      textEditor1.Text = tmp;
+      TextEditor1.Text = tmp;
     }
 
     private void MenuOptions_Click(object sender, EventArgs e)
@@ -65,12 +65,12 @@ namespace Xeno.SQLiteAdmin
 
     private void tsExecuteAll_Click(object sender, EventArgs e)
     {
-      sqlSession1.Execute(false);
+      SqlSession1.Execute(false);
     }
 
     private void tsExecuteSelection_Click(object sender, EventArgs e)
     {
-      sqlSession1.Execute(true);
+      SqlSession1.Execute(true);
     }
   }
 }
