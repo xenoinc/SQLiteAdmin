@@ -1,7 +1,7 @@
 Copyright 2017 (C) Xeno Innovations, Inc.
 _Created by Damian J. Suess_
 
-SQLite Admin is intended to be a lightweight IDE for SQLite databases with the ability to _manage DB, edit views, stored procedures, merge DBs, encrypt (ADO.NET), etc._) . This is a complete rework of XI's internal project started back on 2011-06-17.
+SQLite Admin is intended to be a lightweight IDE for SQLite databases with the ability to manage DB's _tables, edit views, merge DBs, encrypt (ADO.NET), etc._ . This is a complete rework of XI's internal project started back on 2011-06-17.
 
 ### Project Status
 Currently a work in progress to provide a simple SQLite management studio.
@@ -13,7 +13,7 @@ Currently a work in progress to provide a simple SQLite management studio.
 Single database instance SQL syntax editor with executions. Start with SQLite engine, System.Data.Sqlite.
 
 ### 2: Object Explorer
-Simple DB object explorer to display: views, stored procedures, etc.
+Simple DB object explorer to display: tables, views, etc.
 
 ### 3: Solutions
 Save project as solutions to be more IDE like.

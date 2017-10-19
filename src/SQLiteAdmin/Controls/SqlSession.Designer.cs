@@ -62,6 +62,7 @@ namespace Xeno.SQLiteAdmin.Views
       this.statusStrip1.Location = new System.Drawing.Point(0, 134);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(473, 22);
+      this.statusStrip1.SizingGrip = false;
       this.statusStrip1.TabIndex = 0;
       this.statusStrip1.Text = "statusStrip1";
       // 
@@ -70,7 +71,7 @@ namespace Xeno.SQLiteAdmin.Views
       this.tsConnectionStatus.Image = global::Xeno.SQLiteAdmin.Properties.Resources.IconDisconnected;
       this.tsConnectionStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.tsConnectionStatus.Name = "tsConnectionStatus";
-      this.tsConnectionStatus.Size = new System.Drawing.Size(214, 17);
+      this.tsConnectionStatus.Size = new System.Drawing.Size(183, 17);
       this.tsConnectionStatus.Spring = true;
       this.tsConnectionStatus.Text = "Disonnected";
       this.tsConnectionStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -112,13 +113,13 @@ namespace Xeno.SQLiteAdmin.Views
       // 
       this.textEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.textEditor1.Document = null;
+      this.textEditor1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.textEditor1.Location = new System.Drawing.Point(0, 0);
       this.textEditor1.Name = "textEditor1";
       this.textEditor1.ShowLineNumbers = true;
       this.textEditor1.Size = new System.Drawing.Size(473, 134);
       this.textEditor1.SyntaxHighlighting = null;
       this.textEditor1.TabIndex = 1;
-      this.textEditor1.Load += new System.EventHandler(this.textEditor1_Load);
       // 
       // SqlSession
       // 

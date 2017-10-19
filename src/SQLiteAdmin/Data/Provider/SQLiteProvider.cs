@@ -3,52 +3,41 @@
  * Date:    2017-3-8
  * File:    SQLiteProvider.cs
  * Description:
- *  
+ *
  * To Do:
  * Change Log:
  *  2017-38 * Initial creation
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SQLite;
 using System.Data;
+using System.Data.SQLite;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class SQLiteProvider : IDatabaseProvider
   {
-    private SQLiteConnection _sqlCon;
-    private SQLiteCommand _sqlCmd;
-    private SQLiteDataAdapter _sqlAdapter;
-
     private DataSet _ds = new DataSet();
     private DataTable _dt = new DataTable();
+    private SQLiteDataAdapter _sqlAdapter;
+    private SQLiteCommand _sqlCmd;
+    private SQLiteConnection _sqlCon;
 
-    #region Properties
+    public SQLiteProvider() : this(string.Empty, string.Empty)
+    {
+    }
 
-    public string DbFile { get; set; }
-
-    public string Password { get; set; }
-
-    public string SQLiteVersion { get { return "3"; } }
-
-    #endregion Properties
-
-    #region Constructor
-
-    public SQLiteProvider() : this(string.Empty, string.Empty) { }
-
-    public SQLiteProvider(string dbFile) : this(dbFile, string.Empty) { }
+    public SQLiteProvider(string dbFile) : this(dbFile, string.Empty)
+    {
+    }
 
     public SQLiteProvider(string dbFile, string password)
     {
       this.DbFile = dbFile;
       this.Password = password;
     }
+
+    #region Properties
 
     public string ConnectionString
     {
@@ -63,23 +52,27 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       }
     }
 
-    #endregion Constructor
+    public string DbFile { get; set; }
+
+    public string Password { get; set; }
+
+    public string SQLiteVersion { get { return "3"; } }
+
+    #endregion Properties
 
     #region Methods
 
-    public bool UpdatePassword(string newPassword)
+    public void Close()
     {
-      this._sqlCon = new SQLiteConnection(this.ConnectionString);
-
-      this._sqlCon.Open();
-      this._sqlCon.ChangePassword(newPassword);
-      this.Password = newPassword;
-
-      this._sqlCon.Close(); 
-
-      return false;
+      if (_sqlCon != null)
+      {
+        try
+        {
+          _sqlCon.Close();
+        }
+        catch { }
+      }
     }
-
 
     public int ExecuteNonQuery(string query)
     {
@@ -89,7 +82,6 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
       _sqlCon = new SQLiteConnection(this.ConnectionString);
       _sqlCon.Open();
-
 
       // Method 1
       using (SQLiteCommand cmd = new SQLiteCommand())
@@ -105,7 +97,7 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       //rowsAffected = _sqlCmd.ExecuteNonQuery();
 
       _sqlCon.Close();
-      
+
       return rowsAffected;
     }
 
@@ -115,8 +107,20 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
       // Reference: https://www.codeproject.com/Tips/988690/WinForms-WPF-Using-SQLite-DataBase
 
-
       return ds;
+    }
+
+    public bool UpdatePassword(string newPassword)
+    {
+      this._sqlCon = new SQLiteConnection(this.ConnectionString);
+
+      this._sqlCon.Open();
+      this._sqlCon.ChangePassword(newPassword);
+      this.Password = newPassword;
+
+      this._sqlCon.Close();
+
+      return false;
     }
 
     //private bool ConnectionOpen()
