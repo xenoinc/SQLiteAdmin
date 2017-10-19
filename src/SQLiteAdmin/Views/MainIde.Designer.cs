@@ -30,13 +30,14 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainIde));
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-      this.MenuNew = new System.Windows.Forms.ToolStripMenuItem();
-      this.MenuOptions = new System.Windows.Forms.ToolStripMenuItem();
-      this.panel1 = new System.Windows.Forms.Panel();
-      this.SqlSession1 = new Xeno.SQLiteAdmin.Views.SqlSession();
-      this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-      this.tsReady = new System.Windows.Forms.ToolStripStatusLabel();
-      this.TextEditor1 = new Xeno.AvalonEditWF.TextEditor();
+      this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuFileNew = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuFileSave = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+      this.MenuFileExit = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuTools = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuToolsOptions = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
       this.tsExecute = new System.Windows.Forms.ToolStripDropDownButton();
       this.tsExecuteAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,83 +45,85 @@
       this.btnTestSetText = new System.Windows.Forms.ToolStripButton();
       this.btnTestToggleLines = new System.Windows.Forms.ToolStripButton();
       this.btnTestGetText = new System.Windows.Forms.ToolStripButton();
+      this.tabControl1 = new System.Windows.Forms.TabControl();
+      this.MenuEdit = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuEditCut = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuEditCopy = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuEditPaste = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1.SuspendLayout();
-      this.panel1.SuspendLayout();
-      this.statusStrip1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
       // menuStrip1
       // 
       this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuNew,
-            this.MenuOptions});
+            this.fileToolStripMenuItem,
+            this.MenuEdit,
+            this.MenuTools,
+            this.MenuHelp});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
       this.menuStrip1.Size = new System.Drawing.Size(611, 24);
       this.menuStrip1.TabIndex = 0;
       this.menuStrip1.Text = "menuStrip1";
       // 
-      // MenuNew
+      // fileToolStripMenuItem
       // 
-      this.MenuNew.Name = "MenuNew";
-      this.MenuNew.Size = new System.Drawing.Size(43, 20);
-      this.MenuNew.Text = "New";
-      this.MenuNew.Click += new System.EventHandler(this.menuNew_Click);
+      this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuFileNew,
+            this.MenuFileSave,
+            this.toolStripMenuItem1,
+            this.MenuFileExit});
+      this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+      this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+      this.fileToolStripMenuItem.Text = "File";
       // 
-      // MenuOptions
+      // MenuFileNew
       // 
-      this.MenuOptions.Name = "MenuOptions";
-      this.MenuOptions.Size = new System.Drawing.Size(61, 20);
-      this.MenuOptions.Text = "Options";
-      this.MenuOptions.Click += new System.EventHandler(this.MenuOptions_Click);
+      this.MenuFileNew.Name = "MenuFileNew";
+      this.MenuFileNew.Size = new System.Drawing.Size(98, 22);
+      this.MenuFileNew.Text = "New";
+      this.MenuFileNew.Click += new System.EventHandler(this.MenuFileNew_Click);
       // 
-      // panel1
+      // MenuFileSave
       // 
-      this.panel1.Controls.Add(this.SqlSession1);
-      this.panel1.Controls.Add(this.statusStrip1);
-      this.panel1.Controls.Add(this.TextEditor1);
-      this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panel1.Location = new System.Drawing.Point(0, 24);
-      this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(611, 417);
-      this.panel1.TabIndex = 1;
+      this.MenuFileSave.Name = "MenuFileSave";
+      this.MenuFileSave.Size = new System.Drawing.Size(98, 22);
+      this.MenuFileSave.Text = "Save";
+      this.MenuFileSave.Click += new System.EventHandler(this.MenuFileSave_Click);
       // 
-      // SqlSession1
+      // toolStripMenuItem1
       // 
-      this.SqlSession1.FilePath = null;
-      this.SqlSession1.Location = new System.Drawing.Point(3, 207);
-      this.SqlSession1.Name = "SqlSession1";
-      this.SqlSession1.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
-      this.SqlSession1.Size = new System.Drawing.Size(608, 185);
-      this.SqlSession1.SyntaxHighlighting = null;
-      this.SqlSession1.TabIndex = 6;
+      this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(95, 6);
       // 
-      // statusStrip1
+      // MenuFileExit
       // 
-      this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsReady});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 395);
-      this.statusStrip1.Name = "statusStrip1";
-      this.statusStrip1.Size = new System.Drawing.Size(611, 22);
-      this.statusStrip1.TabIndex = 5;
-      this.statusStrip1.Text = "statusStrip1";
+      this.MenuFileExit.Name = "MenuFileExit";
+      this.MenuFileExit.Size = new System.Drawing.Size(98, 22);
+      this.MenuFileExit.Text = "Exit";
+      this.MenuFileExit.Click += new System.EventHandler(this.MenuFileExit_Click);
       // 
-      // tsReady
+      // MenuTools
       // 
-      this.tsReady.Name = "tsReady";
-      this.tsReady.Size = new System.Drawing.Size(39, 17);
-      this.tsReady.Text = "Ready";
+      this.MenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuToolsOptions});
+      this.MenuTools.Name = "MenuTools";
+      this.MenuTools.Size = new System.Drawing.Size(47, 20);
+      this.MenuTools.Text = "Tools";
       // 
-      // TextEditor1
+      // MenuToolsOptions
       // 
-      this.TextEditor1.Document = null;
-      this.TextEditor1.Location = new System.Drawing.Point(3, 28);
-      this.TextEditor1.Name = "TextEditor1";
-      this.TextEditor1.ShowLineNumbers = true;
-      this.TextEditor1.Size = new System.Drawing.Size(608, 173);
-      this.TextEditor1.SyntaxHighlighting = null;
-      this.TextEditor1.TabIndex = 4;
+      this.MenuToolsOptions.Name = "MenuToolsOptions";
+      this.MenuToolsOptions.Size = new System.Drawing.Size(116, 22);
+      this.MenuToolsOptions.Text = "Options";
+      this.MenuToolsOptions.Click += new System.EventHandler(this.MenuToolsOptions_Click);
+      // 
+      // MenuHelp
+      // 
+      this.MenuHelp.Name = "MenuHelp";
+      this.MenuHelp.Size = new System.Drawing.Size(44, 20);
+      this.MenuHelp.Text = "Help";
       // 
       // toolStrip1
       // 
@@ -194,13 +197,54 @@
       this.btnTestGetText.Text = "Get Text";
       this.btnTestGetText.Click += new System.EventHandler(this.btnTestGetText_Click);
       // 
+      // tabControl1
+      // 
+      this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tabControl1.Location = new System.Drawing.Point(0, 49);
+      this.tabControl1.Name = "tabControl1";
+      this.tabControl1.SelectedIndex = 0;
+      this.tabControl1.Size = new System.Drawing.Size(611, 392);
+      this.tabControl1.TabIndex = 7;
+      this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+      // 
+      // MenuEdit
+      // 
+      this.MenuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuEditCut,
+            this.MenuEditCopy,
+            this.MenuEditPaste});
+      this.MenuEdit.Name = "MenuEdit";
+      this.MenuEdit.Size = new System.Drawing.Size(39, 20);
+      this.MenuEdit.Text = "Edit";
+      // 
+      // MenuEditCut
+      // 
+      this.MenuEditCut.Name = "MenuEditCut";
+      this.MenuEditCut.Size = new System.Drawing.Size(152, 22);
+      this.MenuEditCut.Text = "Cut";
+      this.MenuEditCut.Click += new System.EventHandler(this.MenuEditCut_Click);
+      // 
+      // MenuEditCopy
+      // 
+      this.MenuEditCopy.Name = "MenuEditCopy";
+      this.MenuEditCopy.Size = new System.Drawing.Size(152, 22);
+      this.MenuEditCopy.Text = "Copy";
+      this.MenuEditCopy.Click += new System.EventHandler(this.MenuEditCopy_Click);
+      // 
+      // MenuEditPaste
+      // 
+      this.MenuEditPaste.Name = "MenuEditPaste";
+      this.MenuEditPaste.Size = new System.Drawing.Size(152, 22);
+      this.MenuEditPaste.Text = "Paste";
+      this.MenuEditPaste.Click += new System.EventHandler(this.MenuEditPaste_Click);
+      // 
       // MainIde
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(611, 441);
+      this.Controls.Add(this.tabControl1);
       this.Controls.Add(this.toolStrip1);
-      this.Controls.Add(this.panel1);
       this.Controls.Add(this.menuStrip1);
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "MainIde";
@@ -208,10 +252,6 @@
       this.Load += new System.EventHandler(this.MainIde_Load);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
-      this.panel1.ResumeLayout(false);
-      this.panel1.PerformLayout();
-      this.statusStrip1.ResumeLayout(false);
-      this.statusStrip1.PerformLayout();
       this.toolStrip1.ResumeLayout(false);
       this.toolStrip1.PerformLayout();
       this.ResumeLayout(false);
@@ -222,10 +262,6 @@
     #endregion
 
     private System.Windows.Forms.MenuStrip menuStrip1;
-    private System.Windows.Forms.ToolStripMenuItem MenuNew;
-    private System.Windows.Forms.Panel panel1;
-    private AvalonEditWF.TextEditor TextEditor1;
-    private System.Windows.Forms.StatusStrip statusStrip1;
     private System.Windows.Forms.ToolStrip toolStrip1;
     private System.Windows.Forms.ToolStripDropDownButton tsExecute;
     private System.Windows.Forms.ToolStripMenuItem tsExecuteAll;
@@ -233,9 +269,19 @@
     private System.Windows.Forms.ToolStripButton btnTestSetText;
     private System.Windows.Forms.ToolStripButton btnTestToggleLines;
     private System.Windows.Forms.ToolStripButton btnTestGetText;
-    private System.Windows.Forms.ToolStripStatusLabel tsReady;
-    private Views.SqlSession SqlSession1;
-    private System.Windows.Forms.ToolStripMenuItem MenuOptions;
+    private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem MenuFileNew;
+    private System.Windows.Forms.ToolStripMenuItem MenuFileSave;
+    private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem MenuFileExit;
+    private System.Windows.Forms.ToolStripMenuItem MenuTools;
+    private System.Windows.Forms.ToolStripMenuItem MenuToolsOptions;
+    private System.Windows.Forms.ToolStripMenuItem MenuHelp;
+    private System.Windows.Forms.TabControl tabControl1;
+    private System.Windows.Forms.ToolStripMenuItem MenuEdit;
+    private System.Windows.Forms.ToolStripMenuItem MenuEditCut;
+    private System.Windows.Forms.ToolStripMenuItem MenuEditCopy;
+    private System.Windows.Forms.ToolStripMenuItem MenuEditPaste;
   }
 }
 

@@ -30,6 +30,7 @@ namespace Xeno.AvalonEditWF
   /// <summary>The text editor control. Contains a scrollable TextArea.</summary>
   [Localizability(LocalizationCategory.Text), ContentProperty("Text")]
   public partial class TextEditor : UserControl //, ICSharpCode.AvalonEdit.TextEditor
+  //public partial class TextEditor : ICSharpCode.AvalonEdit.TextEditor
   {
     #region Constructor
 
@@ -97,6 +98,11 @@ namespace Xeno.AvalonEditWF
     //public static readonly DependencyProperty DocumentProperty = TextView.DocumentProperty.AddOwner(typeof(TextEditor), new FrameworkPropertyMetadata(OnDocumentChanged));
 
     public TextDocument Document { get; set; }
+
+    public ICSharpCode.AvalonEdit.TextEditor Editor
+    {
+      get { return _editor; }
+    }
 
     /// <summary>Specifies whether line numbers are shown on the left to the text view.</summary>
     [Description("Show line numbers"), Category("Data")]

@@ -86,10 +86,10 @@
     <Compile Include="Views\Session.Designer.cs">
       <DependentUpon>Session.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SqlSession.cs">
+    <Compile Include="Controls\SqlSession.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\SqlSession.Designer.cs">
+    <Compile Include="Controls\SqlSession.Designer.cs">
       <DependentUpon>SqlSession.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Views\MainIde.resx">
@@ -111,7 +111,7 @@
     <EmbeddedResource Include="Views\Session.resx">
       <DependentUpon>Session.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\SqlSession.resx">
+    <EmbeddedResource Include="Controls\SqlSession.resx">
       <DependentUpon>SqlSession.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
