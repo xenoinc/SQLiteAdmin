@@ -19,6 +19,7 @@ namespace Xeno.SQLiteAdmin
 {
   public partial class MainIde : Form
   {
+    private const int WM_HOTKEY = 0x0312;
     private int _hotkeyCtrlS = 0;
 
     public MainIde()
@@ -61,7 +62,7 @@ namespace Xeno.SQLiteAdmin
     {
       base.WndProc(ref m);
 
-      if (m.Msg == 0x0312)
+      if (m.Msg == WM_HOTKEY)
       {
         if (m.WParam.ToInt32() == _hotkeyCtrlS)
         {
@@ -118,16 +119,6 @@ namespace Xeno.SQLiteAdmin
       //frm.Show();
     }
 
-    #region GUI Events
-
-    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      //TODO: Get index of active selected tab
-      //ActiveSession =
-    }
-
-    #endregion GUI Events
-
     #region Menu Events
 
     private void MenuEditCopy_Click(object sender, EventArgs e)
@@ -179,6 +170,12 @@ namespace Xeno.SQLiteAdmin
 
     #region Tab Manager
 
+    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      //TODO: Get index of active selected tab
+      //ActiveSession =
+    }
+
     private void NewSqlSession()
     {
       int count = SqlSessions.Count;
@@ -188,17 +185,22 @@ namespace Xeno.SQLiteAdmin
       TabPage page = new TabPage(name);
 
       //TODO: Configure new SqlSession from Options
-      SqlSession sqlSession = new SqlSession(name);
-      sqlSession.Dock = DockStyle.Fill;
-      sqlSession.FilePath = string.Empty;
-      sqlSession.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
-      sqlSession.SyntaxHighlighting = null;
-      sqlSession.Editor.ShowLineNumbers = true;
+      SqlSession editor = new SqlSession(name);
+      editor.Dock = DockStyle.Fill;
+      editor.FilePath = string.Empty;
+      editor.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
+      editor.SyntaxHighlighting = null;
+      editor.Editor.ShowLineNumbers = true;
+      editor.Editor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
+      //editor.Font = new System.Drawing.Font()
+      //{
+      //  Family = "";
+      //};
 
-      page.Controls.Add(sqlSession);
+      page.Controls.Add(editor);
       tabControl1.TabPages.Add(page);
 
-      SqlSessions.Add(sqlSession);
+      SqlSessions.Add(editor);
     }
 
     private void SaveActiveSession()
