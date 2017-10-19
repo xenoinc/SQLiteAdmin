@@ -170,28 +170,17 @@ namespace Xeno.SQLiteAdmin
 
     #region Tab Manager
 
-    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      //TODO: Get index of active selected tab
-      //ActiveSession =
-    }
-
     private void NewSqlSession()
     {
       int count = SqlSessions.Count;
       ++count;
-      string name = "Query" + count.ToString();
+      string title = "Query" + count.ToString();
 
-      TabPage page = new TabPage(name);
+      TabPage page = new TabPage(title);
 
       //TODO: Configure new SqlSession from Options
-      SqlSession editor = new SqlSession(name);
-      editor.Dock = DockStyle.Fill;
-      editor.FilePath = string.Empty;
-      editor.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
-      editor.SyntaxHighlighting = null;
-      editor.Editor.ShowLineNumbers = true;
-      editor.Editor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
+      SqlSession editor = new SqlSession(title);
+
       //editor.Font = new System.Drawing.Font()
       //{
       //  Family = "";
@@ -221,6 +210,12 @@ namespace Xeno.SQLiteAdmin
     private void SaveAllSessions()
     {
       throw new NotImplementedException();
+    }
+
+    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      //TODO: Get index of active selected tab
+      //ActiveSession =
     }
 
     private void TabOpenFile()

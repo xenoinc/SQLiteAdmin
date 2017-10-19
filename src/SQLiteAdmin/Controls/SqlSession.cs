@@ -40,24 +40,51 @@ namespace Xeno.SQLiteAdmin.Views
 
     #region ctr/~dtr
 
-    public SqlSession() : this("Unknown")
-    {
-    }
+    /// <summary>Construct user control and auto load a file</summary>
+    public SqlSession() : this("Unknown") { }
 
-    public SqlSession(string name)
+    /// <summary>Construct user control and auto load a file</summary>
+    /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
+    /// <param name="title"></param>
+    public SqlSession(string title) : this(title, "") { }
+
+    /// <summary>Construct user control and auto load a file</summary>
+    /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
+    /// <param name="title"></param>
+    /// <param name="fullFilePath"></param>
+    public SqlSession(string title, string fullFilePath) : this(title, fullFilePath, "") { }
+
+    /// <summary>Construct user control and auto load a file</summary>
+    /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
+    /// <param name="title">Title of file (blank if FullPath is provided)</param>
+    /// <param name="fullFilePath">Full file path to query</param>
+    /// <param name="dbConnection">SQLite Database file path</param>
+    public SqlSession(string title, string fullFilePath, string dbConnection)
     {
       InitializeComponent();
 
       InitEditor();
 
-      InitDatabase();
+      InitDatabase(dbConnection);
+
+      FilePath = fullFilePath;
+
+      // Auto-load file if provided
+      if (FilePath == string.Empty)
+      {
+        Title = title;
+      }
+      else
+      {
+        Editor.Editor.Load(fullFilePath);
+      }
     }
 
     ~SqlSession()
     {
       if (_db != null)
       {
-        //_db.Close();
+        _db.Close();
       }
     }
 
@@ -109,10 +136,6 @@ namespace Xeno.SQLiteAdmin.Views
       get
       {
         return _title;
-        //  if (string.IsNullOrEmpty(this.FilePath))
-        //    return "New X";
-        //  else
-        //    return Path.GetFileName(this.FilePath);
       }
       set
       {
@@ -128,35 +151,54 @@ namespace Xeno.SQLiteAdmin.Views
       }
     }
 
-    public void InitDatabase()
+    public void InitDatabase(string sqliteDbPath = "", string password = "")
     {
-      _db = new SQLiteProvider();
+      if (File.Exists(sqliteDbPath))
+      {
+        if (string.IsNullOrEmpty(password))
+          _db = new SQLiteProvider(sqliteDbPath);
+        else
+        {
+          try
+          {
+            _db = new SQLiteProvider(sqliteDbPath, password);
+          }
+          catch
+          {
+            //TODO: InitDatabase - Handle invalid password
+          }
+        }
+      }
+      else
+        _db = new SQLiteProvider();
     }
 
     private void InitEditor()
     {
       //TODO: Remove Me - Keeping around so we can toy with some properties in VS
-      this.textEditor1.Load -= new System.EventHandler(this.textEditor1_Load);
+      //this.textEditor1.Load -= new System.EventHandler(this.textEditor1_Load);
       this.Controls.Remove(textEditor1);
       textEditor1.Dispose();
 
-      // Now create our REAL editor
-      this._textEditor = new Xeno.AvalonEditWF.TextEditor();
-      this._textEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-      this._textEditor.Document = null;
-      this._textEditor.Location = new System.Drawing.Point(0, 0);
-      this._textEditor.Name = "textEditor1";
-      this._textEditor.ShowLineNumbers = true;
-      this._textEditor.Size = new System.Drawing.Size(473, 134);
-      this._textEditor.SyntaxHighlighting = null;
-      this._textEditor.TabIndex = 1;
-      //this._textEditor.Load += new System.EventHandler(this.textEditor_Load);
+      // Configure Editor Defaults from Settings
+      _textEditor = new Xeno.AvalonEditWF.TextEditor();
+      _textEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+      _textEditor.Document = null;
+      _textEditor.Location = new System.Drawing.Point(0, 0);
+      _textEditor.Name = "_textEditor";
+      _textEditor.ShowLineNumbers = true;
+      _textEditor.Size = new System.Drawing.Size(473, 134);
+      _textEditor.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      // _textEditor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
+      _textEditor.SyntaxHighlighting = null;
+      _textEditor.TabIndex = 1;
 
+      // Database wireups
+      this.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
+
+      // Add the control
       this.Controls.Add(_textEditor);
-    }
-
-    private void textEditor1_Load(object sender, EventArgs e)
-    {
+      this.Dock = DockStyle.Fill;
     }
 
     #region Methods - Editor

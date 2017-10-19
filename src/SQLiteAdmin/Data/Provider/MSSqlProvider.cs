@@ -3,23 +3,22 @@
  * Date:    2017-3-8
  * File:    MSSqlProvider.cs
  * Description:
- *  
+ *
  * To Do:
  * Change Log:
  *  2017-38 * Initial creation
  */
 
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class MSSqlProvider : IDatabaseProvider
   {
+    public void Close()
+    {
+    }
 
     public int ExecuteNonQuery(string query)
     {
@@ -36,7 +35,6 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
     public DataSet ExecuteQuery(string query)
     {
-      
       throw new NotImplementedException();
 
       var ds = new DataSet();

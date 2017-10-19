@@ -4,7 +4,7 @@
  * File:    SyntaxEditor.cs
  * Description:
  *  Windows Forms wrapper for AvalonEdit
- * 
+ *
  * Resources:
  *  https://github.com/icsharpcode/AvalonEdit
  * Change Log:
@@ -16,14 +16,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Markup;
-
-using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Rendering;
-using ICSharpCode.AvalonEdit.Utils;
+using ICSharpCode.AvalonEdit.Search;
 
 namespace Xeno.AvalonEditWF
 {
@@ -32,10 +29,12 @@ namespace Xeno.AvalonEditWF
   public partial class TextEditor : UserControl //, ICSharpCode.AvalonEdit.TextEditor
   //public partial class TextEditor : ICSharpCode.AvalonEdit.TextEditor
   {
-    #region Constructor
-
     private ICSharpCode.AvalonEdit.TextEditor _editor;
     private System.Windows.Forms.Integration.ElementHost _elementHost;
+
+    private FoldingManager _foldingManager;
+
+    private object _foldingStrategy;
 
     /// <summary>Creates a new TextEditor instance</summary>
     public TextEditor()
@@ -50,12 +49,71 @@ namespace Xeno.AvalonEditWF
 
       InitElementHost();
 
-      InitEditor();
+      InitEditor(textArea);
 
       _elementHost.Child = _editor;
     }
 
-    private void TextEditor_Load(object sender, EventArgs e) { }
+    public TextDocument Document { get; set; }
+
+    //public static readonly DependencyProperty DocumentProperty = TextView.DocumentProperty.AddOwner(typeof(TextEditor), new FrameworkPropertyMetadata(OnDocumentChanged));
+    public ICSharpCode.AvalonEdit.TextEditor Editor
+    {
+      get { return _editor; }
+    }
+
+    /// <summary>Specifies whether line numbers are shown on the left to the text view.</summary>
+    [Description("Show line numbers"), Category("Data")]
+    public bool ShowLineNumbers
+    {
+      get { return _editor.ShowLineNumbers; }
+      set
+      {
+        _editor.ShowLineNumbers = value;
+        _elementHost.Refresh();
+      }
+    }
+
+    /// <summary>Gets/sets the syntax highlighting definition used to colorize the text.</summary>
+    public IHighlightingDefinition SyntaxHighlighting
+    {
+      get { return _editor.SyntaxHighlighting; }
+      set { _editor.SyntaxHighlighting = value; }
+    }
+
+    /// <summary>Gets/Sets the text of the current document</summary>
+    [DefaultValue("")]
+    [Localizability(LocalizationCategory.Text)]
+    [Description("Display text"), Category("Data")]
+    [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
+    public override string Text
+    {
+      get { return _editor.Text; }
+      set
+      {
+        _editor.Text = value;
+        _elementHost.Refresh();
+      }
+    }
+
+    public void InitEditor(TextArea textArea)
+    {
+      _editor = new ICSharpCode.AvalonEdit.TextEditor();
+      //IHighlightingDefinition sqlHighlight;
+
+      //SearchPanel.Install(this.TextArea);
+      SearchPanel.Install(_editor.TextArea);
+      _editor.TextArea.TextEntering += Editor_TextArea_TextEntering;
+      _editor.TextArea.TextEntered += Editor_TextArea_TextEntered;
+
+      _editor.Text = "-- Welcome to SQLite Admin";
+      _editor.ShowLineNumbers = true;
+
+      //DispatcherTimer foldingUpdateTimer = new DispatcherTimer();
+      //foldingUpdateTimer.Interval = TimeSpan.FromSeconds(2);
+      //foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
+      //foldingUpdateTimer.Start();
+    }
 
     public void InitElementHost()
     {
@@ -74,83 +132,8 @@ namespace Xeno.AvalonEditWF
       this.ResumeLayout(false);
     }
 
-    public void InitEditor()
-    {
-      _editor = new ICSharpCode.AvalonEdit.TextEditor();
-      //IHighlightingDefinition sqlHighlight;
-
-      _editor.TextArea.TextEntering += Editor_TextArea_TextEntering;
-      _editor.TextArea.TextEntered += Editor_TextArea_TextEntered;
-
-      _editor.Text = "-- Welcome to SQLite Admin";
-      _editor.ShowLineNumbers = true;
-
-      //DispatcherTimer foldingUpdateTimer = new DispatcherTimer();
-      //foldingUpdateTimer.Interval = TimeSpan.FromSeconds(2);
-      //foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
-      //foldingUpdateTimer.Start();
-    }
-
-    #endregion Constructor
-
-    #region Wrapped Properties
-
-    //public static readonly DependencyProperty DocumentProperty = TextView.DocumentProperty.AddOwner(typeof(TextEditor), new FrameworkPropertyMetadata(OnDocumentChanged));
-
-    public TextDocument Document { get; set; }
-
-    public ICSharpCode.AvalonEdit.TextEditor Editor
-    {
-      get { return _editor; }
-    }
-
-    /// <summary>Specifies whether line numbers are shown on the left to the text view.</summary>
-    [Description("Show line numbers"), Category("Data")]
-    public bool ShowLineNumbers
-    {
-      get { return _editor.ShowLineNumbers; }
-      set
-      {
-        _editor.ShowLineNumbers = value;
-        _elementHost.Refresh();
-      }
-    }
-
-    /// <summary>Gets/Sets the text of the current document</summary>
-    [DefaultValue("")]
-    [Localizability(LocalizationCategory.Text)]
-    [Description("Display text"), Category("Data")]
-    [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
-    public override string Text
-    {
-      get { return _editor.Text; }
-      set
-      {
-        _editor.Text = value;
-        _elementHost.Refresh();
-      }
-    }
-
-    /// <summary>Gets/sets the syntax highlighting definition used to colorize the text.</summary>
-    public IHighlightingDefinition SyntaxHighlighting
-    {
-      get { return _editor.SyntaxHighlighting; }
-      set { _editor.SyntaxHighlighting = value; }
-    }
-
-    #endregion Properties
-
-    #region Wrapped Methods
-
-
-
-    #endregion Wrapped Methods
-
-    #region Methods
-
     public void OpenFile()
     {
-      
       throw new NotImplementedException();
     }
 
@@ -159,12 +142,19 @@ namespace Xeno.AvalonEditWF
       throw new NotImplementedException();
     }
 
-    #endregion Methods
+    private void Editor_TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+      //throw new NotImplementedException();
+    }
 
-    #region Events
+    private void Editor_TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+      //throw new NotImplementedException();
+    }
 
-    private FoldingManager _foldingManager;
-    private object _foldingStrategy;
+    private void TextEditor_Load(object sender, EventArgs e)
+    {
+    }
 
     private void UpdateFoldings()
     {
@@ -180,17 +170,5 @@ namespace Xeno.AvalonEditWF
       //  ((XmlFoldingStrategy)_foldingStrategy).UpdateFoldings(_foldingManager, this.Editor.Document);
       //}
     }
-
-    private void Editor_TextArea_TextEntering(object sender, System.Windows.Input.TextCompositionEventArgs e)
-    {
-      //throw new NotImplementedException();
-    }
-
-    private void Editor_TextArea_TextEntered(object sender, System.Windows.Input.TextCompositionEventArgs e)
-    {
-      //throw new NotImplementedException();
-    }
-
-    #endregion Events
   }
 }
