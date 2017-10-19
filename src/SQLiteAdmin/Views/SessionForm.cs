@@ -14,11 +14,11 @@ using System.Windows.Forms;
 
 namespace Xeno.SQLiteAdmin.Views
 {
-  public partial class Session : Form
+  public partial class SessionForm : Form
   {
 
 
-    public Session()
+    public SessionForm()
     {
       InitializeComponent();
     }

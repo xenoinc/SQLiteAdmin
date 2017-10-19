@@ -27,18 +27,70 @@ namespace Xeno.SQLiteAdmin.Views
 {
   public partial class SqlSession : UserControl
   {
-    #region Attributes
+    #region Fields
 
     private IDatabaseProvider _db;
 
     private Xeno.AvalonEditWF.TextEditor _textEditor;
 
-    #endregion Attributes
+    /// <summary>Session file's title</summary>
+    private string _title;
 
-    #region Properties
+    #endregion Fields
+
+    #region ctr/~dtr
+
+    public SqlSession() : this("Unknown")
+    {
+    }
+
+    public SqlSession(string name)
+    {
+      InitializeComponent();
+
+      InitEditor();
+
+      InitDatabase();
+    }
+
+    ~SqlSession()
+    {
+      if (_db != null)
+      {
+        //_db.Close();
+      }
+    }
+
+    #endregion ctr/~dtr
+
+    public Xeno.AvalonEditWF.TextEditor Editor { get { return _textEditor; } }
+
+    /// <summary>Opened query file's path</summary>
+    public string FilePath { get; set; }
+
+    /// <summary>Has file's contents been changed</summary>
+    public bool IsFileChanged { get; private set; }
 
     /// <summary>Get/Set the DB provider</summary>
     public DatabaseProvider SetDatabaseProvider { get; set; }
+
+    /// <summary>Gets/sets the syntax highlighting definition used to colorize the text.</summary>
+    public IHighlightingDefinition SyntaxHighlighting
+    {
+      get { return _textEditor.SyntaxHighlighting; }
+      set { _textEditor.SyntaxHighlighting = value; }
+    }
+
+    /// <summary>All text in editor</summary>
+    [DefaultValue("")]
+    [Localizability(LocalizationCategory.Text)]
+    [Description("Display text"), Category("Data")]
+    [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
+    public override string Text
+    {
+      get { return _textEditor.Text; }
+      set { _textEditor.Text = value; }
+    }
 
     /// <summary>Get text from selection</summary>
     /// <returns></returns>
@@ -51,29 +103,6 @@ namespace Xeno.SQLiteAdmin.Views
         return query;
       }
     }
-
-    /// <summary>All text in editor</summary>
-    [DefaultValue("")]
-    [Localizability(LocalizationCategory.Text)]
-    [Description("Display text"), Category("Data")]
-    [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
-    public override string Text { get { return _textEditor.Text; } }
-
-    /// <summary>Gets/sets the syntax highlighting definition used to colorize the text.</summary>
-    public IHighlightingDefinition SyntaxHighlighting
-    {
-      get { return _textEditor.SyntaxHighlighting; }
-      set { _textEditor.SyntaxHighlighting = value; }
-    }
-
-    /// <summary>Opened query file's path</summary>
-    public string FilePath { get; set; }
-
-    /// <summary>Has file's contents been changed</summary>
-    public bool IsFileChanged { get; private set; }
-
-    /// <summary>Session file's title</summary>
-    private string _title;
 
     public string Title
     {
@@ -99,28 +128,14 @@ namespace Xeno.SQLiteAdmin.Views
       }
     }
 
-    public Xeno.AvalonEditWF.TextEditor Editor { get { return _textEditor; } }
-
-    #endregion Properties
-
-    #region Constructors
-
-    public SqlSession() : this("Unknown")
+    public void InitDatabase()
     {
-    }
-
-    public SqlSession(string name)
-    {
-      InitializeComponent();
-
-      InitEditor();
-
-      InitDatabase();
+      _db = new SQLiteProvider();
     }
 
     private void InitEditor()
     {
-      // Only keep this around so we can see the properties in the C# menu
+      //TODO: Remove Me - Keeping around so we can toy with some properties in VS
       this.textEditor1.Load -= new System.EventHandler(this.textEditor1_Load);
       this.Controls.Remove(textEditor1);
       textEditor1.Dispose();
@@ -140,29 +155,22 @@ namespace Xeno.SQLiteAdmin.Views
       this.Controls.Add(_textEditor);
     }
 
-    public void InitDatabase()
-    {
-      _db = new SQLiteProvider();
-    }
-
     private void textEditor1_Load(object sender, EventArgs e)
     {
     }
 
-    #endregion Constructors
-
     #region Methods - Editor
-
-    /// <summary>Cut the selected editor contents to clipboard</summary>
-    public void Cut()
-    {
-      _textEditor.Editor.Cut();
-    }
 
     /// <summary>Copy editor's contents to clipboard</summary>
     public void Copy()
     {
       this._textEditor.Editor.Copy();
+    }
+
+    /// <summary>Cut the selected editor contents to clipboard</summary>
+    public void Cut()
+    {
+      _textEditor.Editor.Cut();
     }
 
     /// <summary>Paste clipboard's contents to editor</summary>
@@ -184,23 +192,13 @@ namespace Xeno.SQLiteAdmin.Views
       return false;
     }
 
-    public int Execute(bool selection = false)
+    public int Execute()
     {
-      if (!selection)
-      {
-        this._db.ExecuteNonQuery(_textEditor.Text);
-      }
-      else
-      {
-        throw new NotImplementedException();
-      }
-
+      //TODO: Execute - If there is text selected, execute that. If NOTHING selected, execute ALL
+      //TODO: Execute - Output results to either Text, DataGrid, or file
+      this._db.ExecuteNonQuery(_textEditor.Text);
       return 0;
     }
-
-    #endregion Methods - Database
-
-    #region Private Methods - Database
 
     private int ExecuteNonQuery(string query)
     {
@@ -215,18 +213,9 @@ namespace Xeno.SQLiteAdmin.Views
       return 0;
     }
 
-    #endregion Private Methods - Database
+    #endregion Methods - Database
 
     #region Methods - File I/O
-
-    public bool SaveFile(string path)
-    {
-      this.IsFileChanged = false;
-
-      throw new NotImplementedException();
-
-      return false;
-    }
 
     public bool LoadFile(string path)
     {
@@ -234,6 +223,15 @@ namespace Xeno.SQLiteAdmin.Views
       _textEditor.Text = File.ReadAllText(path);
       this.FilePath = path;
       //this.FileName =
+
+      return false;
+    }
+
+    public bool SaveFile(string path)
+    {
+      this.IsFileChanged = false;
+
+      throw new NotImplementedException();
 
       return false;
     }

@@ -26,9 +26,9 @@ using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin.Views
 {
-  public partial class Options : Form
+  public partial class OptionsForm : Form
   {
-    public Options()
+    public OptionsForm()
     {
       InitializeComponent();
       InitSettings();

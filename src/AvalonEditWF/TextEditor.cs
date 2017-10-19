@@ -150,6 +150,7 @@ namespace Xeno.AvalonEditWF
 
     public void OpenFile()
     {
+      
       throw new NotImplementedException();
     }
 

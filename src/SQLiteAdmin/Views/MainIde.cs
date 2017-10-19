@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using Xeno.SQLiteAdmin.Views;
 
@@ -18,25 +19,77 @@ namespace Xeno.SQLiteAdmin
 {
   public partial class MainIde : Form
   {
-    /// <summary>Open SQL Sessions</summary>
-    private List<SqlSession> SqlSessions { get; set; }
-
-    /// <summary>Get set when we select an active tab</summary>
-    private SqlSession ActiveSession { get; set; }
-
-    #region Initialization
+    private int _hotkeyCtrlS = 0;
 
     public MainIde()
     {
       InitializeComponent();
-
-      InitSessions();
+      InitIde();
     }
 
-    private void MainIde_Load(object sender, EventArgs e)
+    private enum KeyModifier
     {
-      Form frm = new Views.Session();
-      frm.Show();
+      None = 0,
+      Alt = 1,
+      Control = 2,
+      Shift = 4,
+      WinKey = 8
+    }
+
+    /// <summary>Get the active tab selected</summary>
+    /// <returns></returns>
+    private SqlSession ActiveSqlSession
+    {
+      get
+      {
+        SqlSession session = null;
+        TabPage page = tabControl1.SelectedTab;
+
+        if (page != null)
+        {
+          session = page.Controls[0] as SqlSession;
+        }
+
+        return session;
+      }
+    }
+
+    /// <summary>Open SQL Sessions</summary>
+    private List<SqlSession> SqlSessions { get; set; }
+
+    protected override void WndProc(ref Message m)
+    {
+      base.WndProc(ref m);
+
+      if (m.Msg == 0x0312)
+      {
+        if (m.WParam.ToInt32() == _hotkeyCtrlS)
+        {
+          SaveActiveSession();
+        }
+
+        // HotKey Breakdown:
+        //Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);              // The key of the hotkey that was pressed.
+        //KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);   // The modifier of the hotkey that was pressed.
+        //int id = m.WParam.ToInt32();                                    // The id of the hotkey that was pressed.
+      }
+    }
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+    private void InitHotKeys()
+    {
+      RegisterHotKey(this.Handle, _hotkeyCtrlS, (int)KeyModifier.Control, Keys.S.GetHashCode());
+    }
+
+    private void InitIde()
+    {
+      InitSessions();
+      InitHotKeys();
     }
 
     private void InitSessions()
@@ -48,55 +101,48 @@ namespace Xeno.SQLiteAdmin
       //ActiveSession = new SqlSession();
       //SqlSessions.Add(ActiveSession);
 
-      CreateNewSqlSession();
+      NewSqlSession();
 
       // Create user control
     }
 
-    #endregion Initialization
+    private void MainIde_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      UnregisterHotKey(this.Handle, _hotkeyCtrlS);
+    }
+
+    private void MainIde_Load(object sender, EventArgs e)
+    {
+      // Test loading external session
+      //Form frm = new Views.SessionForm();
+      //frm.Show();
+    }
 
     #region GUI Events
 
-    private void btnTestSetText_Click(object sender, EventArgs e)
+    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
-      //TextEditor1.Text = "Here is an external control";
-    }
-
-    private void btnTestToggleLines_Click(object sender, EventArgs e)
-    {
-      //TextEditor1.ShowLineNumbers = !TextEditor1.ShowLineNumbers;
-    }
-
-    private void btnTestGetText_Click(object sender, EventArgs e)
-    {
-      //string tmp;
-      //tmp = TextEditor1.Text;
-      //tmp += "Here's more text";
-      //TextEditor1.Text = tmp;
-    }
-
-    private void tsExecute_Click(object sender, EventArgs e)
-    {
-      tsExecuteAll_Click(sender, e);
-    }
-
-    private void tsExecuteAll_Click(object sender, EventArgs e)
-    {
-      //SqlSession1.Execute(false);
-    }
-
-    private void tsExecuteSelection_Click(object sender, EventArgs e)
-    {
-      //SqlSession1.Execute(true);
+      //TODO: Get index of active selected tab
+      //ActiveSession =
     }
 
     #endregion GUI Events
 
     #region Menu Events
 
-    private void MenuFileNew_Click(object sender, EventArgs e)
+    private void MenuEditCopy_Click(object sender, EventArgs e)
     {
-      CreateNewSqlSession();
+      ActiveSqlSession.Copy();
+    }
+
+    private void MenuEditCut_Click(object sender, EventArgs e)
+    {
+      ActiveSqlSession.Cut();
+    }
+
+    private void MenuEditPaste_Click(object sender, EventArgs e)
+    {
+      ActiveSqlSession.Paste();
     }
 
     private void MenuFileExit_Click(object sender, EventArgs e)
@@ -108,29 +154,24 @@ namespace Xeno.SQLiteAdmin
         Application.Exit();
     }
 
+    private void MenuFileNew_Click(object sender, EventArgs e)
+    {
+      NewSqlSession();
+    }
+
+    private void MenuFileOpenFile_Click(object sender, EventArgs e)
+    {
+      TabOpenFile();
+    }
+
     private void MenuFileSave_Click(object sender, EventArgs e)
     {
-      SaveAllSessions();
-    }
-
-    private void MenuEditCut_Click(object sender, EventArgs e)
-    {
-      GetActiveSqlSession().Cut();
-    }
-
-    private void MenuEditCopy_Click(object sender, EventArgs e)
-    {
-      GetActiveSqlSession().Copy();
-    }
-
-    private void MenuEditPaste_Click(object sender, EventArgs e)
-    {
-      GetActiveSqlSession().Paste();
+      SaveActiveSession();
     }
 
     private void MenuToolsOptions_Click(object sender, EventArgs e)
     {
-      Form frm = new Views.Options();
+      Form frm = new Views.OptionsForm();
       frm.ShowDialog(this);
     }
 
@@ -138,32 +179,7 @@ namespace Xeno.SQLiteAdmin
 
     #region Tab Manager
 
-    /// <summary>Get the current active tab selected</summary>
-    /// <returns></returns>
-    private SqlSession GetActiveSqlSession()
-    {
-      SqlSession session = null;
-      TabPage page = tabControl1.SelectedTab;
-
-      if (page != null)
-      {
-        session = page.Controls[0] as SqlSession;
-      }
-
-      return session;
-    }
-
-    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      //TODO: Get index of active selected tab
-      //ActiveSession =
-    }
-
-    #endregion Tab Manager
-
-    #region Private Methods
-
-    private void CreateNewSqlSession()
+    private void NewSqlSession()
     {
       int count = SqlSessions.Count;
       ++count;
@@ -183,39 +199,77 @@ namespace Xeno.SQLiteAdmin
       tabControl1.TabPages.Add(page);
 
       SqlSessions.Add(sqlSession);
-
-      //// SqlSession Text Editor
-      //Views.SqlSession sql;
-      //sql = new Xeno.SQLiteAdmin.Views.SqlSession();
-      //this.panel1.Controls.Add(sql);
-      //
-      //sql.FilePath = null;
-      //sql.Location = new System.Drawing.Point(221, 139);
-      //sql.Name = "SqlSession1";
-      //sql.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
-      //sql.Size = new System.Drawing.Size(378, 147);
-      //sql.SyntaxHighlighting = null;
-      //sql.TabIndex = 6;
-      //
-      //// -----------------
-      //// Text Editor
-      //AvalonEditWF.TextEditor TextEditor1;
-      //TextEditor1 = new Xeno.AvalonEditWF.TextEditor();
-      //this.panel1.Controls.Add(this.TextEditor1);
-      //
-      //this.TextEditor1.Document = null;
-      //this.TextEditor1.Location = new System.Drawing.Point(221, 28);
-      //this.TextEditor1.Name = "TextEditor1";
-      //this.TextEditor1.ShowLineNumbers = true;
-      //this.TextEditor1.Size = new System.Drawing.Size(378, 105);
-      //this.TextEditor1.SyntaxHighlighting = null;
-      //this.TextEditor1.TabIndex = 4;
     }
 
+    private void SaveActiveSession()
+    {
+      SaveFileDialog dlg = new SaveFileDialog();
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+        using (Stream s = File.Open(dlg.FileName, FileMode.CreateNew))
+        using (StreamWriter writer = new StreamWriter(s))
+        {
+          writer.Write(ActiveSqlSession.Editor.Text);
+        }
+      }
+    }
+
+    /// <summary>Save all sessions</summary>
+    /// <remarks>Consider using a dialog with a list to select which files</remarks>
     private void SaveAllSessions()
     {
+      throw new NotImplementedException();
     }
 
-    #endregion Private Methods
+    private void TabOpenFile()
+    {
+      Stream stream;
+      OpenFileDialog dlg = new OpenFileDialog();
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+        if ((stream = dlg.OpenFile()) != null)
+        {
+          string fileName = dlg.FileName;
+          string buffer = File.ReadAllText(fileName);
+
+          ActiveSqlSession.Editor.Text = buffer;
+        }
+      }
+    }
+
+    #endregion Tab Manager
+
+    #region ToolBar Events
+
+    private void ToolDbgGetText_Click(object sender, EventArgs e)
+    {
+      //string tmp;
+      //tmp = TextEditor1.Text;
+      //tmp += "Here's more text";
+      //TextEditor1.Text = tmp;
+    }
+
+    private void ToolDbgSetText_Click(object sender, EventArgs e)
+    {
+      //TextEditor1.Text = "Here is an external control";
+    }
+
+    private void ToolDbgToggleLines_Click(object sender, EventArgs e)
+    {
+      ActiveSqlSession.Editor.ShowLineNumbers = !ActiveSqlSession.Editor.ShowLineNumbers;
+      ToolDbgToggleLines.Checked = ActiveSqlSession.Editor.ShowLineNumbers;
+    }
+
+    private void ToolNewQuery_Click(object sender, EventArgs e)
+    {
+      NewSqlSession();
+    }
+
+    private void ToolSqlExecute_Click(object sender, EventArgs e)
+    {
+      ActiveSqlSession.Execute();
+    }
+
+    #endregion ToolBar Events
   }
 }

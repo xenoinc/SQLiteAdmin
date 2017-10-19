@@ -1,6 +1,6 @@
 ﻿namespace Xeno.SQLiteAdmin.Views
 {
-  partial class Session
+  partial class SessionForm
   {
     /// <summary>
     /// Required designer variable.
