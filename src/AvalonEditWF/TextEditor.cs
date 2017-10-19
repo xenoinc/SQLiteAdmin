@@ -62,6 +62,21 @@ namespace Xeno.AvalonEditWF
       get { return _editor; }
     }
 
+
+    /// <summary>Was the editor modified?</summary>
+    public bool IsDirty
+    {
+      get
+      {
+        return this.Editor.IsModified;
+      }
+
+      set
+      {
+        Editor.IsModified = value;
+      }
+    }
+
     /// <summary>Specifies whether line numbers are shown on the left to the text view.</summary>
     [Description("Show line numbers"), Category("Data")]
     public bool ShowLineNumbers

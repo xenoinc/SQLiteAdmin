@@ -96,7 +96,18 @@ namespace Xeno.SQLiteAdmin.Views
     public string FilePath { get; set; }
 
     /// <summary>Has file's contents been changed</summary>
-    public bool IsFileChanged { get; private set; }
+    public bool IsDirty
+    {
+      get
+      {
+        return this.Editor.IsDirty;
+      }
+
+      private set
+      {
+        this.Editor.IsDirty = value;
+      }
+    }
 
     /// <summary>Get/Set the DB provider</summary>
     public DatabaseProvider SetDatabaseProvider { get; set; }
@@ -135,7 +146,7 @@ namespace Xeno.SQLiteAdmin.Views
     {
       get
       {
-        return _title;
+        return _title + (IsDirty == true ? "*" : string.Empty);
       }
       set
       {
@@ -192,6 +203,7 @@ namespace Xeno.SQLiteAdmin.Views
       // _textEditor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
       _textEditor.SyntaxHighlighting = null;
       _textEditor.TabIndex = 1;
+      //_textEditor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Editor_KeyPress);
 
       // Database wireups
       this.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
@@ -202,6 +214,12 @@ namespace Xeno.SQLiteAdmin.Views
     }
 
     #region Methods - Editor
+
+    //private void Editor_KeyPress(object sender, KeyPressEventArgs e)
+    //{
+    //  if (!IsDirty)
+    //    IsDirty = true;
+    //}
 
     /// <summary>Copy editor's contents to clipboard</summary>
     public void Copy()
@@ -219,6 +237,28 @@ namespace Xeno.SQLiteAdmin.Views
     public void Paste()
     {
       this._textEditor.Editor.Paste();
+    }
+
+    public void LoadSyntaxDefinition(string fullName)
+    {
+      throw new NotImplementedException;
+
+      //https://stackoverflow.com/questions/16169584/avalonedit-change-syntax-highlighting-in-code
+      //
+      //      ICSharpCode.AvalonEdit.TextEditor textEditor = new ICSharpCode.AvalonEdit.TextEditor();
+      //      textEditor.ShowLineNumbers = true;
+      //      string dir = @"C:\Program Files\MyFolder\";
+      //#if DEBUG
+      //      dir = @"C:\Dev\Sandbox\SharpDevelop-master\src\Libraries\AvalonEdit\ICSharpCode.AvalonEdit\Highlighting\Resources\";
+      //#endif
+
+      //      Stream xshd_stream = File.OpenRead(dir + "CSharp-Mode.xshd");
+      //      System.Xml.XmlTextReader xshd_reader = new System.Xml.XmlTextReader(xshd_stream);
+      //      textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(
+      //        xshd_reader,
+      //        ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
+      //      xshd_reader.Close();
+      //      xshd_stream.Close();
     }
 
     #endregion Methods - Editor
@@ -261,7 +301,8 @@ namespace Xeno.SQLiteAdmin.Views
 
     public bool LoadFile(string path)
     {
-      this.IsFileChanged = false;
+      this.IsDirty = false;
+
       _textEditor.Text = File.ReadAllText(path);
       this.FilePath = path;
       //this.FileName =
@@ -271,7 +312,7 @@ namespace Xeno.SQLiteAdmin.Views
 
     public bool SaveFile(string path)
     {
-      this.IsFileChanged = false;
+      this.IsDirty = false;
 
       throw new NotImplementedException();
 

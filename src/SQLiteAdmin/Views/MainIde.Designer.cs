@@ -44,15 +44,22 @@
       this.MenuToolsOptions = new System.Windows.Forms.ToolStripMenuItem();
       this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-      this.tabControl1 = new System.Windows.Forms.TabControl();
+      this.ToolNewQuery = new System.Windows.Forms.ToolStripButton();
       this.ToolSqlExecute = new System.Windows.Forms.ToolStripDropDownButton();
       this.ToolDebugging = new System.Windows.Forms.ToolStripSplitButton();
       this.ToolDbgGetText = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgToggleLines = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgSetText = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolNewQuery = new System.Windows.Forms.ToolStripButton();
+      this.tabControl1 = new System.Windows.Forms.TabControl();
+      this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+      this.ToolStripIsReady = new System.Windows.Forms.ToolStripStatusLabel();
+      this.ToolStripLine = new System.Windows.Forms.ToolStripStatusLabel();
+      this.ToolStripColumn = new System.Windows.Forms.ToolStripStatusLabel();
+      this.ToolStripCharacter = new System.Windows.Forms.ToolStripStatusLabel();
+      this.ToolStripInsertOverwrite = new System.Windows.Forms.ToolStripStatusLabel();
       this.menuStrip1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
+      this.statusStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
       // menuStrip1
@@ -178,15 +185,14 @@
       this.toolStrip1.TabIndex = 2;
       this.toolStrip1.Text = "toolStrip1";
       // 
-      // tabControl1
+      // ToolNewQuery
       // 
-      this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tabControl1.Location = new System.Drawing.Point(0, 49);
-      this.tabControl1.Name = "tabControl1";
-      this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(611, 392);
-      this.tabControl1.TabIndex = 7;
-      this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+      this.ToolNewQuery.Image = ((System.Drawing.Image)(resources.GetObject("ToolNewQuery.Image")));
+      this.ToolNewQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.ToolNewQuery.Name = "ToolNewQuery";
+      this.ToolNewQuery.Size = new System.Drawing.Size(86, 22);
+      this.ToolNewQuery.Text = "&New Query";
+      this.ToolNewQuery.Click += new System.EventHandler(this.ToolNewQuery_Click);
       // 
       // ToolSqlExecute
       // 
@@ -213,38 +219,91 @@
       // ToolDbgGetText
       // 
       this.ToolDbgGetText.Name = "ToolDbgGetText";
-      this.ToolDbgGetText.Size = new System.Drawing.Size(152, 22);
+      this.ToolDbgGetText.Size = new System.Drawing.Size(140, 22);
       this.ToolDbgGetText.Text = "Get Text";
       this.ToolDbgGetText.Click += new System.EventHandler(this.ToolDbgGetText_Click);
       // 
       // ToolDbgToggleLines
       // 
       this.ToolDbgToggleLines.Name = "ToolDbgToggleLines";
-      this.ToolDbgToggleLines.Size = new System.Drawing.Size(152, 22);
+      this.ToolDbgToggleLines.Size = new System.Drawing.Size(140, 22);
       this.ToolDbgToggleLines.Text = "Toggle Lines";
       this.ToolDbgToggleLines.Click += new System.EventHandler(this.ToolDbgToggleLines_Click);
       // 
       // ToolDbgSetText
       // 
       this.ToolDbgSetText.Name = "ToolDbgSetText";
-      this.ToolDbgSetText.Size = new System.Drawing.Size(152, 22);
+      this.ToolDbgSetText.Size = new System.Drawing.Size(140, 22);
       this.ToolDbgSetText.Text = "Set Text";
       this.ToolDbgSetText.Click += new System.EventHandler(this.ToolDbgSetText_Click);
       // 
-      // ToolNewQuery
+      // tabControl1
       // 
-      this.ToolNewQuery.Image = ((System.Drawing.Image)(resources.GetObject("ToolNewQuery.Image")));
-      this.ToolNewQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.ToolNewQuery.Name = "ToolNewQuery";
-      this.ToolNewQuery.Size = new System.Drawing.Size(86, 22);
-      this.ToolNewQuery.Text = "&New Query";
-      this.ToolNewQuery.Click += new System.EventHandler(this.ToolNewQuery_Click);
+      this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tabControl1.Location = new System.Drawing.Point(0, 49);
+      this.tabControl1.Name = "tabControl1";
+      this.tabControl1.SelectedIndex = 0;
+      this.tabControl1.Size = new System.Drawing.Size(611, 199);
+      this.tabControl1.TabIndex = 7;
+      this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+      // 
+      // statusStrip1
+      // 
+      this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripIsReady,
+            this.ToolStripLine,
+            this.ToolStripColumn,
+            this.ToolStripCharacter,
+            this.ToolStripInsertOverwrite});
+      this.statusStrip1.Location = new System.Drawing.Point(0, 226);
+      this.statusStrip1.Name = "statusStrip1";
+      this.statusStrip1.Size = new System.Drawing.Size(611, 22);
+      this.statusStrip1.TabIndex = 8;
+      this.statusStrip1.Text = "statusStrip1";
+      this.statusStrip1.Visible = false;
+      // 
+      // ToolStripIsReady
+      // 
+      this.ToolStripIsReady.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.ToolStripIsReady.Name = "ToolStripIsReady";
+      this.ToolStripIsReady.Size = new System.Drawing.Size(468, 17);
+      this.ToolStripIsReady.Spring = true;
+      this.ToolStripIsReady.Text = "Ready";
+      this.ToolStripIsReady.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      // 
+      // ToolStripLine
+      // 
+      this.ToolStripLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.ToolStripLine.Name = "ToolStripLine";
+      this.ToolStripLine.Size = new System.Drawing.Size(38, 17);
+      this.ToolStripLine.Text = "Line 0";
+      // 
+      // ToolStripColumn
+      // 
+      this.ToolStripColumn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.ToolStripColumn.Name = "ToolStripColumn";
+      this.ToolStripColumn.Size = new System.Drawing.Size(34, 17);
+      this.ToolStripColumn.Text = "Col 0";
+      // 
+      // ToolStripCharacter
+      // 
+      this.ToolStripCharacter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.ToolStripCharacter.Name = "ToolStripCharacter";
+      this.ToolStripCharacter.Size = new System.Drawing.Size(31, 17);
+      this.ToolStripCharacter.Text = "Ch 0";
+      // 
+      // ToolStripInsertOverwrite
+      // 
+      this.ToolStripInsertOverwrite.Name = "ToolStripInsertOverwrite";
+      this.ToolStripInsertOverwrite.Size = new System.Drawing.Size(25, 17);
+      this.ToolStripInsertOverwrite.Text = "INS";
       // 
       // MainIde
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(611, 441);
+      this.ClientSize = new System.Drawing.Size(611, 248);
+      this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.tabControl1);
       this.Controls.Add(this.toolStrip1);
       this.Controls.Add(this.menuStrip1);
@@ -257,6 +316,8 @@
       this.menuStrip1.PerformLayout();
       this.toolStrip1.ResumeLayout(false);
       this.toolStrip1.PerformLayout();
+      this.statusStrip1.ResumeLayout(false);
+      this.statusStrip1.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -286,6 +347,12 @@
     private System.Windows.Forms.ToolStripMenuItem ToolDbgToggleLines;
     private System.Windows.Forms.ToolStripMenuItem ToolDbgSetText;
     private System.Windows.Forms.ToolStripButton ToolNewQuery;
+    private System.Windows.Forms.StatusStrip statusStrip1;
+    private System.Windows.Forms.ToolStripStatusLabel ToolStripIsReady;
+    private System.Windows.Forms.ToolStripStatusLabel ToolStripLine;
+    private System.Windows.Forms.ToolStripStatusLabel ToolStripColumn;
+    private System.Windows.Forms.ToolStripStatusLabel ToolStripCharacter;
+    private System.Windows.Forms.ToolStripStatusLabel ToolStripInsertOverwrite;
   }
 }
 

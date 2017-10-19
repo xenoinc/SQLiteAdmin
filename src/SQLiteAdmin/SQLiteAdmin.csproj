@@ -127,6 +127,9 @@
     </Compile>
     <None Include=".licenseheader" />
     <EmbeddedResource Include="SyntaxStyle\Sql.xshd" />
+    <None Include="SyntaxHighlight\SQL.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
