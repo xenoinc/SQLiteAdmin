@@ -14,8 +14,12 @@ using System.Data;
 
 namespace Xeno.SQLiteAdmin.Data
 {
-  internal interface IDatabaseProvider
+  public interface IDatabaseProvider
   {
+    DatabaseProvider ProviderType { get; }
+
+    string ConnectionString { get; set; }
+
     void Close();
 
     int ExecuteNonQuery(string query);

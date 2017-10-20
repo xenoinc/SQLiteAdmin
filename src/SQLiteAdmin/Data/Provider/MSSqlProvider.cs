@@ -16,6 +16,10 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class MSSqlProvider : IDatabaseProvider
   {
+    public string ConnectionString { get; set; }
+
+    public DatabaseProvider ProviderType { get { return DatabaseProvider.MSSQL; } }
+
     public void Close()
     {
     }

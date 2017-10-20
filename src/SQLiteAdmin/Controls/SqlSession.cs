@@ -37,25 +37,25 @@ namespace Xeno.SQLiteAdmin.Controls
     #region ctr/~dtr
 
     /// <summary>Construct user control and auto load a file</summary>
-    public SqlSession() : this("Unknown") { }
+    public SqlSession() : this("Unknown", "", null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title"></param>
-    public SqlSession(string title) : this(title, "") { }
+    public SqlSession(string title) : this(title, "", null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title"></param>
     /// <param name="fullFilePath"></param>
-    public SqlSession(string title, string fullFilePath) : this(title, fullFilePath, "") { }
+    public SqlSession(string title, string fullFilePath) : this(title, fullFilePath, null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title">Title of file (blank if FullPath is provided)</param>
     /// <param name="fullFilePath">Full file path to query</param>
     /// <param name="dbConnection">SQLite Database file path</param>
-    public SqlSession(string title, string fullFilePath, string dbConnection)
+    public SqlSession(string title, string fullFilePath = "", IDatabaseProvider provider = null)
     {
       InitializeComponent();
 
@@ -63,7 +63,7 @@ namespace Xeno.SQLiteAdmin.Controls
 
       InitOutput();
 
-      InitDatabase(dbConnection);
+      InitDatabase(provider);
 
       FilePath = fullFilePath;
 
@@ -106,6 +106,8 @@ namespace Xeno.SQLiteAdmin.Controls
         this.Editor.IsDirty = value;
       }
     }
+
+    public DatabaseProvider ProviderType { get; set; }
 
     /// <summary>Output results to file</summary>
     public string OutputToFile { get; set; }
@@ -183,26 +185,44 @@ namespace Xeno.SQLiteAdmin.Controls
       }
     }
 
-    public void InitDatabase(string sqliteDbPath = "", string password = "")
+    public void InitDatabase(IDatabaseProvider provider, string password) // , string sqliteDbPath = "", string password = "")
     {
-      if (File.Exists(sqliteDbPath))
+      if (provider != null && provider.ProviderType != DatabaseProvider.Unknown)
       {
-        if (string.IsNullOrEmpty(password))
-          _db = new SQLiteProvider(sqliteDbPath);
-        else
+
+        _db = provider;
+
+        this.ProviderType = _db.ProviderType;
+
+        if (provider.ProviderType == DatabaseProvider.SQLite)
         {
-          try
-          {
-            _db = new SQLiteProvider(sqliteDbPath, password);
-          }
-          catch
-          {
-            //TODO: InitDatabase - Handle invalid password
-          }
+          string connString = provider.ConnectionString;
         }
+
+
+        //if (File.Exists(sqliteDbPath))
+        //{
+        //  if (string.IsNullOrEmpty(password))
+        //    _db = new SQLiteProvider(sqliteDbPath);
+        //  else
+        //  {
+        //    try
+        //    {
+        //      _db = new SQLiteProvider(sqliteDbPath, password);
+        //    }
+        //    catch
+        //    {
+        //      //TODO: InitDatabase - Handle invalid password
+        //    }
+        //  }
+        //}
+        //else
+        //  _db = new SQLiteProvider();
       }
       else
-        _db = new SQLiteProvider();
+      {
+        // Log.Debug("Provider not specified");
+      }
     }
 
     /// <summary>Initialize Query Editor</summary>

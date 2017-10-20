@@ -4,9 +4,8 @@
  * File:    SQLiteProvider.cs
  * Description:
  *
- * To Do:
  * Change Log:
- *  2017-38 * Initial creation
+ *  2017-0308 * Initial creation
  */
 
 using System;
@@ -37,8 +36,6 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       this.Password = password;
     }
 
-    #region Properties
-
     public string ConnectionString
     {
       get
@@ -50,17 +47,17 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
         return cs;
       }
+
+      set { ConnectionString = value; }
     }
 
     public string DbFile { get; set; }
 
     public string Password { get; set; }
 
+    public DatabaseProvider ProviderType { get { return DatabaseProvider.SQLite; } }
+
     public string SQLiteVersion { get { return "3"; } }
-
-    #endregion Properties
-
-    #region Methods
 
     public void Close()
     {
@@ -130,7 +127,5 @@ namespace Xeno.SQLiteAdmin.Data.Provider
     //private bool ConnectionClose()
     //{
     //}
-
-    #endregion Methods
   }
 }
