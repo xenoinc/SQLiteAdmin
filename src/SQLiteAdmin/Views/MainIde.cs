@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using Xeno.SQLiteAdmin.Controls;
 using Xeno.SQLiteAdmin.Views;
 
 namespace Xeno.SQLiteAdmin

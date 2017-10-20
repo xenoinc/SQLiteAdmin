@@ -23,20 +23,16 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using Xeno.SQLiteAdmin.Data;
 using Xeno.SQLiteAdmin.Data.Provider;
 
-namespace Xeno.SQLiteAdmin.Views
+namespace Xeno.SQLiteAdmin.Controls
 {
   public partial class SqlSession : UserControl
   {
-    #region Fields
-
     private IDatabaseProvider _db;
 
     private Xeno.AvalonEditWF.TextEditor _textEditor;
 
     /// <summary>Session file's title</summary>
     private string _title;
-
-    #endregion Fields
 
     #region ctr/~dtr
 
@@ -64,6 +60,8 @@ namespace Xeno.SQLiteAdmin.Views
       InitializeComponent();
 
       InitEditor();
+
+      InitOutput();
 
       InitDatabase(dbConnection);
 
@@ -109,8 +107,31 @@ namespace Xeno.SQLiteAdmin.Views
       }
     }
 
+    /// <summary>Output results to file</summary>
+    public string OutputToFile { get; set; }
+
+    public QueryOutputType QueryOutputType { get; set; }
+
     /// <summary>Get/Set the DB provider</summary>
     public DatabaseProvider SetDatabaseProvider { get; set; }
+
+    /// <summary>Show output results</summary>
+    public bool ShowResults
+    {
+      get { return ShowResults; }
+      set
+      {
+        ShowResults = value;
+        if (ShowResults)
+        {
+          splitContainer.Panel2Collapsed = false;
+        }
+        else
+        {
+          splitContainer.Panel2Collapsed = true;
+        }
+      }
+    }
 
     /// <summary>Gets/sets the syntax highlighting definition used to colorize the text.</summary>
     public IHighlightingDefinition SyntaxHighlighting
@@ -184,33 +205,63 @@ namespace Xeno.SQLiteAdmin.Views
         _db = new SQLiteProvider();
     }
 
+    /// <summary>Initialize Query Editor</summary>
     private void InitEditor()
     {
       //TODO: Remove Me - Keeping around so we can toy with some properties in VS
       //this.textEditor1.Load -= new System.EventHandler(this.textEditor1_Load);
+      this.splitContainer.Panel1.SuspendLayout();
+      this.splitContainer.Panel1.Controls.Remove(textEditor1);
       this.Controls.Remove(textEditor1);
-      textEditor1.Dispose();
+      this.textEditor1.Dispose();
+
+      _textEditor = new Xeno.AvalonEditWF.TextEditor();
 
       // Configure Editor Defaults from Settings
-      _textEditor = new Xeno.AvalonEditWF.TextEditor();
       _textEditor.Dock = System.Windows.Forms.DockStyle.Fill;
       _textEditor.Document = null;
       _textEditor.Location = new System.Drawing.Point(0, 0);
       _textEditor.Name = "_textEditor";
       _textEditor.ShowLineNumbers = true;
+      _textEditor.SyntaxHighlighting = null;
+      _textEditor.TabIndex = 1;
       _textEditor.Size = new System.Drawing.Size(473, 134);
       _textEditor.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       // _textEditor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
-      _textEditor.SyntaxHighlighting = null;
-      _textEditor.TabIndex = 1;
       //_textEditor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Editor_KeyPress);
 
-      // Database wireups
+      // Database wire-ups
       this.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
 
       // Add the control
-      this.Controls.Add(_textEditor);
+      this.splitContainer.Panel1.Controls.Add(_textEditor);
+      this.splitContainer.Panel1.ResumeLayout(false);
+      this.splitContainer.ResumeLayout(false);
       this.Dock = DockStyle.Fill;
+    }
+
+    /// <summary>Initialize Results Panel</summary>
+    private void InitOutput()
+    {
+      //TODO: Get last used QueryOutputType from settings
+      var outputType = QueryOutputType.Text;
+      bool showResultsPanel = true;
+
+      switch (outputType)
+      {
+        case QueryOutputType.File:
+          var fileName = string.Empty;
+          SetOutputType(outputType, fileName);
+          break;
+
+        case QueryOutputType.Text:
+        case QueryOutputType.DataGrid:
+        default:
+          SetOutputType(outputType);
+          break;
+      }
+
+      ShowResults = showResultsPanel;
     }
 
     #region Methods - Editor
@@ -233,15 +284,9 @@ namespace Xeno.SQLiteAdmin.Views
       _textEditor.Editor.Cut();
     }
 
-    /// <summary>Paste clipboard's contents to editor</summary>
-    public void Paste()
-    {
-      this._textEditor.Editor.Paste();
-    }
-
     public void LoadSyntaxDefinition(string fullName)
     {
-      throw new NotImplementedException;
+      throw new NotImplementedException();
 
       //https://stackoverflow.com/questions/16169584/avalonedit-change-syntax-highlighting-in-code
       //
@@ -251,7 +296,7 @@ namespace Xeno.SQLiteAdmin.Views
       //#if DEBUG
       //      dir = @"C:\Dev\Sandbox\SharpDevelop-master\src\Libraries\AvalonEdit\ICSharpCode.AvalonEdit\Highlighting\Resources\";
       //#endif
-
+      //
       //      Stream xshd_stream = File.OpenRead(dir + "CSharp-Mode.xshd");
       //      System.Xml.XmlTextReader xshd_reader = new System.Xml.XmlTextReader(xshd_stream);
       //      textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(
@@ -259,6 +304,29 @@ namespace Xeno.SQLiteAdmin.Views
       //        ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
       //      xshd_reader.Close();
       //      xshd_stream.Close();
+    }
+
+    /// <summary>Paste clipboard's contents to editor</summary>
+    public void Paste()
+    {
+      this._textEditor.Editor.Paste();
+    }
+
+    public void SetOutputType(QueryOutputType outputType, string fileName = "")
+    {
+      
+      switch (outputType)
+      {
+        case QueryOutputType.File:
+          OutputToFile = fileName;
+        //  break:
+
+        case QueryOutputType.Text:
+        case QueryOutputType.DataGrid:
+        default:
+
+          break;
+      }
     }
 
     #endregion Methods - Editor

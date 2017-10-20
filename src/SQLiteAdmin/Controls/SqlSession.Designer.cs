@@ -9,7 +9,7 @@
  *  2017-37 * Initial creation
  */
 
-namespace Xeno.SQLiteAdmin.Views
+namespace Xeno.SQLiteAdmin.Controls
 {
   partial class SqlSession
   {
@@ -46,8 +46,14 @@ namespace Xeno.SQLiteAdmin.Views
       this.tsDbName = new System.Windows.Forms.ToolStripStatusLabel();
       this.tsExecutionTime = new System.Windows.Forms.ToolStripStatusLabel();
       this.tsRowsReturned = new System.Windows.Forms.ToolStripStatusLabel();
+      this.splitContainer = new System.Windows.Forms.SplitContainer();
       this.textEditor1 = new Xeno.AvalonEditWF.TextEditor();
+      this.tabControl1 = new System.Windows.Forms.TabControl();
       this.statusStrip1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
+      this.splitContainer.Panel1.SuspendLayout();
+      this.splitContainer.Panel2.SuspendLayout();
+      this.splitContainer.SuspendLayout();
       this.SuspendLayout();
       // 
       // statusStrip1
@@ -71,7 +77,7 @@ namespace Xeno.SQLiteAdmin.Views
       this.tsConnectionStatus.Image = global::Xeno.SQLiteAdmin.Properties.Resources.IconDisconnected;
       this.tsConnectionStatus.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.tsConnectionStatus.Name = "tsConnectionStatus";
-      this.tsConnectionStatus.Size = new System.Drawing.Size(183, 17);
+      this.tsConnectionStatus.Size = new System.Drawing.Size(214, 17);
       this.tsConnectionStatus.Spring = true;
       this.tsConnectionStatus.Text = "Disonnected";
       this.tsConnectionStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -109,28 +115,60 @@ namespace Xeno.SQLiteAdmin.Views
       this.tsRowsReturned.Size = new System.Drawing.Size(41, 17);
       this.tsRowsReturned.Text = "0 rows";
       // 
+      // splitContainer
+      // 
+      this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer.Location = new System.Drawing.Point(0, 0);
+      this.splitContainer.Name = "splitContainer";
+      this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      // 
+      // splitContainer.Panel1
+      // 
+      this.splitContainer.Panel1.Controls.Add(this.textEditor1);
+      // 
+      // splitContainer.Panel2
+      // 
+      this.splitContainer.Panel2.Controls.Add(this.tabControl1);
+      this.splitContainer.Size = new System.Drawing.Size(473, 134);
+      this.splitContainer.SplitterDistance = 79;
+      this.splitContainer.TabIndex = 2;
+      // 
       // textEditor1
       // 
       this.textEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.textEditor1.Document = null;
       this.textEditor1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.textEditor1.IsDirty = true;
       this.textEditor1.Location = new System.Drawing.Point(0, 0);
       this.textEditor1.Name = "textEditor1";
       this.textEditor1.ShowLineNumbers = true;
-      this.textEditor1.Size = new System.Drawing.Size(473, 134);
+      this.textEditor1.Size = new System.Drawing.Size(473, 79);
       this.textEditor1.SyntaxHighlighting = null;
-      this.textEditor1.TabIndex = 1;
+      this.textEditor1.TabIndex = 2;
+      // 
+      // tabControl1
+      // 
+      this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tabControl1.Location = new System.Drawing.Point(0, 0);
+      this.tabControl1.Name = "tabControl1";
+      this.tabControl1.SelectedIndex = 0;
+      this.tabControl1.Size = new System.Drawing.Size(473, 51);
+      this.tabControl1.TabIndex = 0;
       // 
       // SqlSession
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Controls.Add(this.textEditor1);
+      this.Controls.Add(this.splitContainer);
       this.Controls.Add(this.statusStrip1);
       this.Name = "SqlSession";
       this.Size = new System.Drawing.Size(473, 156);
       this.statusStrip1.ResumeLayout(false);
       this.statusStrip1.PerformLayout();
+      this.splitContainer.Panel1.ResumeLayout(false);
+      this.splitContainer.Panel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
+      this.splitContainer.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -145,6 +183,8 @@ namespace Xeno.SQLiteAdmin.Views
     private System.Windows.Forms.ToolStripStatusLabel tsDbName;
     private System.Windows.Forms.ToolStripStatusLabel tsExecutionTime;
     private System.Windows.Forms.ToolStripStatusLabel tsRowsReturned;
+    private System.Windows.Forms.SplitContainer splitContainer;
     private AvalonEditWF.TextEditor textEditor1;
+    private System.Windows.Forms.TabControl tabControl1;
   }
 }
