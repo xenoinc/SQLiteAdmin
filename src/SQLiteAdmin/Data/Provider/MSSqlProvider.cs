@@ -11,6 +11,7 @@
 
 using System;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
@@ -20,8 +21,25 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
     public DatabaseProvider ProviderType { get { return DatabaseProvider.MSSQL; } }
 
+    private SqlCommand _currentCommand;
+
     public void Close()
     {
+    }
+
+    /// <summary>Stop executing current command execution</summary>
+    /// <returns>Success or failure</returns>
+    public bool StopExecuting()
+    {
+      try
+      {
+        _currentCommand.Cancel();
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
     }
 
     public int ExecuteNonQuery(string query)

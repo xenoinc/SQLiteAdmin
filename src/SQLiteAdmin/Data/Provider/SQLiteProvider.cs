@@ -71,6 +71,15 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       }
     }
 
+
+    /// <summary>Stop execution of current command</summary>
+    /// <returns></returns>
+    public bool StopExecuting()
+    {
+      throw new NotImplementedException();
+      return false;
+    }
+
     public int ExecuteNonQuery(string query)
     {
       int rowsAffected = 0;

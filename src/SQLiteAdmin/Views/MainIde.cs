@@ -195,7 +195,12 @@ namespace Xeno.SQLiteAdmin
 
     private void SaveActiveSession()
     {
-      SaveFileDialog dlg = new SaveFileDialog();
+      SaveFileDialog dlg = new SaveFileDialog()
+      {
+        Filter = "SQL files (*.sql)|*.sql|All files (*)|*",
+        FilterIndex = 1,
+        RestoreDirectory = true
+      };
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         using (Stream s = File.Open(dlg.FileName, FileMode.CreateNew))
@@ -210,7 +215,8 @@ namespace Xeno.SQLiteAdmin
     /// <remarks>Consider using a dialog with a list to select which files</remarks>
     private void SaveAllSessions()
     {
-      throw new NotImplementedException();
+      //throw new NotImplementedException();
+      SaveActiveSession();
     }
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -222,7 +228,13 @@ namespace Xeno.SQLiteAdmin
     private void TabOpenFile()
     {
       Stream stream;
-      OpenFileDialog dlg = new OpenFileDialog();
+      OpenFileDialog dlg = new OpenFileDialog()
+      {
+        Filter = "SQL files (*.sql)|*.sql|All files (*)|*",
+        FilterIndex = 1,
+        RestoreDirectory = true
+      };
+
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         if ((stream = dlg.OpenFile()) != null)

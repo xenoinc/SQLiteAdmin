@@ -21,7 +21,6 @@ using System.Windows;
 using System.Windows.Forms;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Xeno.SQLiteAdmin.Data;
-using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin.Controls
 {
@@ -107,11 +106,10 @@ namespace Xeno.SQLiteAdmin.Controls
       }
     }
 
-    public DatabaseProvider ProviderType { get; set; }
-
     /// <summary>Output results to file</summary>
     public string OutputToFile { get; set; }
 
+    public DatabaseProvider ProviderType { get; set; }
     public QueryOutputType QueryOutputType { get; set; }
 
     /// <summary>Get/Set the DB provider</summary>
@@ -185,11 +183,10 @@ namespace Xeno.SQLiteAdmin.Controls
       }
     }
 
-    public void InitDatabase(IDatabaseProvider provider, string password) // , string sqliteDbPath = "", string password = "")
+    public void InitDatabase(IDatabaseProvider provider, string password = "") // , string sqliteDbPath = "", string password = "")
     {
       if (provider != null && provider.ProviderType != DatabaseProvider.Unknown)
       {
-
         _db = provider;
 
         this.ProviderType = _db.ProviderType;
@@ -198,7 +195,6 @@ namespace Xeno.SQLiteAdmin.Controls
         {
           string connString = provider.ConnectionString;
         }
-
 
         //if (File.Exists(sqliteDbPath))
         //{
@@ -334,12 +330,11 @@ namespace Xeno.SQLiteAdmin.Controls
 
     public void SetOutputType(QueryOutputType outputType, string fileName = "")
     {
-      
       switch (outputType)
       {
         case QueryOutputType.File:
           OutputToFile = fileName;
-        //  break:
+          break;
 
         case QueryOutputType.Text:
         case QueryOutputType.DataGrid:

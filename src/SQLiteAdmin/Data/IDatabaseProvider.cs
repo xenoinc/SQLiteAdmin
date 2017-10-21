@@ -25,5 +25,9 @@ namespace Xeno.SQLiteAdmin.Data
     int ExecuteNonQuery(string query);
 
     DataSet ExecuteQuery(string query);
+
+    /// <summary>Stop current execution</summary>
+    /// <returns>If successful or not</returns>
+    bool StopExecuting();
   }
 }

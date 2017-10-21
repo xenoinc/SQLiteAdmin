@@ -67,6 +67,7 @@
     <Compile Include="Data\IDatabaseProvider.cs" />
     <Compile Include="Data\Provider\MSSqlProvider.cs" />
     <Compile Include="Data\Provider\SQLiteProvider.cs" />
+    <Compile Include="Data\Security.cs" />
     <Compile Include="Views\MainIde.cs">
       <SubType>Form</SubType>
     </Compile>
