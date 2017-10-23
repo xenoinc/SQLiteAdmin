@@ -71,15 +71,6 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       }
     }
 
-
-    /// <summary>Stop execution of current command</summary>
-    /// <returns></returns>
-    public bool StopExecuting()
-    {
-      throw new NotImplementedException();
-      return false;
-    }
-
     public int ExecuteNonQuery(string query)
     {
       int rowsAffected = 0;
@@ -114,6 +105,14 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       // Reference: https://www.codeproject.com/Tips/988690/WinForms-WPF-Using-SQLite-DataBase
 
       return ds;
+    }
+
+    /// <summary>Stop execution of current command</summary>
+    /// <returns></returns>
+    public bool StopExecuting()
+    {
+      throw new NotImplementedException();
+      return false;
     }
 
     public bool UpdatePassword(string newPassword)

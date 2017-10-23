@@ -42,6 +42,8 @@
       this.MenuEditPaste = new System.Windows.Forms.ToolStripMenuItem();
       this.MenuTools = new System.Windows.Forms.ToolStripMenuItem();
       this.MenuToolsOptions = new System.Windows.Forms.ToolStripMenuItem();
+      this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.MenuWindowResultsPane = new System.Windows.Forms.ToolStripMenuItem();
       this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
       this.ToolNewQuery = new System.Windows.Forms.ToolStripButton();
@@ -50,6 +52,8 @@
       this.ToolDbgGetText = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgToggleLines = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgSetText = new System.Windows.Forms.ToolStripMenuItem();
+      this.ToolDatabasePath = new System.Windows.Forms.ToolStripComboBox();
+      this.ToolDatabasePicker = new System.Windows.Forms.ToolStripButton();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.ToolStripIsReady = new System.Windows.Forms.ToolStripStatusLabel();
@@ -68,6 +72,7 @@
             this.fileToolStripMenuItem,
             this.MenuEdit,
             this.MenuTools,
+            this.windowToolStripMenuItem,
             this.MenuHelp});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
@@ -157,7 +162,7 @@
             this.MenuToolsOptions});
       this.MenuTools.Name = "MenuTools";
       this.MenuTools.Size = new System.Drawing.Size(47, 20);
-      this.MenuTools.Text = "Tools";
+      this.MenuTools.Text = "&Tools";
       // 
       // MenuToolsOptions
       // 
@@ -166,11 +171,28 @@
       this.MenuToolsOptions.Text = "Options";
       this.MenuToolsOptions.Click += new System.EventHandler(this.MenuToolsOptions_Click);
       // 
+      // windowToolStripMenuItem
+      // 
+      this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuWindowResultsPane});
+      this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+      this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+      this.windowToolStripMenuItem.Text = "&Window";
+      // 
+      // MenuWindowResultsPane
+      // 
+      this.MenuWindowResultsPane.Checked = true;
+      this.MenuWindowResultsPane.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.MenuWindowResultsPane.Name = "MenuWindowResultsPane";
+      this.MenuWindowResultsPane.Size = new System.Drawing.Size(140, 22);
+      this.MenuWindowResultsPane.Text = "Results Pane";
+      this.MenuWindowResultsPane.Click += new System.EventHandler(this.MenuWindowResultsPane_Click);
+      // 
       // MenuHelp
       // 
       this.MenuHelp.Name = "MenuHelp";
       this.MenuHelp.Size = new System.Drawing.Size(44, 20);
-      this.MenuHelp.Text = "Help";
+      this.MenuHelp.Text = "&Help";
       // 
       // toolStrip1
       // 
@@ -178,7 +200,9 @@
       this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolNewQuery,
             this.ToolSqlExecute,
-            this.ToolDebugging});
+            this.ToolDebugging,
+            this.ToolDatabasePath,
+            this.ToolDatabasePicker});
       this.toolStrip1.Location = new System.Drawing.Point(0, 24);
       this.toolStrip1.Name = "toolStrip1";
       this.toolStrip1.Size = new System.Drawing.Size(611, 25);
@@ -237,13 +261,31 @@
       this.ToolDbgSetText.Text = "Set Text";
       this.ToolDbgSetText.Click += new System.EventHandler(this.ToolDbgSetText_Click);
       // 
+      // ToolDatabasePath
+      // 
+      this.ToolDatabasePath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+      this.ToolDatabasePath.DropDownWidth = 121;
+      this.ToolDatabasePath.Name = "ToolDatabasePath";
+      this.ToolDatabasePath.Size = new System.Drawing.Size(250, 25);
+      // 
+      // ToolDatabasePicker
+      // 
+      this.ToolDatabasePicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.ToolDatabasePicker.Image = ((System.Drawing.Image)(resources.GetObject("ToolDatabasePicker.Image")));
+      this.ToolDatabasePicker.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.ToolDatabasePicker.Name = "ToolDatabasePicker";
+      this.ToolDatabasePicker.Size = new System.Drawing.Size(23, 22);
+      this.ToolDatabasePicker.Text = "...";
+      this.ToolDatabasePicker.ToolTipText = "Pick SQLite Database";
+      this.ToolDatabasePicker.Click += new System.EventHandler(this.ToolDatabasePicker_Click);
+      // 
       // tabControl1
       // 
       this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabControl1.Location = new System.Drawing.Point(0, 49);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(611, 199);
+      this.tabControl1.Size = new System.Drawing.Size(611, 371);
       this.tabControl1.TabIndex = 7;
       this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
       // 
@@ -302,7 +344,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(611, 248);
+      this.ClientSize = new System.Drawing.Size(611, 420);
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.tabControl1);
       this.Controls.Add(this.toolStrip1);
@@ -353,6 +395,10 @@
     private System.Windows.Forms.ToolStripStatusLabel ToolStripColumn;
     private System.Windows.Forms.ToolStripStatusLabel ToolStripCharacter;
     private System.Windows.Forms.ToolStripStatusLabel ToolStripInsertOverwrite;
+    private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem MenuWindowResultsPane;
+    private System.Windows.Forms.ToolStripComboBox ToolDatabasePath;
+    private System.Windows.Forms.ToolStripButton ToolDatabasePicker;
   }
 }
 

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Xeno.SQLiteAdmin.Controls;
-using Xeno.SQLiteAdmin.Views;
 
 namespace Xeno.SQLiteAdmin
 {
@@ -167,6 +166,12 @@ namespace Xeno.SQLiteAdmin
       frm.ShowDialog(this);
     }
 
+    private void MenuWindowResultsPane_Click(object sender, EventArgs e)
+    {
+      ActiveSqlSession.ShowResults = !ActiveSqlSession.ShowResults;
+      MenuWindowResultsPane.Checked = ActiveSqlSession.ShowResults;
+    }
+
     #endregion Menu Events
 
     #region Tab Manager
@@ -240,9 +245,15 @@ namespace Xeno.SQLiteAdmin
         if ((stream = dlg.OpenFile()) != null)
         {
           string fileName = dlg.FileName;
-          string buffer = File.ReadAllText(fileName);
-
-          ActiveSqlSession.Editor.Text = buffer;
+          try
+          {
+            string buffer = File.ReadAllText(fileName);
+            ActiveSqlSession.Editor.Text = buffer;
+          }
+          catch(Exception ex)
+          {
+            MessageBox.Show("An issue occurred attempting to open file.\n\r" + ex.Message);
+          }
         }
       }
     }
@@ -250,6 +261,16 @@ namespace Xeno.SQLiteAdmin
     #endregion Tab Manager
 
     #region ToolBar Events
+
+    private void ToolDatabasePicker_Click(object sender, EventArgs e)
+    {
+      string path = ChooseSqliteDbDialog();
+      if (File.Exists(path))
+      {
+        ToolDatabasePath.Text = path;
+        AddRecentDbFile(path);
+      }
+    }
 
     private void ToolDbgGetText_Click(object sender, EventArgs e)
     {
@@ -281,5 +302,41 @@ namespace Xeno.SQLiteAdmin
     }
 
     #endregion ToolBar Events
+
+    #region Private Methods
+
+    /// <summary>Add file path to picker list</summary>
+    /// <param name="filePath"></param>
+    private void AddRecentDbFile(string filePath)
+    {
+      //TODO: Save paths and filename in array & link to ComboBox
+      if (File.Exists(filePath))
+      {
+        ToolDatabasePath.Items.Add(filePath);
+      }
+    }
+
+    /// <summary>Find SQLite DB file</summary>
+    /// <param name="baseDir">Starting folder</param>
+    /// <returns>File path of selected DB file</returns>
+    private string ChooseSqliteDbDialog(string baseDir = "")
+    {
+      string fileName = string.Empty;
+      OpenFileDialog dlg = new OpenFileDialog()
+      {
+        //DereferenceLinks = true,
+        Filter = "SQLite DB files|*.db|All files|*",
+        FilterIndex = 1,
+        InitialDirectory = baseDir,
+        RestoreDirectory = true
+      };
+
+      if (dlg.ShowDialog() == DialogResult.OK)
+        fileName = dlg.FileName;
+
+      return fileName;
+    }
+
+    #endregion Private Methods
   }
 }

@@ -28,6 +28,7 @@ namespace Xeno.SQLiteAdmin.Controls
   {
     private IDatabaseProvider _db;
 
+    private bool _showResultsPanel;
     private Xeno.AvalonEditWF.TextEditor _textEditor;
 
     /// <summary>Session file's title</summary>
@@ -118,11 +119,11 @@ namespace Xeno.SQLiteAdmin.Controls
     /// <summary>Show output results</summary>
     public bool ShowResults
     {
-      get { return ShowResults; }
+      get { return _showResultsPanel; }
       set
       {
-        ShowResults = value;
-        if (ShowResults)
+        _showResultsPanel = value;
+        if (_showResultsPanel)
         {
           splitContainer.Panel2Collapsed = false;
         }
