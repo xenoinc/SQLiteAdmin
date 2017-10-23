@@ -20,14 +20,15 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using ICSharpCode.AvalonEdit.Highlighting;
+using log4net;
 using Xeno.SQLiteAdmin.Data;
 
 namespace Xeno.SQLiteAdmin.Controls
 {
   public partial class SqlSession : UserControl
   {
+    private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     private IDatabaseProvider _db;
-
     private bool _showResultsPanel;
     private Xeno.AvalonEditWF.TextEditor _textEditor;
 
@@ -362,6 +363,8 @@ namespace Xeno.SQLiteAdmin.Controls
     {
       //TODO: Execute - If there is text selected, execute that. If NOTHING selected, execute ALL
       //TODO: Execute - Output results to either Text, DataGrid, or file
+
+      Log.Debug("Executing query");
 
       this._db.ExecuteNonQuery(_textEditor.Text);
 
