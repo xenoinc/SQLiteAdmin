@@ -3,31 +3,38 @@
  * Date:    2017-01-24
  * File:    Program.cs
  * Description:
- *  
+ *
  * To Do:
  * Change Log:
  *  2017-0124 * Initial creation
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using log4net;
 
 namespace Xeno.SQLiteAdmin
 {
-  static class Program
+  internal static class Program
   {
+    private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    private static void Main()
     {
+      log4net.Config.XmlConfigurator.Configure();
+      Log.Debug("############################");
+      Log.Debug("Let's do this!!   ლ(｀ー´ლ)");
+
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
       Application.Run(new MainIde());
+
+      Log.Debug("Goodnight          ( ͡◉ ͜ʖ ͡◉)﻿.");
+      Log.Debug("############################");
     }
   }
 }

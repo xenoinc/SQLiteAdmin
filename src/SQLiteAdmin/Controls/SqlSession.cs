@@ -362,7 +362,9 @@ namespace Xeno.SQLiteAdmin.Controls
     {
       //TODO: Execute - If there is text selected, execute that. If NOTHING selected, execute ALL
       //TODO: Execute - Output results to either Text, DataGrid, or file
+
       this._db.ExecuteNonQuery(_textEditor.Text);
+
       return 0;
     }
 
