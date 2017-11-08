@@ -10,19 +10,26 @@
  *  2017-0308 * Initial creation
  */
 
+using System;
+using System.Collections.Generic;
 using System.Data;
+using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin.Data
 {
   public interface IDatabaseProvider
   {
+    /// <summary>Name of known DB engine</summary>
     DatabaseProvider ProviderType { get; }
+
+    /// <summary>Custom database properties</summary>
+    Dictionary<DatabaseProperty, string> Properties { get; set; }
 
     string ConnectionString { get; set; }
 
     void Close();
 
-    int ExecuteNonQuery(string query);
+    int ExecuteNonQuery(string query, out Exception ex);
 
     DataSet ExecuteQuery(string query);
 

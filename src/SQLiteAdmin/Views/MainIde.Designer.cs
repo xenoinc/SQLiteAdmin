@@ -47,7 +47,6 @@
       this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
       this.ToolNewQuery = new System.Windows.Forms.ToolStripButton();
-      this.ToolSqlExecute = new System.Windows.Forms.ToolStripDropDownButton();
       this.ToolDebugging = new System.Windows.Forms.ToolStripSplitButton();
       this.ToolDbgGetText = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgToggleLines = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +60,7 @@
       this.ToolStripColumn = new System.Windows.Forms.ToolStripStatusLabel();
       this.ToolStripCharacter = new System.Windows.Forms.ToolStripStatusLabel();
       this.ToolStripInsertOverwrite = new System.Windows.Forms.ToolStripStatusLabel();
+      this.ToolSqlExecute = new System.Windows.Forms.ToolStripButton();
       this.menuStrip1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -200,9 +200,9 @@
       this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolNewQuery,
             this.ToolSqlExecute,
-            this.ToolDebugging,
             this.ToolDatabasePath,
-            this.ToolDatabasePicker});
+            this.ToolDatabasePicker,
+            this.ToolDebugging});
       this.toolStrip1.Location = new System.Drawing.Point(0, 24);
       this.toolStrip1.Name = "toolStrip1";
       this.toolStrip1.Size = new System.Drawing.Size(611, 25);
@@ -217,15 +217,6 @@
       this.ToolNewQuery.Size = new System.Drawing.Size(86, 22);
       this.ToolNewQuery.Text = "&New Query";
       this.ToolNewQuery.Click += new System.EventHandler(this.ToolNewQuery_Click);
-      // 
-      // ToolSqlExecute
-      // 
-      this.ToolSqlExecute.Image = global::Xeno.SQLiteAdmin.Properties.Resources.IconPlay;
-      this.ToolSqlExecute.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.ToolSqlExecute.Name = "ToolSqlExecute";
-      this.ToolSqlExecute.Size = new System.Drawing.Size(76, 22);
-      this.ToolSqlExecute.Text = "E&xecute";
-      this.ToolSqlExecute.Click += new System.EventHandler(this.ToolSqlExecute_Click);
       // 
       // ToolDebugging
       // 
@@ -243,21 +234,21 @@
       // ToolDbgGetText
       // 
       this.ToolDbgGetText.Name = "ToolDbgGetText";
-      this.ToolDbgGetText.Size = new System.Drawing.Size(140, 22);
+      this.ToolDbgGetText.Size = new System.Drawing.Size(152, 22);
       this.ToolDbgGetText.Text = "Get Text";
       this.ToolDbgGetText.Click += new System.EventHandler(this.ToolDbgGetText_Click);
       // 
       // ToolDbgToggleLines
       // 
       this.ToolDbgToggleLines.Name = "ToolDbgToggleLines";
-      this.ToolDbgToggleLines.Size = new System.Drawing.Size(140, 22);
+      this.ToolDbgToggleLines.Size = new System.Drawing.Size(152, 22);
       this.ToolDbgToggleLines.Text = "Toggle Lines";
       this.ToolDbgToggleLines.Click += new System.EventHandler(this.ToolDbgToggleLines_Click);
       // 
       // ToolDbgSetText
       // 
       this.ToolDbgSetText.Name = "ToolDbgSetText";
-      this.ToolDbgSetText.Size = new System.Drawing.Size(140, 22);
+      this.ToolDbgSetText.Size = new System.Drawing.Size(152, 22);
       this.ToolDbgSetText.Text = "Set Text";
       this.ToolDbgSetText.Click += new System.EventHandler(this.ToolDbgSetText_Click);
       // 
@@ -340,6 +331,16 @@
       this.ToolStripInsertOverwrite.Size = new System.Drawing.Size(25, 17);
       this.ToolStripInsertOverwrite.Text = "INS";
       // 
+      // ToolSqlExecute
+      // 
+      this.ToolSqlExecute.Image = global::Xeno.SQLiteAdmin.Properties.Resources.IconPlay;
+      this.ToolSqlExecute.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.ToolSqlExecute.Name = "ToolSqlExecute";
+      this.ToolSqlExecute.Size = new System.Drawing.Size(67, 22);
+      this.ToolSqlExecute.Text = "&Execute";
+      this.ToolSqlExecute.ToolTipText = "Execute entire query or selection";
+      this.ToolSqlExecute.Click += new System.EventHandler(this.ToolSqlExecute_Click);
+      // 
       // MainIde
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,7 +370,6 @@
 
     private System.Windows.Forms.MenuStrip menuStrip1;
     private System.Windows.Forms.ToolStrip toolStrip1;
-    private System.Windows.Forms.ToolStripDropDownButton ToolSqlExecute;
     private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem MenuFileNew;
     private System.Windows.Forms.ToolStripMenuItem MenuFileSave;
@@ -399,6 +399,7 @@
     private System.Windows.Forms.ToolStripMenuItem MenuWindowResultsPane;
     private System.Windows.Forms.ToolStripComboBox ToolDatabasePath;
     private System.Windows.Forms.ToolStripButton ToolDatabasePicker;
+    private System.Windows.Forms.ToolStripButton ToolSqlExecute;
   }
 }
 

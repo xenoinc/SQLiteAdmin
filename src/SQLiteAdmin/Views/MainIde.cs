@@ -4,7 +4,9 @@
  * File:    MainIde.cs
  * Description:
  *
- * To Do:
+ * TODO: Switch to MVP pattern
+ * TODO: Later consider changing to WPF?
+ *
  * Change Log:
  *  2017-0124 * Initial creation
  */
@@ -14,6 +16,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Xeno.SQLiteAdmin.Controls;
+using Xeno.SQLiteAdmin.Data;
+using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin
 {
@@ -185,7 +189,7 @@ namespace Xeno.SQLiteAdmin
       TabPage page = new TabPage(title);
 
       //TODO: Configure new SqlSession from Options
-      SqlSession editor = new SqlSession(title);
+      SqlSession editor = new SqlSession(title, string.Empty, ActiveSessionProviderDetails);
 
       //editor.Font = new System.Drawing.Font()
       //{
@@ -249,8 +253,9 @@ namespace Xeno.SQLiteAdmin
           {
             string buffer = File.ReadAllText(fileName);
             ActiveSqlSession.Editor.Text = buffer;
+            ActiveSqlSession.InitDatabase(ActiveSessionProviderDetails);
           }
-          catch(Exception ex)
+          catch (Exception ex)
           {
             MessageBox.Show("An issue occurred attempting to open file.\n\r" + ex.Message);
           }
@@ -269,6 +274,8 @@ namespace Xeno.SQLiteAdmin
       {
         ToolDatabasePath.Text = path;
         AddRecentDbFile(path);
+
+        UpdateSessionConnection(path);
       }
     }
 
@@ -298,12 +305,50 @@ namespace Xeno.SQLiteAdmin
 
     private void ToolSqlExecute_Click(object sender, EventArgs e)
     {
-      ActiveSqlSession.Execute();
+      ExecuteQuery();
     }
 
     #endregion ToolBar Events
 
     #region Private Methods
+
+    private string ActiveSqliteDatabase { get; set; }
+
+    private string ActiveSqlitePassword { get; set; }
+
+    /// <summary>Current selected provider</summary>
+    private Data.IDatabaseProvider ActiveSessionProviderDetails
+    {
+      get
+      {
+        IDatabaseProvider provider = new Data.Provider.SQLiteProvider();
+        provider.Properties[DatabaseProperty.SqliteDatabase] = ActiveSqliteDatabase;
+        provider.Properties[DatabaseProperty.SqlitePassword] = ActiveSqlitePassword;
+        return provider;
+      }
+    }
+
+    /// <summary>Set the DB connection for active session</summary>
+    /// <param name="dbPath"></param>
+    private void UpdateSessionConnection(string dbPath)
+    {
+      ActiveSqliteDatabase = dbPath;
+      ActiveSqlSession.ProviderProperties[DatabaseProperty.SqliteDatabase] = ActiveSqliteDatabase;
+      ActiveSqlSession.ProviderProperties[DatabaseProperty.SqlitePassword] = ActiveSqlitePassword;
+    }
+
+    /// <summary>Execute based upon currently selected database path</summary>
+    private void ExecuteQuery()
+    {
+      // 1. Ensure we're executing against selected DB from dropdown
+      ActiveSqlSession.InitDatabase(ActiveSessionProviderDetails);
+
+      // 2. Execute
+      //TODO: ExecuteQuery via Thread-safe operation
+      ActiveSqlSession.Execute();
+
+      // 3. Ensure we're returning feedback via EventHandler
+    }
 
     /// <summary>Add file path to picker list</summary>
     /// <param name="filePath"></param>

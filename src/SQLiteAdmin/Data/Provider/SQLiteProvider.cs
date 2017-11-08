@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 
@@ -16,11 +17,12 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class SQLiteProvider : IDatabaseProvider
   {
-    private DataSet _ds = new DataSet();
-    private DataTable _dt = new DataTable();
     private SQLiteDataAdapter _sqlAdapter;
     private SQLiteCommand _sqlCmd;
     private SQLiteConnection _sqlCon;
+
+    private DataSet _ds = new DataSet();
+    private DataTable _dt = new DataTable();
 
     public SQLiteProvider() : this(string.Empty, string.Empty)
     {
@@ -32,18 +34,27 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
     public SQLiteProvider(string dbFile, string password)
     {
-      this.DbFile = dbFile;
-      this.Password = password;
+      this.Properties = new Dictionary<DatabaseProperty, string>();
+      this.Properties.Add(DatabaseProperty.SqliteDatabase, dbFile);
+      this.Properties.Add(DatabaseProperty.SqlitePassword, password);
+      this.Properties.Add(DatabaseProperty.SqliteVersion, "3");
     }
 
     public string ConnectionString
     {
       get
       {
-        string cs = $"Data Source={this.DbFile};Version={this.SQLiteVersion};New=False;Compress=True;";
+        string cs = $"Data Source={this.Properties[DatabaseProperty.SqliteDatabase]};" +
+                    $"Version={this.Properties[DatabaseProperty.SqliteVersion]};" +
+                    "New=False;" +
+                    "Compress=True;";
 
-        if (!string.IsNullOrEmpty(this.Password))
-          cs += $";Password={this.Password};";
+        if (Properties.ContainsKey(DatabaseProperty.SqlitePassword))
+        {
+          cs += $"Password={this.Properties[DatabaseProperty.SqlitePassword]};";
+        }
+        //if (!string.IsNullOrEmpty(this.Password))
+        //  cs += $";Password={this.Password};";
 
         return cs;
       }
@@ -51,9 +62,11 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       set { ConnectionString = value; }
     }
 
-    public string DbFile { get; set; }
+    //public string DbFile { get; set; }
 
-    public string Password { get; set; }
+    //public string Password { get; set; }
+
+    public Dictionary<DatabaseProperty, string> Properties { get; set; }
 
     public DatabaseProvider ProviderType { get { return DatabaseProvider.SQLite; } }
 
@@ -71,21 +84,30 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       }
     }
 
-    public int ExecuteNonQuery(string query)
+    public int ExecuteNonQuery(string query, out Exception hasException)
     {
       int rowsAffected = 0;
-
-      throw new NotImplementedException();
+      hasException = null;
 
       _sqlCon = new SQLiteConnection(this.ConnectionString);
       _sqlCon.Open();
 
+      //TODO: Add more events
+      _sqlCon.Update += SQLiteConnection_Update;
+
       // Method 1
-      using (SQLiteCommand cmd = new SQLiteCommand())
+      try
       {
-        cmd.Connection = _sqlCon;
-        cmd.CommandText = query;
-        rowsAffected = cmd.ExecuteNonQuery();
+        using (SQLiteCommand cmd = new SQLiteCommand())
+        {
+          cmd.Connection = _sqlCon;
+          cmd.CommandText = query;
+          rowsAffected = cmd.ExecuteNonQuery();
+        }
+      }
+      catch (Exception ex)
+      {
+        hasException = ex;
       }
 
       // Method 2
@@ -94,6 +116,8 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       //rowsAffected = _sqlCmd.ExecuteNonQuery();
 
       _sqlCon.Close();
+
+      _sqlCon.Update -= SQLiteConnection_Update;
 
       return rowsAffected;
     }
@@ -121,11 +145,16 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
       this._sqlCon.Open();
       this._sqlCon.ChangePassword(newPassword);
-      this.Password = newPassword;
+      this.Properties[DatabaseProperty.SqlitePassword] = newPassword;
 
       this._sqlCon.Close();
 
       return false;
+    }
+
+    private void SQLiteConnection_Update(object sender, UpdateEventArgs e)
+    {
+      throw new NotImplementedException();
     }
 
     //private bool ConnectionOpen()

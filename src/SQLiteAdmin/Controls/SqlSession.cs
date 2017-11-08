@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -22,6 +23,7 @@ using System.Windows.Forms;
 using ICSharpCode.AvalonEdit.Highlighting;
 using log4net;
 using Xeno.SQLiteAdmin.Data;
+using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin.Controls
 {
@@ -49,15 +51,17 @@ namespace Xeno.SQLiteAdmin.Controls
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title"></param>
     /// <param name="fullFilePath"></param>
-    public SqlSession(string title, string fullFilePath) : this(title, fullFilePath, null) { }
+    public SqlSession(string title, string sqlFilePath) : this(title, sqlFilePath, null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title">Title of file (blank if FullPath is provided)</param>
     /// <param name="fullFilePath">Full file path to query</param>
     /// <param name="dbConnection">SQLite Database file path</param>
-    public SqlSession(string title, string fullFilePath = "", IDatabaseProvider provider = null)
+    public SqlSession(string title, string sqlFilePath = "", IDatabaseProvider provider = null)
     {
+      ProviderProperties = new Dictionary<DatabaseProperty, string>();
+
       InitializeComponent();
 
       InitEditor();
@@ -66,7 +70,7 @@ namespace Xeno.SQLiteAdmin.Controls
 
       InitDatabase(provider);
 
-      FilePath = fullFilePath;
+      FilePath = sqlFilePath;
 
       // Auto-load file if provided
       if (FilePath == string.Empty)
@@ -75,7 +79,7 @@ namespace Xeno.SQLiteAdmin.Controls
       }
       else
       {
-        Editor.Editor.Load(fullFilePath);
+        Editor.Editor.Load(sqlFilePath);
       }
     }
 
@@ -111,11 +115,12 @@ namespace Xeno.SQLiteAdmin.Controls
     /// <summary>Output results to file</summary>
     public string OutputToFile { get; set; }
 
+    /// <summary>Database Provider (SQLite, SQLiteCrypt, MySQL, etc.</summary>
     public DatabaseProvider ProviderType { get; set; }
+
     public QueryOutputType QueryOutputType { get; set; }
 
-    /// <summary>Get/Set the DB provider</summary>
-    public DatabaseProvider SetDatabaseProvider { get; set; }
+    public Dictionary<DatabaseProperty, string> ProviderProperties { get; set; }
 
     /// <summary>Show output results</summary>
     public bool ShowResults
@@ -190,10 +195,9 @@ namespace Xeno.SQLiteAdmin.Controls
       if (provider != null && provider.ProviderType != DatabaseProvider.Unknown)
       {
         _db = provider;
-
         this.ProviderType = _db.ProviderType;
 
-        if (provider.ProviderType == DatabaseProvider.SQLite)
+        if (_db.ProviderType == DatabaseProvider.SQLite)
         {
           string connString = provider.ConnectionString;
         }
@@ -248,8 +252,8 @@ namespace Xeno.SQLiteAdmin.Controls
       // _textEditor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
       //_textEditor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Editor_KeyPress);
 
-      // Database wire-ups
-      this.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
+      // Database wire-ups (defaults)
+      this.ProviderType = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
 
       // Add the control
       this.splitContainer.Panel1.Controls.Add(_textEditor);
@@ -366,7 +370,17 @@ namespace Xeno.SQLiteAdmin.Controls
 
       Log.Debug("Executing query");
 
-      this._db.ExecuteNonQuery(_textEditor.Text);
+      Exception ex;
+
+      this._db.ExecuteNonQuery(_textEditor.Text, out ex);
+
+      if (ex != null)
+      {
+        // Display the error
+        Log.Error("Query ExecuteNonQuery encountered an error. " + ex.Message);
+
+        System.Windows.Forms.MessageBox.Show(ex.Message, "Error Executing Query");
+      }
 
       return 0;
     }
