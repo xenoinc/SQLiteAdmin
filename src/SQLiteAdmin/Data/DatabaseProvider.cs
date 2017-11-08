@@ -19,6 +19,7 @@ namespace Xeno.SQLiteAdmin.Data
 {
   public enum DatabaseProvider
   {
+    Unknown,
     SQLite,
     SQLiteCrypt,
     MSSQL,

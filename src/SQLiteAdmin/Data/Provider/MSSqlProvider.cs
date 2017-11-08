@@ -10,17 +10,47 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class MSSqlProvider : IDatabaseProvider
   {
+    private SqlCommand _currentCommand;
+
+    public MSSqlProvider()
+    {
+      this.Properties = new Dictionary<DatabaseProperty, string>();
+    }
+
+    public string ConnectionString { get; set; }
+
+    public Dictionary<DatabaseProperty, string> Properties { get; set; }
+
+    public DatabaseProvider ProviderType { get { return DatabaseProvider.MSSQL; } }
+
     public void Close()
     {
     }
 
-    public int ExecuteNonQuery(string query)
+    /// <summary>Stop executing current command execution</summary>
+    /// <returns>Success or failure</returns>
+    public bool StopExecuting()
+    {
+      try
+      {
+        _currentCommand.Cancel();
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+    public int ExecuteNonQuery(string query, out Exception ex)
     {
       //string connString = @"Integrated Security=SSPI;Persist Security Info=False;" +
       //                    @"Initial Catalog=ccwebgrity;" +

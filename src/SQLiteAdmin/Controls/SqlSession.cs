@@ -15,59 +15,62 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using ICSharpCode.AvalonEdit.Highlighting;
+using log4net;
 using Xeno.SQLiteAdmin.Data;
 using Xeno.SQLiteAdmin.Data.Provider;
 
-namespace Xeno.SQLiteAdmin.Views
+namespace Xeno.SQLiteAdmin.Controls
 {
   public partial class SqlSession : UserControl
   {
-    #region Fields
-
+    private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     private IDatabaseProvider _db;
-
+    private bool _showResultsPanel;
     private Xeno.AvalonEditWF.TextEditor _textEditor;
 
     /// <summary>Session file's title</summary>
     private string _title;
 
-    #endregion Fields
-
     #region ctr/~dtr
 
     /// <summary>Construct user control and auto load a file</summary>
-    public SqlSession() : this("Unknown") { }
+    public SqlSession() : this("Unknown", "", null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title"></param>
-    public SqlSession(string title) : this(title, "") { }
+    public SqlSession(string title) : this(title, "", null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title"></param>
     /// <param name="fullFilePath"></param>
-    public SqlSession(string title, string fullFilePath) : this(title, fullFilePath, "") { }
+    public SqlSession(string title, string sqlFilePath) : this(title, sqlFilePath, null) { }
 
     /// <summary>Construct user control and auto load a file</summary>
     /// <remarks>If fullFilePath is provided, the Title is ignored.</remarks>
     /// <param name="title">Title of file (blank if FullPath is provided)</param>
     /// <param name="fullFilePath">Full file path to query</param>
     /// <param name="dbConnection">SQLite Database file path</param>
-    public SqlSession(string title, string fullFilePath, string dbConnection)
+    public SqlSession(string title, string sqlFilePath = "", IDatabaseProvider provider = null)
     {
+      ProviderProperties = new Dictionary<DatabaseProperty, string>();
+
       InitializeComponent();
 
       InitEditor();
 
-      InitDatabase(dbConnection);
+      InitOutput();
 
-      FilePath = fullFilePath;
+      InitDatabase(provider);
+
+      FilePath = sqlFilePath;
 
       // Auto-load file if provided
       if (FilePath == string.Empty)
@@ -76,7 +79,7 @@ namespace Xeno.SQLiteAdmin.Views
       }
       else
       {
-        Editor.Editor.Load(fullFilePath);
+        Editor.Editor.Load(sqlFilePath);
       }
     }
 
@@ -109,8 +112,33 @@ namespace Xeno.SQLiteAdmin.Views
       }
     }
 
-    /// <summary>Get/Set the DB provider</summary>
-    public DatabaseProvider SetDatabaseProvider { get; set; }
+    /// <summary>Output results to file</summary>
+    public string OutputToFile { get; set; }
+
+    /// <summary>Database Provider (SQLite, SQLiteCrypt, MySQL, etc.</summary>
+    public DatabaseProvider ProviderType { get; set; }
+
+    public QueryOutputType QueryOutputType { get; set; }
+
+    public Dictionary<DatabaseProperty, string> ProviderProperties { get; set; }
+
+    /// <summary>Show output results</summary>
+    public bool ShowResults
+    {
+      get { return _showResultsPanel; }
+      set
+      {
+        _showResultsPanel = value;
+        if (_showResultsPanel)
+        {
+          splitContainer.Panel2Collapsed = false;
+        }
+        else
+        {
+          splitContainer.Panel2Collapsed = true;
+        }
+      }
+    }
 
     /// <summary>Gets/sets the syntax highlighting definition used to colorize the text.</summary>
     public IHighlightingDefinition SyntaxHighlighting
@@ -162,55 +190,100 @@ namespace Xeno.SQLiteAdmin.Views
       }
     }
 
-    public void InitDatabase(string sqliteDbPath = "", string password = "")
+    public void InitDatabase(IDatabaseProvider provider, string password = "") // , string sqliteDbPath = "", string password = "")
     {
-      if (File.Exists(sqliteDbPath))
+      if (provider != null && provider.ProviderType != DatabaseProvider.Unknown)
       {
-        if (string.IsNullOrEmpty(password))
-          _db = new SQLiteProvider(sqliteDbPath);
-        else
+        _db = provider;
+        this.ProviderType = _db.ProviderType;
+
+        if (_db.ProviderType == DatabaseProvider.SQLite)
         {
-          try
-          {
-            _db = new SQLiteProvider(sqliteDbPath, password);
-          }
-          catch
-          {
-            //TODO: InitDatabase - Handle invalid password
-          }
+          string connString = provider.ConnectionString;
         }
+
+        //if (File.Exists(sqliteDbPath))
+        //{
+        //  if (string.IsNullOrEmpty(password))
+        //    _db = new SQLiteProvider(sqliteDbPath);
+        //  else
+        //  {
+        //    try
+        //    {
+        //      _db = new SQLiteProvider(sqliteDbPath, password);
+        //    }
+        //    catch
+        //    {
+        //      //TODO: InitDatabase - Handle invalid password
+        //    }
+        //  }
+        //}
+        //else
+        //  _db = new SQLiteProvider();
       }
       else
-        _db = new SQLiteProvider();
+      {
+        // Log.Debug("Provider not specified");
+      }
     }
 
+    /// <summary>Initialize Query Editor</summary>
     private void InitEditor()
     {
       //TODO: Remove Me - Keeping around so we can toy with some properties in VS
       //this.textEditor1.Load -= new System.EventHandler(this.textEditor1_Load);
+      this.splitContainer.Panel1.SuspendLayout();
+      this.splitContainer.Panel1.Controls.Remove(textEditor1);
       this.Controls.Remove(textEditor1);
-      textEditor1.Dispose();
+      this.textEditor1.Dispose();
+
+      _textEditor = new Xeno.AvalonEditWF.TextEditor();
 
       // Configure Editor Defaults from Settings
-      _textEditor = new Xeno.AvalonEditWF.TextEditor();
       _textEditor.Dock = System.Windows.Forms.DockStyle.Fill;
       _textEditor.Document = null;
       _textEditor.Location = new System.Drawing.Point(0, 0);
       _textEditor.Name = "_textEditor";
       _textEditor.ShowLineNumbers = true;
+      _textEditor.SyntaxHighlighting = null;
+      _textEditor.TabIndex = 1;
       _textEditor.Size = new System.Drawing.Size(473, 134);
       _textEditor.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       // _textEditor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
-      _textEditor.SyntaxHighlighting = null;
-      _textEditor.TabIndex = 1;
       //_textEditor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Editor_KeyPress);
 
-      // Database wireups
-      this.SetDatabaseProvider = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
+      // Database wire-ups (defaults)
+      this.ProviderType = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
 
       // Add the control
-      this.Controls.Add(_textEditor);
+      this.splitContainer.Panel1.Controls.Add(_textEditor);
+      this.splitContainer.Panel1.ResumeLayout(false);
+      this.splitContainer.ResumeLayout(false);
       this.Dock = DockStyle.Fill;
+    }
+
+    /// <summary>Initialize Results Panel</summary>
+    private void InitOutput()
+    {
+      //TODO: Get last used QueryOutputType from settings
+      var outputType = QueryOutputType.Text;
+      bool showResultsPanel = true;
+
+      switch (outputType)
+      {
+        case QueryOutputType.File:
+          var fileName = string.Empty;
+          SetOutputType(outputType, fileName);
+          break;
+
+        case QueryOutputType.Text:
+        case QueryOutputType.DataGrid:
+        default:
+          SetOutputType(outputType);
+          break;
+      }
+
+      ShowResults = showResultsPanel;
     }
 
     #region Methods - Editor
@@ -233,15 +306,9 @@ namespace Xeno.SQLiteAdmin.Views
       _textEditor.Editor.Cut();
     }
 
-    /// <summary>Paste clipboard's contents to editor</summary>
-    public void Paste()
-    {
-      this._textEditor.Editor.Paste();
-    }
-
     public void LoadSyntaxDefinition(string fullName)
     {
-      throw new NotImplementedException;
+      throw new NotImplementedException();
 
       //https://stackoverflow.com/questions/16169584/avalonedit-change-syntax-highlighting-in-code
       //
@@ -251,7 +318,7 @@ namespace Xeno.SQLiteAdmin.Views
       //#if DEBUG
       //      dir = @"C:\Dev\Sandbox\SharpDevelop-master\src\Libraries\AvalonEdit\ICSharpCode.AvalonEdit\Highlighting\Resources\";
       //#endif
-
+      //
       //      Stream xshd_stream = File.OpenRead(dir + "CSharp-Mode.xshd");
       //      System.Xml.XmlTextReader xshd_reader = new System.Xml.XmlTextReader(xshd_stream);
       //      textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(
@@ -259,6 +326,28 @@ namespace Xeno.SQLiteAdmin.Views
       //        ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
       //      xshd_reader.Close();
       //      xshd_stream.Close();
+    }
+
+    /// <summary>Paste clipboard's contents to editor</summary>
+    public void Paste()
+    {
+      this._textEditor.Editor.Paste();
+    }
+
+    public void SetOutputType(QueryOutputType outputType, string fileName = "")
+    {
+      switch (outputType)
+      {
+        case QueryOutputType.File:
+          OutputToFile = fileName;
+          break;
+
+        case QueryOutputType.Text:
+        case QueryOutputType.DataGrid:
+        default:
+
+          break;
+      }
     }
 
     #endregion Methods - Editor
@@ -278,7 +367,21 @@ namespace Xeno.SQLiteAdmin.Views
     {
       //TODO: Execute - If there is text selected, execute that. If NOTHING selected, execute ALL
       //TODO: Execute - Output results to either Text, DataGrid, or file
-      this._db.ExecuteNonQuery(_textEditor.Text);
+
+      Log.Debug("Executing query");
+
+      Exception ex;
+
+      this._db.ExecuteNonQuery(_textEditor.Text, out ex);
+
+      if (ex != null)
+      {
+        // Display the error
+        Log.Error("Query ExecuteNonQuery encountered an error. " + ex.Message);
+
+        System.Windows.Forms.MessageBox.Show(ex.Message, "Error Executing Query");
+      }
+
       return 0;
     }
 

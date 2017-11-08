@@ -4,7 +4,9 @@
  * File:    MainIde.cs
  * Description:
  *
- * To Do:
+ * TODO: Switch to MVP pattern
+ * TODO: Later consider changing to WPF?
+ *
  * Change Log:
  *  2017-0124 * Initial creation
  */
@@ -13,7 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Xeno.SQLiteAdmin.Views;
+using Xeno.SQLiteAdmin.Controls;
+using Xeno.SQLiteAdmin.Data;
+using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin
 {
@@ -166,6 +170,12 @@ namespace Xeno.SQLiteAdmin
       frm.ShowDialog(this);
     }
 
+    private void MenuWindowResultsPane_Click(object sender, EventArgs e)
+    {
+      ActiveSqlSession.ShowResults = !ActiveSqlSession.ShowResults;
+      MenuWindowResultsPane.Checked = ActiveSqlSession.ShowResults;
+    }
+
     #endregion Menu Events
 
     #region Tab Manager
@@ -179,7 +189,7 @@ namespace Xeno.SQLiteAdmin
       TabPage page = new TabPage(title);
 
       //TODO: Configure new SqlSession from Options
-      SqlSession editor = new SqlSession(title);
+      SqlSession editor = new SqlSession(title, string.Empty, ActiveSessionProviderDetails);
 
       //editor.Font = new System.Drawing.Font()
       //{
@@ -194,7 +204,12 @@ namespace Xeno.SQLiteAdmin
 
     private void SaveActiveSession()
     {
-      SaveFileDialog dlg = new SaveFileDialog();
+      SaveFileDialog dlg = new SaveFileDialog()
+      {
+        Filter = "SQL files (*.sql)|*.sql|All files (*)|*",
+        FilterIndex = 1,
+        RestoreDirectory = true
+      };
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         using (Stream s = File.Open(dlg.FileName, FileMode.CreateNew))
@@ -209,7 +224,8 @@ namespace Xeno.SQLiteAdmin
     /// <remarks>Consider using a dialog with a list to select which files</remarks>
     private void SaveAllSessions()
     {
-      throw new NotImplementedException();
+      //throw new NotImplementedException();
+      SaveActiveSession();
     }
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -221,15 +237,28 @@ namespace Xeno.SQLiteAdmin
     private void TabOpenFile()
     {
       Stream stream;
-      OpenFileDialog dlg = new OpenFileDialog();
+      OpenFileDialog dlg = new OpenFileDialog()
+      {
+        Filter = "SQL files (*.sql)|*.sql|All files (*)|*",
+        FilterIndex = 1,
+        RestoreDirectory = true
+      };
+
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         if ((stream = dlg.OpenFile()) != null)
         {
           string fileName = dlg.FileName;
-          string buffer = File.ReadAllText(fileName);
-
-          ActiveSqlSession.Editor.Text = buffer;
+          try
+          {
+            string buffer = File.ReadAllText(fileName);
+            ActiveSqlSession.Editor.Text = buffer;
+            ActiveSqlSession.InitDatabase(ActiveSessionProviderDetails);
+          }
+          catch (Exception ex)
+          {
+            MessageBox.Show("An issue occurred attempting to open file.\n\r" + ex.Message);
+          }
         }
       }
     }
@@ -237,6 +266,18 @@ namespace Xeno.SQLiteAdmin
     #endregion Tab Manager
 
     #region ToolBar Events
+
+    private void ToolDatabasePicker_Click(object sender, EventArgs e)
+    {
+      string path = ChooseSqliteDbDialog();
+      if (File.Exists(path))
+      {
+        ToolDatabasePath.Text = path;
+        AddRecentDbFile(path);
+
+        UpdateSessionConnection(path);
+      }
+    }
 
     private void ToolDbgGetText_Click(object sender, EventArgs e)
     {
@@ -264,9 +305,83 @@ namespace Xeno.SQLiteAdmin
 
     private void ToolSqlExecute_Click(object sender, EventArgs e)
     {
-      ActiveSqlSession.Execute();
+      ExecuteQuery();
     }
 
     #endregion ToolBar Events
+
+    #region Private Methods
+
+    private string ActiveSqliteDatabase { get; set; }
+
+    private string ActiveSqlitePassword { get; set; }
+
+    /// <summary>Current selected provider</summary>
+    private Data.IDatabaseProvider ActiveSessionProviderDetails
+    {
+      get
+      {
+        IDatabaseProvider provider = new Data.Provider.SQLiteProvider();
+        provider.Properties[DatabaseProperty.SqliteDatabase] = ActiveSqliteDatabase;
+        provider.Properties[DatabaseProperty.SqlitePassword] = ActiveSqlitePassword;
+        return provider;
+      }
+    }
+
+    /// <summary>Set the DB connection for active session</summary>
+    /// <param name="dbPath"></param>
+    private void UpdateSessionConnection(string dbPath)
+    {
+      ActiveSqliteDatabase = dbPath;
+      ActiveSqlSession.ProviderProperties[DatabaseProperty.SqliteDatabase] = ActiveSqliteDatabase;
+      ActiveSqlSession.ProviderProperties[DatabaseProperty.SqlitePassword] = ActiveSqlitePassword;
+    }
+
+    /// <summary>Execute based upon currently selected database path</summary>
+    private void ExecuteQuery()
+    {
+      // 1. Ensure we're executing against selected DB from dropdown
+      ActiveSqlSession.InitDatabase(ActiveSessionProviderDetails);
+
+      // 2. Execute
+      //TODO: ExecuteQuery via Thread-safe operation
+      ActiveSqlSession.Execute();
+
+      // 3. Ensure we're returning feedback via EventHandler
+    }
+
+    /// <summary>Add file path to picker list</summary>
+    /// <param name="filePath"></param>
+    private void AddRecentDbFile(string filePath)
+    {
+      //TODO: Save paths and filename in array & link to ComboBox
+      if (File.Exists(filePath))
+      {
+        ToolDatabasePath.Items.Add(filePath);
+      }
+    }
+
+    /// <summary>Find SQLite DB file</summary>
+    /// <param name="baseDir">Starting folder</param>
+    /// <returns>File path of selected DB file</returns>
+    private string ChooseSqliteDbDialog(string baseDir = "")
+    {
+      string fileName = string.Empty;
+      OpenFileDialog dlg = new OpenFileDialog()
+      {
+        //DereferenceLinks = true,
+        Filter = "SQLite DB files|*.db|All files|*",
+        FilterIndex = 1,
+        InitialDirectory = baseDir,
+        RestoreDirectory = true
+      };
+
+      if (dlg.ShowDialog() == DialogResult.OK)
+        fileName = dlg.FileName;
+
+      return fileName;
+    }
+
+    #endregion Private Methods
   }
 }
