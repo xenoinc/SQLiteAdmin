@@ -70,7 +70,12 @@
     <Compile Include="Data\Provider\DatabaseProperty.cs" />
     <Compile Include="Data\Provider\SQLiteProvider.cs" />
     <Compile Include="Data\Security.cs" />
-    <Compile Include="ViewModel\MainIdeViewModel.cs" />
+    <Compile Include="ViewModel\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewModel\MainIdeViewModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\MainIde.cs">
       <SubType>Form</SubType>
     </Compile>
