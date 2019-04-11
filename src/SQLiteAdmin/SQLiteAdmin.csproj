@@ -71,6 +71,8 @@
     <Compile Include="Data\Provider\DatabaseProperty.cs" />
     <Compile Include="Data\Provider\SQLiteProvider.cs" />
     <Compile Include="Data\Security.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="ViewModel\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IconPlay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.110.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net451\System.Data.SQLite.Core.targets')" />

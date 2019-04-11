@@ -47,12 +47,13 @@
       this.MenuHelp = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
       this.ToolNewQuery = new System.Windows.Forms.ToolStripButton();
+      this.ToolSqlExecute = new System.Windows.Forms.ToolStripButton();
+      this.ToolDatabasePath = new System.Windows.Forms.ToolStripComboBox();
+      this.ToolDatabasePicker = new System.Windows.Forms.ToolStripButton();
       this.ToolDebugging = new System.Windows.Forms.ToolStripSplitButton();
       this.ToolDbgGetText = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgToggleLines = new System.Windows.Forms.ToolStripMenuItem();
       this.ToolDbgSetText = new System.Windows.Forms.ToolStripMenuItem();
-      this.ToolDatabasePath = new System.Windows.Forms.ToolStripComboBox();
-      this.ToolDatabasePicker = new System.Windows.Forms.ToolStripButton();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.ToolStripIsReady = new System.Windows.Forms.ToolStripStatusLabel();
@@ -60,7 +61,6 @@
       this.ToolStripColumn = new System.Windows.Forms.ToolStripStatusLabel();
       this.ToolStripCharacter = new System.Windows.Forms.ToolStripStatusLabel();
       this.ToolStripInsertOverwrite = new System.Windows.Forms.ToolStripStatusLabel();
-      this.ToolSqlExecute = new System.Windows.Forms.ToolStripButton();
       this.menuStrip1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -95,33 +95,33 @@
       // MenuFileNew
       // 
       this.MenuFileNew.Name = "MenuFileNew";
-      this.MenuFileNew.Size = new System.Drawing.Size(124, 22);
+      this.MenuFileNew.Size = new System.Drawing.Size(180, 22);
       this.MenuFileNew.Text = "New";
       this.MenuFileNew.Click += new System.EventHandler(this.MenuFileNew_Click);
       // 
       // MenuFileOpenFile
       // 
       this.MenuFileOpenFile.Name = "MenuFileOpenFile";
-      this.MenuFileOpenFile.Size = new System.Drawing.Size(124, 22);
-      this.MenuFileOpenFile.Text = "Open File";
+      this.MenuFileOpenFile.Size = new System.Drawing.Size(180, 22);
+      this.MenuFileOpenFile.Text = "Open Script File";
       this.MenuFileOpenFile.Click += new System.EventHandler(this.MenuFileOpenFile_Click);
       // 
       // MenuFileSave
       // 
       this.MenuFileSave.Name = "MenuFileSave";
-      this.MenuFileSave.Size = new System.Drawing.Size(124, 22);
-      this.MenuFileSave.Text = "Save";
+      this.MenuFileSave.Size = new System.Drawing.Size(180, 22);
+      this.MenuFileSave.Text = "Save File";
       this.MenuFileSave.Click += new System.EventHandler(this.MenuFileSave_Click);
       // 
       // toolStripMenuItem1
       // 
       this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-      this.toolStripMenuItem1.Size = new System.Drawing.Size(121, 6);
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
       // 
       // MenuFileExit
       // 
       this.MenuFileExit.Name = "MenuFileExit";
-      this.MenuFileExit.Size = new System.Drawing.Size(124, 22);
+      this.MenuFileExit.Size = new System.Drawing.Size(180, 22);
       this.MenuFileExit.Text = "Exit";
       this.MenuFileExit.Click += new System.EventHandler(this.MenuFileExit_Click);
       // 
@@ -218,39 +218,15 @@
       this.ToolNewQuery.Text = "&New Query";
       this.ToolNewQuery.Click += new System.EventHandler(this.ToolNewQuery_Click);
       // 
-      // ToolDebugging
+      // ToolSqlExecute
       // 
-      this.ToolDebugging.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-      this.ToolDebugging.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolDbgGetText,
-            this.ToolDbgToggleLines,
-            this.ToolDbgSetText});
-      this.ToolDebugging.Image = ((System.Drawing.Image)(resources.GetObject("ToolDebugging.Image")));
-      this.ToolDebugging.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.ToolDebugging.Name = "ToolDebugging";
-      this.ToolDebugging.Size = new System.Drawing.Size(82, 22);
-      this.ToolDebugging.Text = "Debugging";
-      // 
-      // ToolDbgGetText
-      // 
-      this.ToolDbgGetText.Name = "ToolDbgGetText";
-      this.ToolDbgGetText.Size = new System.Drawing.Size(152, 22);
-      this.ToolDbgGetText.Text = "Get Text";
-      this.ToolDbgGetText.Click += new System.EventHandler(this.ToolDbgGetText_Click);
-      // 
-      // ToolDbgToggleLines
-      // 
-      this.ToolDbgToggleLines.Name = "ToolDbgToggleLines";
-      this.ToolDbgToggleLines.Size = new System.Drawing.Size(152, 22);
-      this.ToolDbgToggleLines.Text = "Toggle Lines";
-      this.ToolDbgToggleLines.Click += new System.EventHandler(this.ToolDbgToggleLines_Click);
-      // 
-      // ToolDbgSetText
-      // 
-      this.ToolDbgSetText.Name = "ToolDbgSetText";
-      this.ToolDbgSetText.Size = new System.Drawing.Size(152, 22);
-      this.ToolDbgSetText.Text = "Set Text";
-      this.ToolDbgSetText.Click += new System.EventHandler(this.ToolDbgSetText_Click);
+      this.ToolSqlExecute.Image = global::Xeno.SQLiteAdmin.Properties.Resources.IconPlay;
+      this.ToolSqlExecute.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.ToolSqlExecute.Name = "ToolSqlExecute";
+      this.ToolSqlExecute.Size = new System.Drawing.Size(67, 22);
+      this.ToolSqlExecute.Text = "&Execute";
+      this.ToolSqlExecute.ToolTipText = "Execute entire query or selection";
+      this.ToolSqlExecute.Click += new System.EventHandler(this.ToolSqlExecute_Click);
       // 
       // ToolDatabasePath
       // 
@@ -269,6 +245,40 @@
       this.ToolDatabasePicker.Text = "...";
       this.ToolDatabasePicker.ToolTipText = "Pick SQLite Database";
       this.ToolDatabasePicker.Click += new System.EventHandler(this.ToolDatabasePicker_Click);
+      // 
+      // ToolDebugging
+      // 
+      this.ToolDebugging.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.ToolDebugging.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolDbgGetText,
+            this.ToolDbgToggleLines,
+            this.ToolDbgSetText});
+      this.ToolDebugging.Image = ((System.Drawing.Image)(resources.GetObject("ToolDebugging.Image")));
+      this.ToolDebugging.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.ToolDebugging.Name = "ToolDebugging";
+      this.ToolDebugging.Size = new System.Drawing.Size(82, 22);
+      this.ToolDebugging.Text = "Debugging";
+      // 
+      // ToolDbgGetText
+      // 
+      this.ToolDbgGetText.Name = "ToolDbgGetText";
+      this.ToolDbgGetText.Size = new System.Drawing.Size(140, 22);
+      this.ToolDbgGetText.Text = "Get Text";
+      this.ToolDbgGetText.Click += new System.EventHandler(this.ToolDbgGetText_Click);
+      // 
+      // ToolDbgToggleLines
+      // 
+      this.ToolDbgToggleLines.Name = "ToolDbgToggleLines";
+      this.ToolDbgToggleLines.Size = new System.Drawing.Size(140, 22);
+      this.ToolDbgToggleLines.Text = "Toggle Lines";
+      this.ToolDbgToggleLines.Click += new System.EventHandler(this.ToolDbgToggleLines_Click);
+      // 
+      // ToolDbgSetText
+      // 
+      this.ToolDbgSetText.Name = "ToolDbgSetText";
+      this.ToolDbgSetText.Size = new System.Drawing.Size(140, 22);
+      this.ToolDbgSetText.Text = "Set Text";
+      this.ToolDbgSetText.Click += new System.EventHandler(this.ToolDbgSetText_Click);
       // 
       // tabControl1
       // 
@@ -330,16 +340,6 @@
       this.ToolStripInsertOverwrite.Name = "ToolStripInsertOverwrite";
       this.ToolStripInsertOverwrite.Size = new System.Drawing.Size(25, 17);
       this.ToolStripInsertOverwrite.Text = "INS";
-      // 
-      // ToolSqlExecute
-      // 
-      this.ToolSqlExecute.Image = global::Xeno.SQLiteAdmin.Properties.Resources.IconPlay;
-      this.ToolSqlExecute.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.ToolSqlExecute.Name = "ToolSqlExecute";
-      this.ToolSqlExecute.Size = new System.Drawing.Size(67, 22);
-      this.ToolSqlExecute.Text = "&Execute";
-      this.ToolSqlExecute.ToolTipText = "Execute entire query or selection";
-      this.ToolSqlExecute.Click += new System.EventHandler(this.ToolSqlExecute_Click);
       // 
       // MainIde
       // 
