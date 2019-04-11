@@ -114,7 +114,7 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       catch (Exception ex)
       {
         hasException = ex;
-        Log.Error($"Error occurred executing query: {ex.Message");
+        Log.Error($"Error occurred executing query: {ex.Message}");
       }
 
       // Method 2
