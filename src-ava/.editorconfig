@@ -20,7 +20,7 @@ root = true
 end_of_line = crlf
 
 # 2-column space/tab indentation
-[*.{cs,cpp,h,sql,xml,xaml,json}]
+[*.{cs,cpp,h,sql,xaml,xml,json}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true

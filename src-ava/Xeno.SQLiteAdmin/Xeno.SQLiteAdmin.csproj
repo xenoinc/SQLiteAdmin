@@ -4,6 +4,19 @@
     <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <ApplicationIcon />
     <StartupObject />
+    <Company>Xeno Innovtions, Inc.</Company>
+    <Version>0.1.0</Version>
+    <Copyright>Copyright 2017-2019 Xeno Innovations, Inc.</Copyright>
+    <PackageProjectUrl>https://www.xenoinc.com</PackageProjectUrl>
+    <Authors>Damian Suess</Authors>
+    <Product>SQLite Admin</Product>
+    <Description>SQLite administration and query editor</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <OutputPath>..\..\output\Avalonia</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+    <OutputPath>..\..\output\Avalonia</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
