@@ -252,6 +252,8 @@ namespace Xeno.SQLiteAdmin.Controls
       // _textEditor.Editor.FontFamily = new System.Windows.Media.FontFamily("Consolas");
       //_textEditor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Editor_KeyPress);
 
+      _textEditor.Text = "-- Welcome to SQLite Admin" + Environment.NewLine + "select * from sqlite_master";
+
       // Database wire-ups (defaults)
       this.ProviderType = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
 

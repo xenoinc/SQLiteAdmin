@@ -91,13 +91,27 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       int rowsAffected = 0;
       hasException = null;
 
-      _sqlCon = new SQLiteConnection(this.ConnectionString);
-      _sqlCon.StateChange += Sqlite_StateChange;
+      try
+      {
+        _sqlCon = new SQLiteConnection(this.ConnectionString);
+        _sqlCon.StateChange += Sqlite_StateChange;
 
-      _sqlCon.Open();
+        _sqlCon.Open();
 
-      _sqlCon.Update += Sqlite_Update;
-      _sqlCon.Progress += Sqlite_Progress;
+        _sqlCon.Update += Sqlite_Update;
+        _sqlCon.Progress += Sqlite_Progress;
+      }
+      catch (Exception e)
+      {
+        hasException = e;
+        Log.Error($"Error occurred connecting to db: {e.Message}");
+
+        _sqlCon.Progress -= Sqlite_Progress;
+        _sqlCon.Update -= Sqlite_Update;
+        _sqlCon.StateChange -= Sqlite_StateChange;
+
+        return 0;
+      }
 
       // Method 1
       try
