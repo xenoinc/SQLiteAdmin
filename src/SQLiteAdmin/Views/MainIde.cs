@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using Xeno.SQLiteAdmin.Controls;
 using Xeno.SQLiteAdmin.Data;
 using Xeno.SQLiteAdmin.Data.Provider;
+using Xeno.SQLiteAdmin.Services;
 
 namespace Xeno.SQLiteAdmin
 {
@@ -93,8 +94,17 @@ namespace Xeno.SQLiteAdmin
 
     private void InitIde()
     {
+      InitSettings();
       InitSessions();
       InitHotKeys();
+    }
+
+    private void InitSettings()
+    {
+      // Load/create local settings.db file. Load it into a container (i.e. DryIoC)
+      var settings = new SettingsService();
+      settings.InitSettings();
+      
     }
 
     private void InitSessions()

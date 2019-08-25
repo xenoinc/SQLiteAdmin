@@ -12,11 +12,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using log4net;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
   public class SQLiteProvider : IDatabaseProvider
   {
+    private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     private SQLiteDataAdapter _sqlAdapter;
     private SQLiteCommand _sqlCmd;
     private SQLiteConnection _sqlCon;
@@ -89,15 +91,33 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       int rowsAffected = 0;
       hasException = null;
 
-      _sqlCon = new SQLiteConnection(this.ConnectionString);
-      _sqlCon.Open();
+      try
+      {
+        _sqlCon = new SQLiteConnection(this.ConnectionString);
+        _sqlCon.StateChange += Sqlite_StateChange;
 
-      //TODO: Add more events
-      _sqlCon.Update += SQLiteConnection_Update;
+        _sqlCon.Open();
+
+        _sqlCon.Update += Sqlite_Update;
+        _sqlCon.Progress += Sqlite_Progress;
+      }
+      catch (Exception e)
+      {
+        hasException = e;
+        Log.Error($"Error occurred connecting to db: {e.Message}");
+
+        _sqlCon.Progress -= Sqlite_Progress;
+        _sqlCon.Update -= Sqlite_Update;
+        _sqlCon.StateChange -= Sqlite_StateChange;
+
+        return 0;
+      }
 
       // Method 1
       try
       {
+        Log.Debug($"Executing query:\r\n{query}");
+
         using (SQLiteCommand cmd = new SQLiteCommand())
         {
           cmd.Connection = _sqlCon;
@@ -108,6 +128,7 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       catch (Exception ex)
       {
         hasException = ex;
+        Log.Error($"Error occurred executing query: {ex.Message}");
       }
 
       // Method 2
@@ -117,7 +138,9 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
       _sqlCon.Close();
 
-      _sqlCon.Update -= SQLiteConnection_Update;
+      _sqlCon.Progress -= Sqlite_Progress;
+      _sqlCon.Update -= Sqlite_Update;
+      _sqlCon.StateChange -= Sqlite_StateChange;
 
       return rowsAffected;
     }
@@ -152,9 +175,25 @@ namespace Xeno.SQLiteAdmin.Data.Provider
       return false;
     }
 
-    private void SQLiteConnection_Update(object sender, UpdateEventArgs e)
+    private void Sqlite_StateChange(object sender, StateChangeEventArgs e)
     {
-      throw new NotImplementedException();
+      Log.Debug($"State Changed from {e.OriginalState} to {e.CurrentState}");
+    }
+
+    private void Sqlite_Progress(object sender, ProgressEventArgs e)
+    {
+      // SQLiteProgressReturnCode - Continue, Interrupt
+      Log.Debug($"Return code: '{e.ReturnCode.ToString()}'; Progress data: " + e.ToString());
+    }
+
+    private void Sqlite_Update(object sender, UpdateEventArgs e)
+    {
+      // UpdateEventType: Delete, Insert, Update
+      Log.Debug(
+        $"Db: '{e.Database}' " +
+        $"Table: '{e.Table}' " +
+        $"RowId: '{e.RowId}' " +
+        $"had a(n) '{e.Event.ToString()}'");
     }
 
     //private bool ConnectionOpen()
