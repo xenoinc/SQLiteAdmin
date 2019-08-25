@@ -20,7 +20,7 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
   <DockPanel>
-    <Button DockPanel.Dock="Bottom">Add an item</Button>
+    <Button Command="{Binding $parent[Window].DataContext.AddItem}" DockPanel.Dock="Bottom">Add an item</Button>
     <ItemsControl Items="{Binding Items}">
       <ItemsControl.ItemTemplate>
         <DataTemplate>

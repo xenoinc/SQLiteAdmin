@@ -6,15 +6,21 @@
  *
  */
 
+using System;
+using System.Reactive.Linq;
+using Xeno.SQLiteAdmin.Models;
 using Xeno.SQLiteAdmin.Services;
+using ReactiveUI;
 
 namespace Xeno.SQLiteAdmin.ViewModels
 {
   public class MainWindowViewModel : ViewModelBase
   {
+    private ViewModelBase _content;
+
     public MainWindowViewModel(TodoService todoService)
     {
-      TodoList = new TodoListViewModel(todoService.GetItems());
+      Content = TodoList = new TodoListViewModel(todoService.GetItems());
     }
 
     public MainWindowViewModel()
@@ -22,7 +28,31 @@ namespace Xeno.SQLiteAdmin.ViewModels
       TodoList = new TodoListViewModel();
     }
 
-    public string Greeting => "Welcome to Avalonia!";
+    public ViewModelBase Content
+    {
+      get => _content;
+      private set => this.RaiseAndSetIfChanged(ref _content, value);
+    }
+
     public TodoListViewModel TodoList { get; }
+
+    public void AddItem()
+    {
+      var vm = new TodoAddViewModel();
+
+      Observable.Merge(
+        vm.Ok,
+        vm.Cancel.Select(_ => (TodoItem)null))
+        .Take(1)
+        .Subscribe(model =>
+        {
+          if (model != null)
+            TodoList.Items.Add(model);
+
+          Content = TodoList;
+        });
+
+      Content = vm;
+    }
   }
 }

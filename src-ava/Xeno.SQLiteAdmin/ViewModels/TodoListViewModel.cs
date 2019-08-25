@@ -3,7 +3,7 @@
  * Author:  Damian Suess
  * File:    TodoListViewModel.cs
  * Description:
- *  ToDo List view model
+ *
  */
 
 using System.Collections.Generic;
