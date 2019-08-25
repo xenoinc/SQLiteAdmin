@@ -8,6 +8,7 @@
 
 using Avalonia;
 using Avalonia.Logging.Serilog;
+using Xeno.SQLiteAdmin.Services;
 using Xeno.SQLiteAdmin.ViewModels;
 using Xeno.SQLiteAdmin.Views;
 
@@ -31,9 +32,11 @@ namespace Xeno.SQLiteAdmin
     // container, etc.
     private static void AppMain(Application app, string[] args)
     {
+      var todoService = new TodoService();
+
       var window = new MainWindow
       {
-        DataContext = new MainWindowViewModel(),
+        DataContext = new MainWindowViewModel(todoService),
       };
 
       app.Run(window);

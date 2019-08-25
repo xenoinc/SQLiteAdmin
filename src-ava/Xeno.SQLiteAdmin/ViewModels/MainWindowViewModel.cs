@@ -6,14 +6,23 @@
  *
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Xeno.SQLiteAdmin.Services;
 
 namespace Xeno.SQLiteAdmin.ViewModels
 {
   public class MainWindowViewModel : ViewModelBase
   {
+    public MainWindowViewModel(TodoService todoService)
+    {
+      TodoList = new TodoListViewModel(todoService.GetItems());
+    }
+
+    public MainWindowViewModel()
+    {
+      TodoList = new TodoListViewModel();
+    }
+
     public string Greeting => "Welcome to Avalonia!";
+    public TodoListViewModel TodoList { get; }
   }
 }

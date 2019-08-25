@@ -9,12 +9,12 @@
 
 extensions: .aspx .ascx
 <%-- 
-  Copyright Xeno Innovations, Inc. %CurrentYear%
-  Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
-  Author:  %UserDisplayName%
-  File:    %FileName%
-  Description:
-
+ * Copyright Xeno Innovations, Inc. %CurrentYear%
+ * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+ * Author:  %UserDisplayName%
+ * File:    %FileName%
+ * Description:
+ *
 --%>
 
 extensions: .vb
@@ -27,10 +27,10 @@ extensions: .vb
 
 extensions:  .xml .config .xsd .xaml
 <!--
-  Copyright Xeno Innovations, Inc. %CurrentYear%
-  Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
-  Author:  %UserDisplayName%
-  File:    %FileName%
-  Description:
-
+ * Copyright Xeno Innovations, Inc. %CurrentYear%
+ * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
+ * Author:  %UserDisplayName%
+ * File:    %FileName%
+ * Description:
+ *
 -->

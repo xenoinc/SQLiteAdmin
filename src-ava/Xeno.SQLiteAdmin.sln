@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xeno.SQLiteAdmin", "Xeno.SQLiteAdmin\Xeno.SQLiteAdmin.csproj", "{E83963FD-E9A0-4901-98B3-4C79E9B7F746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin", "Xeno.SQLiteAdmin\Xeno.SQLiteAdmin.csproj", "{E83963FD-E9A0-4901-98B3-4C79E9B7F746}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{63078F66-174F-4704-A1A5-237810AE0A23}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		codemaid.config = codemaid.config
+		config.vsspell = config.vsspell
+		settings.xamlstyler = settings.xamlstyler
+		spellchecker.ruleset = spellchecker.ruleset
+		stylecop.json = stylecop.json
+		stylecop.ruleset = stylecop.ruleset
+		Xeno.SQLiteAdmin.sln.licenseheader = Xeno.SQLiteAdmin.sln.licenseheader
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

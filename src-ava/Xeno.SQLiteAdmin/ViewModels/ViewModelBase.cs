@@ -3,12 +3,9 @@
  * Author:  Damian Suess
  * File:    ViewModelBase.cs
  * Description:
- *
+ *  Base ViewModel
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ReactiveUI;
 
 namespace Xeno.SQLiteAdmin.ViewModels
