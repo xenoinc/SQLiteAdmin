@@ -1,7 +1,13 @@
-Copyright 2017 (C) Xeno Innovations, Inc.
-_Created by Damian J. Suess_
+# SQLite Admin
+Copyright 2017-2019 (C) Xeno Innovations, Inc.
 
-SQLite Admin is intended to be a lightweight IDE for SQLite databases with the ability to manage DB's _tables, edit views, merge DBs, encrypt (ADO.NET), etc._ . This is a complete rework of XI's internal project started back on 2011-06-17.
+_**WARNING:** Work in progress!_
+
+SQLite Admin is a lightweight management studio for SQLite databases.
+
+The long-term goal is to be able to manage a  DB's _tables, edit views, merge DBs, encrypt (ADO.NET), etc._ . This is a complete rework of XI's internal project started back on 2011-06-17.
+
+_Created by Damian Suess_
 
 ### Project Status
 Currently a work in progress to provide a simple SQLite management studio.
@@ -23,3 +29,25 @@ Save project as solutions to be more IDE like.
 * **Multi-DB Management** - Ability to manage multiple database connections in a single project
 * **Selectable Engines** - Ability to choose which SQLite engine to execute from
 * **Multi-platform** - Rework core system to be Mono compliant and run on multiple platforms.
+
+## Source Code
+The main project resides in the ``src`` folder.
+
+Great admin tools come with great editors, which is why we're using [AvalonEdit](https://github.com/icsharpcode/AvalonEdit). The current hurdle is that this framework (_using WinForms_) is not easily testable which is why I'd like to move to an MVVM approach written in C#.  Since AvalonEdit is written using WPF, this may be our natural progression.
+
+### Main Code and Test Benches
+
+* ``src`` - Main project written in WinForms (_soon to be deprecated_)
+* ``test-ava`` - Test bench for multi-platform codebase written in Avalonia
+* ``test-wpf`` - Test bench written in WPF
+
+### Syntax Highlighting
+Our current editor is [AvalonEdit](https://github.com/icsharpcode/AvalonEdit).
+
+Other editors considered:
+
+| Editor | Framework | Notes |
+|:-------|:----------|:------|
+| [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) | WinForms |  |
+| [RoslynPad](https://roslynpad.net/) [GitHub](https://github.com/aelij/RoslynPad) | WPF | _Port of AvalonEdit_ |
+| [AvaloniaEdit](https://github.com/AvaloniaUI/AvaloniaEdit) | Avalonia | _Port of AvalonEdit_ |
