@@ -52,20 +52,47 @@
         <ContentControl prism:RegionManager.RegionName="RightRegion" />
       </StackPanel>
 
-      <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <StackPanel>
-          <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-          <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />
+      <!--<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">-->
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />-->
 
-          <avalonEdit:TextEditor FontFamily="Consolas"
-                                 FontSize="10pt"
-                                 SyntaxHighlighting="SQL">
-            -- Welcome!
-          </avalonEdit:TextEditor>
+        <avalonEdit:TextEditor x:Name="AvalonTextEditor"
+                               Height="Auto"
+                               FontFamily="{Binding EditorFontFamily}"
+                               FontSize="{Binding EditorFontSize}"
+                               IsModified="{Binding Path=EditorIsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               IsReadOnly="{Binding EditorIsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               ShowLineNumbers="True"
+                               SyntaxHighlighting="SQL" Unloaded="AvalonTextEditor_Unloaded">
+          <avalonEdit:TextEditor.ContextMenu>
+            <ContextMenu>
+              <MenuItem Command="Cut" Header="Cut">
+                <!--
+                <MenuItem.Icon>
+                  <Image Height="16" Source="/Editor/Images/EditCut32.png" />
+                </MenuItem.Icon>
+                -->
+              </MenuItem>
+              <MenuItem Command="Copy" Header="Copy" />
+              <MenuItem Command="Paste" Header="Paste" />
+              <MenuItem Command="Delete" Header="Delete" />
+              <Separator />
+              <MenuItem Command="Undo" Header="Undo" />
+              <MenuItem Command="Redo" Header="Redo" />
+            </ContextMenu>
+          </avalonEdit:TextEditor.ContextMenu>
 
-        </StackPanel>
-      </ScrollViewer>
+          <!--
+            Document="{Binding EditorDocument, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            SyntaxHighlighting="{Binding EditorSyntaxType, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+          -->
+          -- Welcome!
+        </avalonEdit:TextEditor>
+      </Grid>
     </DockPanel>
-
   </Grid>
 </Window>

@@ -6,6 +6,8 @@
  *
  */
 
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Highlighting;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -17,6 +19,14 @@ namespace Xeno.SQLiteAdmin.ViewModels
   public class MainWindowViewModel : BindableBase
   {
     private IDialogService _dialogService;
+
+    private TextDocument _editorDocument;
+    private string _editorFontFamily;
+    private string _editorFontSize;
+    private bool _editorIsDirty;
+    private bool _editorIsReadOnly;
+    private IHighlightingDefinition _editorSyntaxType;
+
     private IRegionManager _regionManager;
     private string _title = "Prism Application";
 
@@ -25,19 +35,123 @@ namespace Xeno.SQLiteAdmin.ViewModels
       _dialogService = dialogService;
       _regionManager = regionManager;
 
+      InitAvalonEdit();
+
       // ShowDialogCommand = new DelegateCommand(OnShowDialog);
+    }
+
+    public TextDocument EditorDocument
+    {
+      get => _editorDocument;
+      set
+      {
+        if (_editorDocument != value)
+        {
+          _editorDocument = value;
+          RaisePropertyChanged();
+        }
+      }
     }
 
     // Used when defined by the constructor
     // public DelegateCommand ShowDialogCommand { get; private set; }
+    public string EditorFontFamily
+    {
+      get => _editorFontFamily;
+      set
+      {
+        if (_editorFontFamily != value)
+        {
+          _editorFontFamily = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
+    public string EditorFontSize
+    {
+      get => _editorFontSize;
+      set
+      {
+        if (_editorFontSize != value)
+        {
+          _editorFontSize = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
+    public bool EditorIsDirty
+    {
+      get => _editorIsDirty;
+      set
+      {
+        if (_editorIsDirty != value)
+        {
+          _editorIsDirty = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
+    public bool EditorIsReadOnly
+    {
+      get => _editorIsReadOnly;
+      set
+      {
+        if (_editorIsReadOnly != value)
+        {
+          _editorIsReadOnly = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
+    /// <summary>
+    ///   AvalonEdit exposes a Highlighting property that controls whether keywords,
+    ///   comments and other interesting text parts are colored or highlighted in any
+    ///   other visual way. This property exposes the highlighting information for the
+    ///   text file managed in this ViewModel class.
+    /// </summary>
+    public IHighlightingDefinition EditorSyntaxType
+    {
+      get => _editorSyntaxType;
+      set
+      {
+        if (_editorSyntaxType != value)
+        {
+          _editorSyntaxType = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
 
     public DelegateCommand<string> NavigateCommand => new DelegateCommand<string>(OnNavigate);
+
     public DelegateCommand ShowDialogCommand => new DelegateCommand(OnShowDialog);
 
     public string Title
     {
-      get { return _title; }
-      set { SetProperty(ref _title, value); }
+      get => _title;
+      set
+      {
+        _title = value;
+        RaisePropertyChanged();
+
+        // SetProperty(ref _title, value);
+      }
+    }
+
+    private void InitAvalonEdit()
+    {
+      // IHighlightingDefinition x = 
+
+      EditorIsReadOnly = false;
+      EditorIsDirty = false;
+      EditorFontFamily = "Consolas";
+      EditorFontSize = "10px";
+      // EditorSyntaxType = "SQL";
+      EditorDocument = new TextDocument();
     }
 
     /// <summary>Navigate to a module</summary>
