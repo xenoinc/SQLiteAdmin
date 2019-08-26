@@ -8,6 +8,7 @@
 
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 using Xeno.SQLiteAdmin.Services;
 
@@ -16,11 +17,13 @@ namespace Xeno.SQLiteAdmin.ViewModels
   public class MainWindowViewModel : BindableBase
   {
     private IDialogService _dialogService;
+    private IRegionManager _regionManager;
     private string _title = "Prism Application";
 
-    public MainWindowViewModel(IDialogService dialogService)
+    public MainWindowViewModel(IDialogService dialogService, IRegionManager regionManager)
     {
       _dialogService = dialogService;
+      _regionManager = regionManager;
 
       // ShowDialogCommand = new DelegateCommand(OnShowDialog);
     }
@@ -28,12 +31,21 @@ namespace Xeno.SQLiteAdmin.ViewModels
     // Used when defined by the constructor
     // public DelegateCommand ShowDialogCommand { get; private set; }
 
+    public DelegateCommand<string> NavigateCommand => new DelegateCommand<string>(OnNavigate);
     public DelegateCommand ShowDialogCommand => new DelegateCommand(OnShowDialog);
 
     public string Title
     {
       get { return _title; }
       set { SetProperty(ref _title, value); }
+    }
+
+    /// <summary>Navigate to a module</summary>
+    /// <param name="navPath">Navigation path</param>
+    private void OnNavigate(string navPath)
+    {
+      if (!string.IsNullOrEmpty(navPath))
+        _regionManager.RequestNavigate("ContentRegion", navPath);
     }
 
     private void OnShowDialog()

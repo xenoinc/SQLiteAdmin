@@ -8,14 +8,64 @@
 -->
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:prism="http://prismlibrary.com/"
         x:Class="Xeno.SQLiteAdmin.Views.MainWindow"
         Title="{Binding Title}"
-        Width="525"
+        Width="725"
         Height="350"
         prism:ViewModelLocator.AutoWireViewModel="True">
   <Grid>
+    <!--
     <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />
+    -->
+
+    <DockPanel HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               LastChildFill="True">
+      <StackPanel Height="50"
+                  Background="#FFCCD4F8"
+                  DockPanel.Dock="Top"
+                  Orientation="Horizontal">
+        <ContentControl prism:RegionManager.RegionName="ToolbarRegion" />
+      </StackPanel>
+
+      <StackPanel Height="50"
+                  Background="#FFD9E1EF"
+                  DockPanel.Dock="Bottom"
+                  Orientation="Horizontal">
+        <ContentControl prism:RegionManager.RegionName="StatusRegion" />
+      </StackPanel>
+
+      <StackPanel Width="100"
+                  Background="#FF50576F"
+                  DockPanel.Dock="Left"
+                  Orientation="Horizontal">
+        <ContentControl prism:RegionManager.RegionName="LeftRegion" />
+      </StackPanel>
+
+      <StackPanel Width="100"
+                  Background="#FF677BA7"
+                  DockPanel.Dock="Right"
+                  Orientation="Horizontal">
+        <ContentControl prism:RegionManager.RegionName="RightRegion" />
+      </StackPanel>
+
+      <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel>
+          <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+          <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />
+
+          <avalonEdit:TextEditor FontFamily="Consolas"
+                                 FontSize="10pt"
+                                 SyntaxHighlighting="SQL">
+            -- Welcome!
+          </avalonEdit:TextEditor>
+
+        </StackPanel>
+      </ScrollViewer>
+    </DockPanel>
+
   </Grid>
 </Window>
