@@ -16,5 +16,6 @@
         prism:ViewModelLocator.AutoWireViewModel="True">
   <Grid>
     <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+    <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />
   </Grid>
 </Window>

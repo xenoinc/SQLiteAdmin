@@ -2,9 +2,9 @@
 This project definitively uses C# and our goal is to have a cross-platform desktop project. First and foremost, it will support Microsoft Windows.
 
 ## Framework Pros and Cons
-Below is a quick list of pros and cons to help others understand the path which we are taking.
+Below is a quick list of pros and cons to help others understand the path which we are taking. We're still weighing out the options of which framework to use. So far, WinForms is on the chopping block.
 
-We're still weighing out the options of which framework to use. So far, WinForms is on the chopping block.
+As a quick background, Xeno Innovations, mostly uses _Xamarin.Forms with Prism and DryIoC_. Soooo, there's a strong chance we will use WPF w/ Prism and DryIoC.
 
 ### WinForms
 *This project has WinForms marked for deprecation*
@@ -21,7 +21,7 @@ We're still weighing out the options of which framework to use. So far, WinForms
 | Pros | Cons |
 |:-----|:-----|
 | Its flavor of XAML is common | Multi-platform is coming in .NET Core 3.0 (_still in preview_) |
-| Prism with DryIOC |  |
+| Prism with DryIoC |  |
 | MVVM support |  |
 | AvalonEdit is written in WPF |  |
 |  |  |

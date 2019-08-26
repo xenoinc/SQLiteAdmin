@@ -3,11 +3,12 @@
  * Author:  Damian Suess
  * File:    App.xaml.cs
  * Description:
- *
+ *  Application entry-point
  */
 
 using System.Windows;
 using Prism.Ioc;
+using Xeno.SQLiteAdmin.Dialogs;
 using Xeno.SQLiteAdmin.Views;
 
 namespace Xeno.SQLiteAdmin
@@ -24,6 +25,11 @@ namespace Xeno.SQLiteAdmin
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+      containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
+      containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
+
+      //register a custom window host
+      //containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
     }
   }
 }
