@@ -6,6 +6,7 @@
  *
  */
 
+using System.IO;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Prism.Commands;
@@ -19,8 +20,8 @@ namespace Xeno.SQLiteAdmin.ViewModels
   public class MainWindowViewModel : BindableBase
   {
     private IDialogService _dialogService;
-
     private TextDocument _editorDocument;
+    private string _editorFile;
     private string _editorFontFamily;
     private string _editorFontSize;
     private bool _editorIsDirty;
@@ -123,6 +124,28 @@ namespace Xeno.SQLiteAdmin.ViewModels
           _editorSyntaxType = value;
           RaisePropertyChanged();
         }
+      }
+    }
+
+    public string EditorFile
+    {
+      get => _editorFile;
+      set
+      {
+        if (_editorFile == value)
+          return;
+
+        if (!File.Exists(_editorFile))
+        {
+          // Display file doesn't exist warning
+          return;
+        }
+
+        _editorFile = value;
+        // editor.IsDirty = false;
+        // editor.Document = _editorFile;
+
+        RaisePropertyChanged();
       }
     }
 
