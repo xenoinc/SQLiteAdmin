@@ -6,6 +6,7 @@
  *
  */
 
+using System.IO;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -17,6 +18,7 @@ namespace Xeno.SQLiteAdmin.ViewModels
   public class MainWindowViewModel : BindableBase
   {
     private IDialogService _dialogService;
+    private string _editorFile;
     private IRegionManager _regionManager;
     private string _title = "Prism Application";
 
@@ -30,6 +32,28 @@ namespace Xeno.SQLiteAdmin.ViewModels
 
     // Used when defined by the constructor
     // public DelegateCommand ShowDialogCommand { get; private set; }
+
+    public string EditorFile
+    {
+      get => _editorFile;
+      set
+      {
+        if (_editorFile == value)
+          return;
+
+        if (!File.Exists(_editorFile))
+        {
+          // Display file doesn't exist warning
+          return;
+        }
+
+        _editorFile = value;
+        // editor.IsDirty = false;
+        // editor.Document = _editorFile;
+
+        RaisePropertyChanged();
+      }
+    }
 
     public DelegateCommand<string> NavigateCommand => new DelegateCommand<string>(OnNavigate);
     public DelegateCommand ShowDialogCommand => new DelegateCommand(OnShowDialog);
