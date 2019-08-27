@@ -6,6 +6,7 @@
  *
  */
 
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -23,26 +24,34 @@ namespace Xeno.SQLiteAdmin.Views
       AvalonTextEditor.PreviewMouseWheel += new System.Windows.Input.MouseWheelEventHandler(AvalonTextEditor_PreviewMouseWheel);
     }
 
+    /// <summary>Resize the editor's font size.</summary>
+    /// <param name="increase">Increase or decrease</param>
+    public void UpdateFontSize(bool increase)
+    {
+      const double FONT_MAX_SIZE = 60d;
+      const double FONT_MIN_SIZE = 5d;
+
+      double currentSize = AvalonTextEditor.FontSize;
+
+      if (increase && currentSize < FONT_MAX_SIZE)
+      {
+        double newSize = Math.Min(FONT_MAX_SIZE, currentSize + 1);
+        AvalonTextEditor.FontSize = newSize;
+      }
+      else if (currentSize > FONT_MIN_SIZE)
+      {
+        double newSize = Math.Max(FONT_MIN_SIZE, currentSize - 1);
+        AvalonTextEditor.FontSize = newSize;
+      }
+    }
+
     private void AvalonTextEditor_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
-      // 
-      //
-      //if (Keyboard.Modifiers == ModifierKeys.Control)
-      //{
-      //  double fontSize = this.FontSize + e.Delta / 25.0;
-      //
-      //  if (fontSize < 6)
-      //    AvalonTextEditor.FontSize = 6;
-      //  else
-      //  {
-      //    if (fontSize > 200)
-      //      AvalonTextEditor.FontSize = 200;
-      //    else
-      //      this.FontSize = fontSize;
-      //  }
-      //
-      //  e.Handled = true;
-      //}
+      if (Keyboard.Modifiers == ModifierKeys.Control)
+      {
+        this.UpdateFontSize(e.Delta > 0);
+        e.Handled = true;
+      }
     }
 
     private void AvalonTextEditor_Unloaded(object sender, RoutedEventArgs e)
