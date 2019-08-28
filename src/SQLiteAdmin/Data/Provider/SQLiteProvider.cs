@@ -122,7 +122,13 @@ namespace Xeno.SQLiteAdmin.Data.Provider
         {
           cmd.Connection = _sqlCon;
           cmd.CommandText = query;
-          rowsAffected = cmd.ExecuteNonQuery();
+          // rowsAffected = cmd.ExecuteNonQuery();
+          var dataSet = cmd.ExecuteScalar();
+
+          if (dataSet != null)
+          {
+            ;
+          }
         }
       }
       catch (Exception ex)
