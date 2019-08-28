@@ -3,9 +3,17 @@
  * Author:  Damian Suess
  * File:    MainWindowViewModel.cs
  * Description:
+ *  Main window with editor (on first pass)
  *
+ * Resources:
+ *  -> https://stackoverflow.com/questions/18964176/two-way-binding-to-avalonedit-document-text-using-mvvm
+ *  -> https://stackoverflow.com/questions/12344367/making-avalonedit-mvvm-compatible/41482439
+ *  -> https://stackoverflow.com/questions/21911439/mvvm-binding-with-avalonedit-selectionstart-selectionlength
+ *  - https://code-examples.net/en/q/1215ed0
+ *  - https://code-examples.net/en/q/bc5c2f
  */
 
+using System;
 using System.IO;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -26,10 +34,15 @@ namespace Xeno.SQLiteAdmin.ViewModels
     private string _editorFontSize;
     private bool _editorIsDirty;
     private bool _editorIsReadOnly;
+    private int _editorSelectionLength;
     private IHighlightingDefinition _editorSyntaxType;
 
+    private string _editorText;
+    private bool _editorWordWrap;
     private IRegionManager _regionManager;
-    private string _title = "Prism Application";
+
+    private string _titleBase = "SQLite Admin - Empty";
+    private string _titleDisplayed = "SQLite Admin - Empty";
 
     public MainWindowViewModel(IDialogService dialogService, IRegionManager regionManager)
     {
@@ -39,6 +52,21 @@ namespace Xeno.SQLiteAdmin.ViewModels
       InitAvalonEdit();
 
       // ShowDialogCommand = new DelegateCommand(OnShowDialog);
+
+      EditorText = "select * from sqlite_master";
+    }
+
+    public int _editorSelectionStart
+    {
+      get => _editorSelectionStart;
+      set
+      {
+        if (_editorSelectionStart != value)
+        {
+          _editorSelectionStart = value;
+          RaisePropertyChanged();
+        }
+      }
     }
 
     public TextDocument EditorDocument
@@ -51,6 +79,28 @@ namespace Xeno.SQLiteAdmin.ViewModels
           _editorDocument = value;
           RaisePropertyChanged();
         }
+      }
+    }
+
+    public string EditorFile
+    {
+      get => _editorFile;
+      set
+      {
+        if (_editorFile == value)
+          return;
+
+        if (!File.Exists(_editorFile))
+        {
+          // Display file doesn't exist warning
+          return;
+        }
+
+        _editorFile = value;
+        EditorIsDirty = false;
+        // editor.Document = _editorFile;
+
+        RaisePropertyChanged();
       }
     }
 
@@ -91,6 +141,7 @@ namespace Xeno.SQLiteAdmin.ViewModels
         {
           _editorIsDirty = value;
           RaisePropertyChanged();
+          RaisePropertyChanged(Title);
         }
       }
     }
@@ -103,6 +154,19 @@ namespace Xeno.SQLiteAdmin.ViewModels
         if (_editorIsReadOnly != value)
         {
           _editorIsReadOnly = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
+    public int EditorSelectionLength
+    {
+      get => _editorSelectionLength;
+      set
+      {
+        if (_editorSelectionLength != value)
+        {
+          _editorSelectionLength = value;
           RaisePropertyChanged();
         }
       }
@@ -127,27 +191,33 @@ namespace Xeno.SQLiteAdmin.ViewModels
       }
     }
 
-    public string EditorFile
+    public string EditorText
     {
-      get => _editorFile;
+      get => _editorText;
       set
       {
-        if (_editorFile == value)
-          return;
-
-        if (!File.Exists(_editorFile))
+        if (_editorText != value)
         {
-          // Display file doesn't exist warning
-          return;
+          _editorText = value;
+          RaisePropertyChanged();
         }
+      }
+    }
 
-        _editorFile = value;
-        // editor.IsDirty = false;
-        // editor.Document = _editorFile;
+    public bool EditorWordWrap
+    {
+      get => _editorWordWrap;
+      set
+      {
+        if (_editorWordWrap == value)
+          return;
 
+        _editorWordWrap = value;
         RaisePropertyChanged();
       }
     }
+
+    public DelegateCommand ExecuteCodeCommand => new DelegateCommand(OnExecuteCode);
 
     public DelegateCommand<string> NavigateCommand => new DelegateCommand<string>(OnNavigate);
 
@@ -155,26 +225,32 @@ namespace Xeno.SQLiteAdmin.ViewModels
 
     public string Title
     {
-      get => _title;
+      get => _titleDisplayed;
       set
       {
-        _title = value;
-        RaisePropertyChanged();
+        _titleBase = value;
+        _titleDisplayed = _titleBase + (EditorIsDirty ? "*" : string.Empty);
 
-        // SetProperty(ref _title, value);
+        RaisePropertyChanged();
       }
     }
 
     private void InitAvalonEdit()
     {
-      // IHighlightingDefinition x = 
+      // Set the default syntax highlighting to TSQL
+      var syntaxDef = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("TSQL");
 
+      EditorDocument = new TextDocument();
       EditorIsReadOnly = false;
       EditorIsDirty = false;
       EditorFontFamily = "Consolas";
-      EditorFontSize = "10px";
-      // EditorSyntaxType = "SQL";
-      EditorDocument = new TextDocument();
+      EditorFontSize = "12px";
+      EditorSyntaxType = syntaxDef;
+    }
+
+    private void OnExecuteCode()
+    {
+      throw new NotImplementedException();
     }
 
     /// <summary>Navigate to a module</summary>

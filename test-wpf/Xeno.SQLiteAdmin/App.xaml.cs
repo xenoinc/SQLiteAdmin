@@ -20,6 +20,8 @@ namespace Xeno.SQLiteAdmin
   {
     protected override Window CreateShell()
     {
+      LoadTheme();
+
       return Container.Resolve<MainWindow>();
     }
 
@@ -30,6 +32,21 @@ namespace Xeno.SQLiteAdmin
 
       //register a custom window host
       //containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
+    }
+
+    private void LoadTheme()
+    {
+      // System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Xeno.SQLiteAdmin.HighlightThemes.DeepBlack")
+
+      //using (var stream = new System.IO.MemoryStream(Xeno.SQLiteAdmin.HighlightThemes.DeepBlack))
+      //{
+      //  using (var reader = new System.Xml.XmlTextReader(stream))
+      //  {
+      //    ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.RegisterHighlighting("SQL", new string[0],
+      //        ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(reader,
+      //            ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance));
+      //  }
+      //}
     }
   }
 }
