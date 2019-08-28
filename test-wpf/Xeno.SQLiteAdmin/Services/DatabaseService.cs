@@ -61,10 +61,15 @@ namespace Xeno.SQLiteAdmin.Services
       // return _sqlEngine.ExecuteQuery(query);
 
       DataSet dataSet = new DataSet();
-      using (var conn = new SQLiteConnection(ConnectionString))
-      {
-        dataSet = conn.ExecuteScalar<DataSet>(query);
-      }
+      ConnectionString = "Data Source='C:\temp\test.db3';Version=3;";
+      var conn = new SQLiteConnection(ConnectionString);
+      dataSet = conn.ExecuteScalar<DataSet>(query);
+
+
+      //using (var conn = new SQLiteConnection(ConnectionString))
+      //{
+      //  dataSet = conn.ExecuteScalar<DataSet>(query);
+      //}
 
       return dataSet;
     }
