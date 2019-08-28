@@ -1,0 +1,21 @@
+﻿<!--
+  Copyright Xeno Innovations, Inc. 2019
+  Date:    2019-8-25
+  Author:  Damian Suess
+  File:    App.xaml
+  Description:
+
+-->
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Xeno.SQLiteAdmin"
+             x:Class="Xeno.SQLiteAdmin.App">
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+    </Application.Styles>
+</Application>

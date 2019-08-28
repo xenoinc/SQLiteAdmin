@@ -380,7 +380,7 @@ namespace Xeno.SQLiteAdmin
       OpenFileDialog dlg = new OpenFileDialog()
       {
         //DereferenceLinks = true,
-        Filter = "SQLite DB files|*.db|All files|*",
+        Filter = "SQLite DB files|*.db;*.db3;*.sqlite|All files|*",
         FilterIndex = 1,
         InitialDirectory = baseDir,
         RestoreDirectory = true

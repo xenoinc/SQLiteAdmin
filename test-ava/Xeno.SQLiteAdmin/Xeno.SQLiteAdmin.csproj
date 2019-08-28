@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <ApplicationIcon />
+    <StartupObject />
+    <Company>Xeno Innovtions, Inc.</Company>
+    <Version>0.1.0</Version>
+    <Copyright>Copyright 2017-2019 Xeno Innovations, Inc.</Copyright>
+    <PackageProjectUrl>https://www.xenoinc.com</PackageProjectUrl>
+    <Authors>Damian Suess</Authors>
+    <Product>SQLite Admin</Product>
+    <Description>SQLite administration and query editor</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <OutputPath>..\..\output\Avalonia</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+    <OutputPath>..\..\output\Avalonia</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <AvaloniaResource Include="**\*.xaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Assets\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Remove="Views\TodoAddView.xaml" />
+    <AvaloniaResource Remove="Views\TodoListView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\TodoAddView.xaml" />
+    <None Remove="Views\TodoListView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.8.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.8.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\TodoListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\TodoAddView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
