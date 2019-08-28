@@ -1,16 +1,18 @@
-﻿<UserControl x:Class="Xeno.SQLiteAdmin.EditorModule.Views.ViewA"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Xeno.SQLiteAdmin.EditorModule.Views"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:controls="clr-namespace:Xeno.SQLiteAdmin.EditorModule.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:local="clr-namespace:Xeno.SQLiteAdmin.EditorModule.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True" >
-    <Grid>
-        <TextBlock Text="{Binding Message}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-    </Grid>
+             x:Class="Xeno.SQLiteAdmin.EditorModule.Views.ViewA"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+  <Grid>
+    <controls:TextEditorEx Text="{Binding Message}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+  </Grid>
 </UserControl>

@@ -26,6 +26,7 @@ namespace Xeno.SQLiteAdmin.ViewModels
 {
   public class MainWindowViewModel : BindableBase
   {
+    private IDatabaseService _dbService;
     private IDialogService _dialogService;
     private TextDocument _editorDocument;
     private string _editorFile;
@@ -33,7 +34,7 @@ namespace Xeno.SQLiteAdmin.ViewModels
     private string _editorFontSize;
     private bool _editorIsDirty;
     private bool _editorIsReadOnly;
-    private string _editorSelectedText;
+    // private string _editorSelectedText;
     private int _editorSelectionLength;
     private int _editorSelectionStart;
     private IHighlightingDefinition _editorSyntaxType;
@@ -41,14 +42,14 @@ namespace Xeno.SQLiteAdmin.ViewModels
     private string _editorText;
     private bool _editorWordWrap;
     private IRegionManager _regionManager;
-
     private string _titleBase = "SQLite Admin - Empty";
     private string _titleDisplayed = "SQLite Admin - Empty";
 
-    public MainWindowViewModel(IDialogService dialogService, IRegionManager regionManager)
+    public MainWindowViewModel(IDialogService dialogService, IRegionManager regionManager, IDatabaseService dbService)
     {
       _dialogService = dialogService;
       _regionManager = regionManager;
+      _dbService = dbService;
 
       InitAvalonEdit();
 
@@ -149,15 +150,42 @@ namespace Xeno.SQLiteAdmin.ViewModels
 
     public string EditorSelectedText
     {
-      get => _editorSelectedText;
-      set
+      get
       {
-        if (_editorSelectedText != value)
+        if (EditorSelectionStart < 0)
         {
-          _editorSelectedText = value;
-          RaisePropertyChanged();
+          System.Diagnostics.Debug.WriteLine("Editor SelectionStart less than 0");
+
+          return string.Empty;
         }
+
+        if (EditorSelectionLength <= 0)
+        {
+          System.Diagnostics.Debug.WriteLine("Editor selection length is 0");
+          return string.Empty;
+        }
+
+        if (EditorSelectionLength > EditorText.Length)
+        {
+          System.Diagnostics.Debug.WriteLine("Editor selection is greater than text length?!");
+          return string.Empty;
+        }
+
+        int start = EditorSelectionStart;
+        int len = EditorSelectionLength;
+
+        return EditorText.Substring(EditorSelectionStart, EditorSelectionLength);
       }
+
+      //get => _editorSelectedText;
+      //set
+      //{
+      //  if (_editorSelectedText != value)
+      //  {
+      //    _editorSelectedText = value;
+      //    RaisePropertyChanged();
+      //  }
+      //}
     }
 
     public int EditorSelectionLength
@@ -263,9 +291,52 @@ namespace Xeno.SQLiteAdmin.ViewModels
     }
 
     private void OnExecuteCode()
-    {     
-      System.Diagnostics.Debug.WriteLine($"SelectedText: '{EditorSelectedText}'");
-      System.Diagnostics.Debug.WriteLine($"SelectedText: '{EditorText}'");
+    {
+      var text = EditorSelectionLength > 0 ? EditorSelectedText : EditorText;
+
+      System.Diagnostics.Debug.WriteLine($"Exec - SelectedText: '{EditorSelectedText}'");
+      System.Diagnostics.Debug.WriteLine($"Exec - Text: '{EditorText}'");
+      System.Diagnostics.Debug.WriteLine($"Exec Query: '{text}'");
+
+      // _dbService.ExecuteNonQuery(text);
+
+      var ds = _dbService.ExecuteQuery(text);
+      if (ds != null)
+      {
+        var t = ds.Tables;
+        var count = t.Count;
+
+        Log("Count: " + count);
+        Log(t[0].ToString());
+
+        foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
+        {
+          Log("Column: " + dc.ColumnName);
+        }
+
+        foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+        {
+          Log("Row[0]: " + dr[0].ToString());
+
+          for (int i = 1; i < dr.ItemArray.Length; i++)
+          {
+            Log($"Row[{i}]: {dr[i].ToString()}");
+          }
+
+          //// Assign alternating backcolor
+          //if (iCounter % 2 == 0)
+          //{
+          //  SqlResultsListView.Items[iCounter].BackColor = Color.AliceBlue;
+          //}
+          //
+          //iCounter++
+        }
+      }
+    }
+
+    private void Log(string x)
+    {
+      System.Diagnostics.Debug.WriteLine(x);
     }
 
     /// <summary>Navigate to a module</summary>

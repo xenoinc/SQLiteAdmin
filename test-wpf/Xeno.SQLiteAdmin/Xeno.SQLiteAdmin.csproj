@@ -89,7 +89,11 @@
       <DependentUpon>NotificationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\NotificationDialogViewModel.cs" />
+    <Compile Include="Engines\ISqlEngine.cs" />
+    <Compile Include="Engines\SQLiteNetPcl\SqliteNetPclEngine.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\DialogServiceExtensions.cs" />
+    <Compile Include="Services\Interfaces\IDatabaseService.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -130,6 +134,9 @@
       <Version>7.2.0.1367</Version>
     </PackageReference>
     <PackageReference Include="Prism.DryIoc" Version="7.2.0.1367" />
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.5.231</Version>
+    </PackageReference>
     <PackageReference Include="Xceed.Products.Wpf.Toolkit.AvalonDock">
       <Version>3.8.19076.18510</Version>
     </PackageReference>
@@ -139,6 +146,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HighlightThemes\DeepBlack.xshd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.EditorModule\Xeno.SQLiteAdmin.EditorModule.csproj">
+      <Project>{fa8424c1-e2a6-4746-ade7-c47d9ab27d00}</Project>
+      <Name>Xeno.SQLiteAdmin.EditorModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

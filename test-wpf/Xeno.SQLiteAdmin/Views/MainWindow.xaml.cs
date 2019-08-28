@@ -19,7 +19,14 @@ namespace Xeno.SQLiteAdmin.Views
   {
     public MainWindow()
     {
-      InitializeComponent();
+      try
+      {
+        InitializeComponent();
+      }
+      catch (Exception ex)
+      {
+        System.Diagnostics.Debug.WriteLine(ex.Message);
+      }
 
       AvalonTextEditor.PreviewMouseWheel += new System.Windows.Input.MouseWheelEventHandler(AvalonTextEditor_PreviewMouseWheel);
     }

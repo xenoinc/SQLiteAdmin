@@ -8,7 +8,10 @@
 
 using System.Windows;
 using Prism.Ioc;
+using Prism.Modularity;
 using Xeno.SQLiteAdmin.Dialogs;
+using Xeno.SQLiteAdmin.Services;
+using Xeno.SQLiteAdmin.ViewModels;
 using Xeno.SQLiteAdmin.Views;
 
 namespace Xeno.SQLiteAdmin
@@ -18,6 +21,11 @@ namespace Xeno.SQLiteAdmin
   /// </summary>
   public partial class App
   {
+    protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+    {
+      moduleCatalog.AddModule<EditorModule.EditorModule>();
+    }
+
     protected override Window CreateShell()
     {
       LoadTheme();
@@ -27,10 +35,16 @@ namespace Xeno.SQLiteAdmin
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
+      // Services
+      // containerRegistry.RegisterSingleton<ILogService, LogService>();
+      // containerRegistry.RegisterSingleton<IDatabaseService, DatabaseService>();
+      containerRegistry.RegisterInstance<IDatabaseService>(new DatabaseService());
+
+      // Views
       containerRegistry.RegisterDialog<NotificationDialog, NotificationDialogViewModel>();
       containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
 
-      //register a custom window host
+      // Custom window host
       //containerRegistry.RegisterDialogWindow<CustomDialogWindow>();
     }
 

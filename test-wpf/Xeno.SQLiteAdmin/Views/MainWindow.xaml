@@ -39,12 +39,16 @@
           <ToolBar VerticalAlignment="Stretch"
                    SnapsToDevicePixels="True"
                    ToolBarTray.IsLocked="True">
-            <Button Command="Copy"
+            <!--<Button Command="Copy"
                     Content="Copy Text"
-                    SnapsToDevicePixels="True" />
+                    SnapsToDevicePixels="True" />-->
 
             <Button Command="Open"
                     Content="Open File"
+                    SnapsToDevicePixels="True" />
+
+            <Button Command="Save"
+                    Content="Save File"
                     SnapsToDevicePixels="True" />
 
             <Button Command="{Binding ExecuteCodeCommand}"
@@ -83,6 +87,19 @@
         <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />
         <Button Command="{Binding ShowDialogCommand}" Content="Show Dialog" />-->
 
+        <controls:TextEditorEx Text="{Binding EditorText}"
+                               x:Name="AvalonTextEditor"
+                               Height="Auto"
+                               FontFamily="{Binding EditorFontFamily}"
+                               FontSize="{Binding EditorFontSize}"
+                               IsModified="{Binding Path=EditorIsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               IsReadOnly="{Binding EditorIsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               SelectionLength="{Binding EditorSelectionLength, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               SelectionStart="{Binding EditorSelectionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               ShowLineNumbers="True"
+                               SyntaxHighlighting="{Binding EditorSyntaxType}"
+                               Unloaded="AvalonTextEditor_Unloaded" />
+
         <!--
           <MenuItem Command="Cut" Header="Cut">
             <MenuItem.Icon><Image Height="16" Source="/Editor/Images/EditCut32.png" /></MenuItem.Icon>
@@ -115,17 +132,6 @@
           select * from sqlite_master;
         </avalonEdit:TextEditor>
         -->
-        <controls:TextEditorEx Text="{Binding EditorText}"
-                               x:Name="AvalonTextEditor"
-                               Height="Auto"
-                               FontFamily="{Binding EditorFontFamily}"
-                               FontSize="{Binding EditorFontSize}"
-                               IsModified="{Binding Path=EditorIsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               IsReadOnly="{Binding EditorIsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               SelectedText="{Binding EditorSelectedText}"
-                               ShowLineNumbers="True"
-                               SyntaxHighlighting="{Binding EditorSyntaxType}"
-                               Unloaded="AvalonTextEditor_Unloaded" />
       </Grid>
     </DockPanel>
   </Grid>
