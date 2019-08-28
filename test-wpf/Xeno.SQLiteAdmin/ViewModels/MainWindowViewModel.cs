@@ -13,7 +13,6 @@
  *  - https://code-examples.net/en/q/bc5c2f
  */
 
-using System;
 using System.IO;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -34,7 +33,9 @@ namespace Xeno.SQLiteAdmin.ViewModels
     private string _editorFontSize;
     private bool _editorIsDirty;
     private bool _editorIsReadOnly;
+    private string _editorSelectedText;
     private int _editorSelectionLength;
+    private int _editorSelectionStart;
     private IHighlightingDefinition _editorSyntaxType;
 
     private string _editorText;
@@ -54,19 +55,6 @@ namespace Xeno.SQLiteAdmin.ViewModels
       // ShowDialogCommand = new DelegateCommand(OnShowDialog);
 
       EditorText = "select * from sqlite_master";
-    }
-
-    public int _editorSelectionStart
-    {
-      get => _editorSelectionStart;
-      set
-      {
-        if (_editorSelectionStart != value)
-        {
-          _editorSelectionStart = value;
-          RaisePropertyChanged();
-        }
-      }
     }
 
     public TextDocument EditorDocument
@@ -159,6 +147,19 @@ namespace Xeno.SQLiteAdmin.ViewModels
       }
     }
 
+    public string EditorSelectedText
+    {
+      get => _editorSelectedText;
+      set
+      {
+        if (_editorSelectedText != value)
+        {
+          _editorSelectedText = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
     public int EditorSelectionLength
     {
       get => _editorSelectionLength;
@@ -167,6 +168,19 @@ namespace Xeno.SQLiteAdmin.ViewModels
         if (_editorSelectionLength != value)
         {
           _editorSelectionLength = value;
+          RaisePropertyChanged();
+        }
+      }
+    }
+
+    public int EditorSelectionStart
+    {
+      get => _editorSelectionStart;
+      set
+      {
+        if (_editorSelectionStart != value)
+        {
+          _editorSelectionStart = value;
           RaisePropertyChanged();
         }
       }
@@ -249,8 +263,9 @@ namespace Xeno.SQLiteAdmin.ViewModels
     }
 
     private void OnExecuteCode()
-    {
-      throw new NotImplementedException();
+    {     
+      System.Diagnostics.Debug.WriteLine($"SelectedText: '{EditorSelectedText}'");
+      System.Diagnostics.Debug.WriteLine($"SelectedText: '{EditorText}'");
     }
 
     /// <summary>Navigate to a module</summary>

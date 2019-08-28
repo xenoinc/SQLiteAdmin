@@ -5,6 +5,7 @@
  * Description:
  *  Wrapper for AvalonEdit
  *
+ * TODO: Fix SelectedText - it keeps returning NULL
  * Reference:
  *  -> https://stackoverflow.com/questions/18964176/two-way-binding-to-avalonedit-document-text-using-mvvm
  *  -> https://stackoverflow.com/questions/12344367/making-avalonedit-mvvm-compatible/41482439
@@ -138,23 +139,14 @@ namespace Xeno.SQLiteAdmin.Controls
 
     #region Selection.
 
-    ///// <summary>DependencyProperty for the TextEditor SelectedText property.</summary>
-    //public static readonly DependencyProperty SelectedTextProperty =
-    //  DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(TextEditorEx),
-    //  new PropertyMetadata((obj, args) =>
-    //  {
-    //    TextEditorEx target = (TextEditorEx)obj;
-    //    target.SelectedText = (string)args.NewValue;
-    //  }));
-    //
-    ///// <summary>
-    ///// Access to the SelectedText property.
-    ///// </summary>
-    //public new string SelectedText
-    //{
-    //  get { return base.SelectedText; }
-    //  set { SetValue(SelectedTextProperty, value); }
-    //}
+    /// <summary>DependencyProperty for the TextEditor SelectedText property.</summary>
+    public static readonly DependencyProperty SelectedTextProperty =
+      DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(TextEditorEx),
+      new PropertyMetadata((obj, args) =>
+      {
+        TextEditorEx target = (TextEditorEx)obj;
+        target.SelectedText = (string)args.NewValue;
+      }));
 
     /// <summary>
     /// DependencyProperty for the TextEditor SelectionLength property.
@@ -199,6 +191,13 @@ namespace Xeno.SQLiteAdmin.Controls
         if (_canScroll)
           target.ScrollTo(loc.Line, loc.Column);
       }));
+
+    /// <summary>Access to the SelectedText property.</summary>
+    public new string SelectedText
+    {
+      get { return base.SelectedText; }
+      set { SetValue(SelectedTextProperty, value); }
+    }
 
     /// <summary>
     /// Access to the SelectionLength property.
