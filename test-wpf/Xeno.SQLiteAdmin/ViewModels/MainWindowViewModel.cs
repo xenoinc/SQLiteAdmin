@@ -306,7 +306,11 @@ namespace Xeno.SQLiteAdmin.ViewModels
         var t = ds.Tables;
         var count = t.Count;
 
-        Log("Count: " + count);
+        Log("Row Count: " + count);
+
+        if (count == 0)
+          return;
+
         Log(t[0].ToString());
 
         foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
