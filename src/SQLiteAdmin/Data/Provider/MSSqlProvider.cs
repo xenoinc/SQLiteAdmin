@@ -16,7 +16,7 @@ using System.Data.SqlClient;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
-  public class MSSqlProvider : IDatabaseProvider
+  public class MSSqlProvider : IProvider
   {
     private SqlCommand _currentCommand;
 
@@ -29,7 +29,7 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
     public Dictionary<DatabaseProperty, string> Properties { get; set; }
 
-    public DatabaseProvider ProviderType { get { return DatabaseProvider.MSSQL; } }
+    public DatabaseProviderType ProviderType { get { return DatabaseProviderType.MSSQL; } }
 
     public void Close()
     {

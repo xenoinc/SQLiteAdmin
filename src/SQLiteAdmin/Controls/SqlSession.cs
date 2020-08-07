@@ -30,7 +30,7 @@ namespace Xeno.SQLiteAdmin.Controls
   public partial class SqlSession : UserControl
   {
     private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-    private IDatabaseProvider _db;
+    private IProvider _db;
     private bool _showResultsPanel;
     private Xeno.AvalonEditWF.TextEditor _textEditor;
 
@@ -58,7 +58,7 @@ namespace Xeno.SQLiteAdmin.Controls
     /// <param name="title">Title of file (blank if FullPath is provided)</param>
     /// <param name="fullFilePath">Full file path to query</param>
     /// <param name="dbConnection">SQLite Database file path</param>
-    public SqlSession(string title, string sqlFilePath = "", IDatabaseProvider provider = null)
+    public SqlSession(string title, string sqlFilePath = "", IProvider provider = null)
     {
       ProviderProperties = new Dictionary<DatabaseProperty, string>();
 
@@ -116,7 +116,7 @@ namespace Xeno.SQLiteAdmin.Controls
     public string OutputToFile { get; set; }
 
     /// <summary>Database Provider (SQLite, SQLiteCrypt, MySQL, etc.</summary>
-    public DatabaseProvider ProviderType { get; set; }
+    public DatabaseProviderType ProviderType { get; set; }
 
     public QueryOutputType QueryOutputType { get; set; }
 
@@ -190,14 +190,14 @@ namespace Xeno.SQLiteAdmin.Controls
       }
     }
 
-    public void InitDatabase(IDatabaseProvider provider, string password = "") // , string sqliteDbPath = "", string password = "")
+    public void InitDatabase(IProvider provider, string password = "") // , string sqliteDbPath = "", string password = "")
     {
-      if (provider != null && provider.ProviderType != DatabaseProvider.Unknown)
+      if (provider != null && provider.ProviderType != DatabaseProviderType.Unknown)
       {
         _db = provider;
         this.ProviderType = _db.ProviderType;
 
-        if (_db.ProviderType == DatabaseProvider.SQLite)
+        if (_db.ProviderType == DatabaseProviderType.SQLite)
         {
           string connString = provider.ConnectionString;
         }
@@ -255,7 +255,7 @@ namespace Xeno.SQLiteAdmin.Controls
       _textEditor.Text = "-- Welcome to SQLite Admin" + Environment.NewLine + "select * from sqlite_master";
 
       // Database wire-ups (defaults)
-      this.ProviderType = Xeno.SQLiteAdmin.Data.DatabaseProvider.SQLite;
+      this.ProviderType = Xeno.SQLiteAdmin.Data.DatabaseProviderType.SQLite;
 
       // Add the control
       this.splitContainer.Panel1.Controls.Add(_textEditor);
