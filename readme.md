@@ -1,17 +1,16 @@
 # SQLite Admin
 Copyright 2017-2019 (C) Xeno Innovations, Inc.
 
-_**WARNING:** Work in progress!_
+_**WARNING:** pre-alpha prototype in progress!_
 
-SQLite Admin is a lightweight management studio for SQLite databases.
+SQLite Admin is a lightweight management studio for SQLite databases, powered by .NET.
+
+![](docs/ScreenShot-v0.1.png)
 
 The long-term goal is to be able to manage a  DB's _tables, edit views, merge DBs, encrypt (ADO.NET), etc._ . This is a complete rework of XI's internal project started back on 2011-06-17.
 
-_Created by Damian Suess_
-
 ### Project Status
 Currently a work in progress to provide a simple SQLite management studio.
-
 
 ## Milestones
 
