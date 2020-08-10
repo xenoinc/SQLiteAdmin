@@ -17,10 +17,10 @@ using Xeno.SQLiteAdmin.Data.Provider;
 
 namespace Xeno.SQLiteAdmin.Data
 {
-  public interface IDatabaseProvider
+  public interface IProvider
   {
     /// <summary>Name of known DB engine</summary>
-    DatabaseProvider ProviderType { get; }
+    DatabaseProviderType ProviderType { get; }
 
     /// <summary>Custom database properties</summary>
     Dictionary<DatabaseProperty, string> Properties { get; set; }

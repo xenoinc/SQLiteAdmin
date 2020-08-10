@@ -43,7 +43,7 @@ namespace Xeno.SQLiteAdmin.Views
     {
       ComboDefaultDbProvider.Items.Clear();
 
-      foreach (DatabaseProvider item in Enum.GetValues(typeof(DatabaseProvider)))
+      foreach (DatabaseProviderType item in Enum.GetValues(typeof(DatabaseProviderType)))
       {
         ComboDefaultDbProvider.Items.Add(item.ToString());
       }

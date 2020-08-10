@@ -16,6 +16,7 @@ namespace Xeno.SQLiteAdmin.Services
   {
     private string _connectionString;
     private ISqlEngine _sqlEngine;
+
     public DatabaseService()
     {
       DatabaseEngine = new Engines.SQLiteNetPcl.SqliteNetPclEngine();
@@ -46,7 +47,7 @@ namespace Xeno.SQLiteAdmin.Services
 
     public int ExecuteNonQuery(string query)
     {
-      // return _sqlEngine.ExecuteNonQuery(query);
+      //// return _sqlEngine.ExecuteNonQuery(query);
 
       using (var conn = new SQLiteConnection(ConnectionString))
       {
@@ -58,25 +59,40 @@ namespace Xeno.SQLiteAdmin.Services
 
     public DataSet ExecuteQuery(string query)
     {
-      // return _sqlEngine.ExecuteQuery(query);
+      //    // Use the SQL Engine Adapter
+      //// return _sqlEngine.ExecuteQuery(query);
 
       DataSet dataSet = new DataSet();
-      using (var conn = new SQLiteConnection(ConnectionString))
+
+      // This will execute a CREATE TABLE
+      using (var conn = new SQLiteConnection(@"C:\temp\SqliteAdmin.db3"))
       {
-        dataSet = conn.ExecuteScalar<DataSet>(query);
+        var cmd = new SQLite.SQLiteCommand(conn);
+        cmd.CommandText = query;
+        var x = cmd.ExecuteQuery<DataSet>();
       }
+
+      // Returns NULL on both CREATE TABLE and SELECT
+      //using (var conn = new SQLiteConnection(@"C:\temp\SqliteAdmin.db3"))
+      //{
+      //  dataSet = conn.ExecuteScalar<DataSet>(query);
+      //}
+      //
+      // // Same as above, but without the ~dtr
+      //var conn = new SQLiteConnection(@"C:\temp\SqliteAdmin.db3");
+      //dataSet = conn.ExecuteScalar<DataSet>(query);
 
       return dataSet;
     }
 
-    //public void Connect()
-    //{
-    //  //_sqlEngine.Connect(ConnectionString);
-    //}
-    //
-    //public void Connect(string connectionString)
-    //{
-    //  //_sqlEngine.Connect(connectionString);
-    //}
+    ////public void Connect()
+    ////{
+    ////  //_sqlEngine.Connect(ConnectionString);
+    ////}
+    ////
+    ////public void Connect(string connectionString)
+    ////{
+    ////  //_sqlEngine.Connect(connectionString);
+    ////}
   }
 }

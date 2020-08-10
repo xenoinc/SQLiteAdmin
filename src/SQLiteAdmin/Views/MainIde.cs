@@ -104,7 +104,6 @@ namespace Xeno.SQLiteAdmin
       // Load/create local settings.db file. Load it into a container (i.e. DryIoC)
       var settings = new SettingsService();
       settings.InitSettings();
-      
     }
 
     private void InitSessions()
@@ -327,11 +326,11 @@ namespace Xeno.SQLiteAdmin
     private string ActiveSqlitePassword { get; set; }
 
     /// <summary>Current selected provider</summary>
-    private Data.IDatabaseProvider ActiveSessionProviderDetails
+    private Data.IProvider ActiveSessionProviderDetails
     {
       get
       {
-        IDatabaseProvider provider = new Data.Provider.SQLiteProvider();
+        IProvider provider = new Data.Provider.SQLiteProvider();
         provider.Properties[DatabaseProperty.SqliteDatabase] = ActiveSqliteDatabase;
         provider.Properties[DatabaseProperty.SqlitePassword] = ActiveSqlitePassword;
         return provider;
