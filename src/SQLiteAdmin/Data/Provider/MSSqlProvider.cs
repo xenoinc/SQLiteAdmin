@@ -3,7 +3,7 @@
  * Date:    2017-3-8
  * File:    MSSqlProvider.cs
  * Description:
- *  
+ *
  * To Do:
  * Change Log:
  *  2017-38 * Initial creation
@@ -12,16 +12,45 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Xeno.SQLiteAdmin.Data.Provider
 {
-  public class MSSqlProvider : IDatabaseProvider
+  public class MSSqlProvider : IProvider
   {
+    private SqlCommand _currentCommand;
 
-    public int ExecuteNonQuery(string query)
+    public MSSqlProvider()
+    {
+      this.Properties = new Dictionary<DatabaseProperty, string>();
+    }
+
+    public string ConnectionString { get; set; }
+
+    public Dictionary<DatabaseProperty, string> Properties { get; set; }
+
+    public DatabaseProviderType ProviderType { get { return DatabaseProviderType.MSSQL; } }
+
+    public void Close()
+    {
+    }
+
+    /// <summary>Stop executing current command execution</summary>
+    /// <returns>Success or failure</returns>
+    public bool StopExecuting()
+    {
+      try
+      {
+        _currentCommand.Cancel();
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+    public int ExecuteNonQuery(string query, out Exception ex)
     {
       //string connString = @"Integrated Security=SSPI;Persist Security Info=False;" +
       //                    @"Initial Catalog=ccwebgrity;" +
@@ -36,7 +65,6 @@ namespace Xeno.SQLiteAdmin.Data.Provider
 
     public DataSet ExecuteQuery(string query)
     {
-      
       throw new NotImplementedException();
 
       var ds = new DataSet();

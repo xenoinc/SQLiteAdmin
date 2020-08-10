@@ -1,30 +1,28 @@
 ﻿extensions: .cs .cpp .h .sql
-/* Copyright Xeno Innovations, Inc. 2011-2017
+/* Copyright Xeno Innovations, Inc. 2011-%CurrentYear%
  * Author:  Damian Suess
  * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
  * File:    %FileName%
  * Description:
- *  
- * To Do:
+ *
  * Change Log:
  *  %CurrentYear%-%CurrentMonth%%CurrentDay% * Initial creation
  */
 
 extensions: .aspx .ascx
 <%-- 
-  Copyright Xeno Innovations, Inc. 2011-2017
+  Copyright Xeno Innovations, Inc. 2011-%CurrentYear%
   Author:  Damian Suess
   Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
   File:    %FileName%
   Description:
 
-  To Do:
   Change Log:
     %CurrentYear%-%CurrentMonth%%CurrentDay% * Initial creation
 --%>
 
 extensions: .vb
-' Copyright Xeno Innovations, Inc. 2011-2017
+' Copyright Xeno Innovations, Inc. 2011-%CurrentYear%
 ' Author: Damian Suess
 ' Date:   %CurrentYear%-%CurrentMonth%-%CurrentDay%
 ' File:   %FileName%
@@ -36,8 +34,7 @@ Copyright Xeno Innovations, Inc. 2011-2017
  * Date:    %CurrentYear%-%CurrentMonth%-%CurrentDay%
  * File:    %FileName%
  * Description:
- *  
- * To Do:
+ *
  * Change Log:
  *  %CurrentYear%-%CurrentMonth%%CurrentDay% * Initial creation
 -->

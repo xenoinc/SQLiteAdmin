@@ -1,0 +1,15 @@
+﻿<!--
+  * Copyright Xeno Innovations, Inc. 2019
+  * Date:    2019-8-26
+  * Author:  Damian Suess
+  * File:    App.xaml
+  * Description:
+  *
+-->
+<prism:PrismApplication xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:local="clr-namespace:Xeno.SQLiteAdmin"
+                        xmlns:prism="http://prismlibrary.com/"
+                        x:Class="Xeno.SQLiteAdmin.App">
+  <Application.Resources />
+</prism:PrismApplication>
