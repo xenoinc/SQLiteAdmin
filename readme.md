@@ -1,7 +1,7 @@
 # SQLite Admin
 Copyright 2017-2019 (C) Xeno Innovations, Inc.
 
-_**WARNING:** pre-alpha prototype in progress!_
+_**WARNING:** Prototype in progress!_
 
 SQLite Admin is a lightweight management studio for SQLite databases, powered by .NET.
 
