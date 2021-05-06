@@ -6,18 +6,18 @@ using Xeno.SQLiteAdmin.Modules.Sample1.Views;
 
 namespace Xeno.SQLiteAdmin.Modules.Sample1
 {
-  public class Sample1Module : IModule
+  public class TextEditorModule : IModule
   {
     private readonly IRegionManager _regionManager;
 
-    public Sample1Module(IRegionManager regionManager)
+    public TextEditorModule(IRegionManager regionManager)
     {
       _regionManager = regionManager;
     }
 
     public void OnInitialized(IContainerProvider containerProvider)
     {
-      _regionManager.RequestNavigate(RegionNames.ContentRegion, "ViewA");
+      _regionManager.RequestNavigate(RegionNames.ContentRegion, nameof(ViewA));
     }
 
     public void RegisterTypes(IContainerRegistry containerRegistry)

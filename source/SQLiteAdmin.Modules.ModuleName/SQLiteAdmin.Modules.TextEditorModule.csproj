@@ -13,10 +13,11 @@
     <OutputPath>..\..\output\Modules</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.1.1" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

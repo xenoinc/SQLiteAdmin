@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.Sample1.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.TextEditorModule.csproj" />
   </ItemGroup>
 
 </Project>

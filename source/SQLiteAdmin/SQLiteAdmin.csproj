@@ -14,12 +14,18 @@
     <OutputPath>..\..\output\SQLiteAdmin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Themes\Sqlite.xshd" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.Sample1.csproj" />
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services\SQLiteAdmin.Services.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.TextEditorModule.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Services\SQLiteAdmin.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\Sqlite.xshd" />
   </ItemGroup>
 </Project>

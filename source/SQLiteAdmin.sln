@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin", "SQLiteAdmin\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Core", "SQLiteAdmin.Core\SQLiteAdmin.Core.csproj", "{9638B0C7-53D8-409F-845B-D261A9A103A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Modules.Sample1", "SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.Sample1.csproj", "{4D0AC736-1BB7-474A-834A-3826398CFEE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Modules.TextEditorModule", "SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.TextEditorModule.csproj", "{4D0AC736-1BB7-474A-834A-3826398CFEE0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Services", "SQLiteAdmin.Services\SQLiteAdmin.Services.csproj", "{0C12C4F5-EA79-43EE-9C8F-EACF74476E31}"
 EndProject

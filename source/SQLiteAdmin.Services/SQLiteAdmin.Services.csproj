@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

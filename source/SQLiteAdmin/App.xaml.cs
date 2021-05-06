@@ -15,7 +15,7 @@ namespace Xeno.SQLiteAdmin
   {
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
-      moduleCatalog.AddModule<Sample1Module>();
+      moduleCatalog.AddModule<TextEditorModule>();
     }
 
     protected override Window CreateShell()
