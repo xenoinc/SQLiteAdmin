@@ -4,6 +4,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Xeno.SQLiteAdmin.Core</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>Xeno.SQLiteAdmin.Core</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\output\Core</OutputPath>

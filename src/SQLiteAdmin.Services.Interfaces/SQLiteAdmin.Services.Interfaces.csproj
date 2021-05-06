@@ -1,16 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>Xeno.SQLiteAdmin.Services.Interfaces</RootNamespace>
+    <AssemblyName>Xeno.SQLiteAdmin.Services.Interfaces</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\output\Services</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services.Interfaces\Xeno.SQLiteAdmin.Services.Interfaces.csproj" />
-  </ItemGroup>
 
 </Project>

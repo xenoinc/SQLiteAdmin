@@ -2,11 +2,11 @@
 
 namespace Xeno.SQLiteAdmin.ViewModels
 {
-  public class MainWindowViewModel : BindableBase
+  public class MainViewModel : BindableBase
   {
     private string _title = "Prism Application";
 
-    public MainWindowViewModel()
+    public MainViewModel()
     {
     }
 

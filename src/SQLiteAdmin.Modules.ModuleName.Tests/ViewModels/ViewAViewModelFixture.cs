@@ -1,6 +1,6 @@
 ﻿using Moq;
 using Prism.Regions;
-using Xeno.SQLiteAdmin.Modules.ModuleName.ViewModels;
+using Xeno.SQLiteAdmin.Modules.Sample1.ViewModels;
 using Xeno.SQLiteAdmin.Services.Interfaces;
 using Xunit;
 

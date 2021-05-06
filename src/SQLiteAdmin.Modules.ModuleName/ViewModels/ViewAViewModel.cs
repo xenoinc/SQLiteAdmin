@@ -2,7 +2,7 @@
 using Xeno.SQLiteAdmin.Core.Mvvm;
 using Xeno.SQLiteAdmin.Services.Interfaces;
 
-namespace Xeno.SQLiteAdmin.Modules.ModuleName.ViewModels
+namespace Xeno.SQLiteAdmin.Modules.Sample1.ViewModels
 {
   public class ViewAViewModel : RegionViewModelBase
   {

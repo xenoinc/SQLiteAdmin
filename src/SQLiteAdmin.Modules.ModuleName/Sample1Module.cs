@@ -2,15 +2,15 @@
 using Prism.Modularity;
 using Prism.Regions;
 using Xeno.SQLiteAdmin.Core;
-using Xeno.SQLiteAdmin.Modules.ModuleName.Views;
+using Xeno.SQLiteAdmin.Modules.Sample1.Views;
 
-namespace Xeno.SQLiteAdmin.Modules.ModuleName
+namespace Xeno.SQLiteAdmin.Modules.Sample1
 {
-  public class ModuleNameModule : IModule
+  public class Sample1Module : IModule
   {
     private readonly IRegionManager _regionManager;
 
-    public ModuleNameModule(IRegionManager regionManager)
+    public Sample1Module(IRegionManager regionManager)
     {
       _regionManager = regionManager;
     }

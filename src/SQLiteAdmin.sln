@@ -3,21 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin", "Xeno.SQLiteAdmin\Xeno.SQLiteAdmin.csproj", "{348134E6-E469-4427-8C34-177AE7354EAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin", "Xeno.SQLiteAdmin\SQLiteAdmin.csproj", "{348134E6-E469-4427-8C34-177AE7354EAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin.Core", "Xeno.SQLiteAdmin.Core\Xeno.SQLiteAdmin.Core.csproj", "{9638B0C7-53D8-409F-845B-D261A9A103A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Core", "Xeno.SQLiteAdmin.Core\SQLiteAdmin.Core.csproj", "{9638B0C7-53D8-409F-845B-D261A9A103A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin.Modules.ModuleName", "Xeno.SQLiteAdmin.Modules.ModuleName\Xeno.SQLiteAdmin.Modules.ModuleName.csproj", "{4D0AC736-1BB7-474A-834A-3826398CFEE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Modules.Sample1", "Xeno.SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.Sample1.csproj", "{4D0AC736-1BB7-474A-834A-3826398CFEE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin.Services", "Xeno.SQLiteAdmin.Services\Xeno.SQLiteAdmin.Services.csproj", "{0C12C4F5-EA79-43EE-9C8F-EACF74476E31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Services", "Xeno.SQLiteAdmin.Services\SQLiteAdmin.Services.csproj", "{0C12C4F5-EA79-43EE-9C8F-EACF74476E31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin.Services.Interfaces", "Xeno.SQLiteAdmin.Services.Interfaces\Xeno.SQLiteAdmin.Services.Interfaces.csproj", "{F52660BA-6B90-41B8-A8E4-BF84FCE97B2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Services.Interfaces", "Xeno.SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj", "{F52660BA-6B90-41B8-A8E4-BF84FCE97B2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xeno.SQLiteAdmin.Modules.ModuleName.Tests", "Xeno.SQLiteAdmin.Modules.ModuleName.Tests\Xeno.SQLiteAdmin.Modules.ModuleName.Tests.csproj", "{BD1F2B63-858E-47E9-A3B6-542EA178B4DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteAdmin.Modules.Sample1.Tests", "Xeno.SQLiteAdmin.Modules.ModuleName.Tests\SQLiteAdmin.Modules.Sample1.Tests.csproj", "{BD1F2B63-858E-47E9-A3B6-542EA178B4DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{108FED5B-7A9F-4AFD-A295-EDA861DBB9B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{06287450-3DD0-483E-8253-C7EB63118A20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B46E66BC-A7E8-4BD0-BF6D-14FD360C3A31}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.xamlstyler = .xamlstyler
+		codemaid.config = codemaid.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,8 +3,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Xeno.SQLiteAdmin</AssemblyName>
+    <AssemblyName>SQLiteAdmin</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>Xeno.SQLiteAdmin</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\output\SQLiteAdmin</OutputPath>
@@ -16,9 +17,9 @@
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xeno.SQLiteAdmin.Core\Xeno.SQLiteAdmin.Core.csproj" />
-    <ProjectReference Include="..\Modules\Xeno.SQLiteAdmin.Modules.ModuleName\Xeno.SQLiteAdmin.Modules.ModuleName.csproj" />
-    <ProjectReference Include="..\Services\Xeno.SQLiteAdmin.Services.Interfaces\Xeno.SQLiteAdmin.Services.Interfaces.csproj" />
-    <ProjectReference Include="..\Services\Xeno.SQLiteAdmin.Services\Xeno.SQLiteAdmin.Services.csproj" />
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.Modules.ModuleName\SQLiteAdmin.Modules.Sample1.csproj" />
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services\SQLiteAdmin.Services.csproj" />
   </ItemGroup>
 </Project>

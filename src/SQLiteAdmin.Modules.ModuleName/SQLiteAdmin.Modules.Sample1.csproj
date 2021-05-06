@@ -2,8 +2,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Xeno.SQLiteAdmin.Modules.ModuleName</AssemblyName>
+    <AssemblyName>Xeno.SQLiteAdmin.Modules.Sample1</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>Xeno.SQLiteAdmin.Modules.Sample1</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\output\Modules</OutputPath>
@@ -15,7 +16,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Xeno.SQLiteAdmin.Core\Xeno.SQLiteAdmin.Core.csproj" />
-    <ProjectReference Include="..\..\Services\Xeno.SQLiteAdmin.Services.Interfaces\Xeno.SQLiteAdmin.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
+    <ProjectReference Include="..\Xeno.SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
   </ItemGroup>
 </Project>

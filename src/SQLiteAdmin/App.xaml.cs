@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Prism.Ioc;
 using Prism.Modularity;
-using Xeno.SQLiteAdmin.Modules.ModuleName;
+using Xeno.SQLiteAdmin.Modules.Sample1;
 using Xeno.SQLiteAdmin.Services;
 using Xeno.SQLiteAdmin.Services.Interfaces;
 using Xeno.SQLiteAdmin.Views;
@@ -15,12 +15,12 @@ namespace Xeno.SQLiteAdmin
   {
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
-      moduleCatalog.AddModule<ModuleNameModule>();
+      moduleCatalog.AddModule<Sample1Module>();
     }
 
     protected override Window CreateShell()
     {
-      return Container.Resolve<MainWindow>();
+      return Container.Resolve<MainView>();
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
