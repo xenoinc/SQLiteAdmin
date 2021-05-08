@@ -1,5 +1,5 @@
 # SQLite Admin
-Copyright 2017-2019 (C) Xeno Innovations, Inc.
+Copyright 2017-2021 (C) Xeno Innovations, Inc.
 
 _**WARNING:** pre-alpha prototype in progress!_
 

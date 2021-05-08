@@ -67,11 +67,11 @@ TestResult.xml
 !/lib/readme.txt
 
 # Output
-/output/*
-!/output/readme.txt
+/[Oo]utput/*
+!/[Oo]utput/readme.txt
 
 ## USER DEFINED
-/docs/*.csv
-/docs/backup
-/tests
-/tools
+/[Dd]ocs/*.csv
+/[Dd]ocs/backup
+/[Tt]ests
+/[Tt]ools
