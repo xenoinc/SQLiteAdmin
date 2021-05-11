@@ -1,8 +1,8 @@
 ﻿<Window x:Class="Xeno.SQLiteAdmin.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:Xeno.SQLiteAdmin.Controls;assembly=SQLiteAdmin"
         xmlns:core="clr-namespace:Xeno.SQLiteAdmin.Core;assembly=Xeno.SQLiteAdmin.Core"
+        xmlns:local="clr-namespace:Xeno.SQLiteAdmin.Controls"
         xmlns:prism="http://prismlibrary.com/"
         Title="{Binding Title}"
         Width="525"
@@ -65,13 +65,33 @@
 
       <!--  Main Body  -->
       <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="41*"/>
+          <ColumnDefinition Width="442*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
           <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <local:TextEdit x:Name="AvalonTextEditor"
+                        Height="Auto"
+                        FontFamily="{Binding EditorFontFamily}"
+                        FontSize="{Binding EditorFontSize}"
+                        IsModified="{Binding Path=EditorIsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsReadOnly="{Binding EditorIsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectionLength="{Binding EditorSelectionLength, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectionStart="{Binding EditorSelectionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ShowLineNumbers="True"
+                        SyntaxHighlighting="{Binding EditorSyntaxType}"
+                        Text="{Binding EditorText}" Grid.ColumnSpan="2" />
+
+        <local:EditorView Grid.ColumnSpan="2" Margin="0,141,0,0" Grid.RowSpan="2" />
+
         <!--<ContentControl prism:RegionManager.RegionName="ContentRegion" />
         <Button Command="{Binding CmdShowDialog}" Content="Show Dialog" />-->
 
-        <controls:TextEditorExt x:Name="AvalonTextEditor"
+        <!--<controls:TextEditorExt x:Name="AvalonTextEditor"
                                 Height="Auto"
                                 FontFamily="{Binding EditorFontFamily}"
                                 FontSize="{Binding EditorFontSize}"
@@ -82,7 +102,7 @@
                                 ShowLineNumbers="True"
                                 SyntaxHighlighting="{Binding EditorSyntaxType}"
                                 Text="{Binding EditorText}"
-                                Unloaded="AvalonTextEditor_Unloaded" />
+                                Unloaded="AvalonTextEditor_Unloaded" />-->
       </Grid>
     </DockPanel>
 

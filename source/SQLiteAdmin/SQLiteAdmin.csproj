@@ -28,4 +28,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Themes\Sqlite.xshd" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\TextEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\TextEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

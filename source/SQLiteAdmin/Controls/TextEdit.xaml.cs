@@ -8,98 +8,17 @@ using ICSharpCode.AvalonEdit.Document;
 
 namespace Xeno.SQLiteAdmin.Controls
 {
-  public class TextEditorExt : TextEditor, INotifyPropertyChanged
+  /// <summary>Interaction logic for TextEdit.xaml</summary>
+  public class TextEdit : TextEditor, INotifyPropertyChanged
   {
-    public static DependencyProperty CaretOffsetProperty =
-         DependencyProperty.Register(nameof(CaretOffset), typeof(int), typeof(TextEditorExt),
-         // binding changed callback: set value of underlying property
-         new PropertyMetadata((obj, args) =>
-         {
-           TextEditorExt target = (TextEditorExt)obj;
-           target.CaretOffset = (int)args.NewValue;
-         }));
-
-    public TextEditorExt()
-    {
-      FontSize = 12;
-      FontFamily = new FontFamily("Consolas");
-      Options = new TextEditorOptions {
-        IndentationSize = 3,
-        ConvertTabsToSpaces = true
-      };
-    }
-
-    /// <summary>
-    /// Implement the INotifyPropertyChanged event handler.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public new int CaretOffset
-    {
-      get => base.CaretOffset;
-      set => base.CaretOffset = value;
-    }
-
-    public int Length => base.Text.Length;
-
-    //public void RaisePropertyChanged(string info)
-    //{
-    //  if (PropertyChanged != null)
-    //  {
-    //    PropertyChanged(this, new PropertyChangedEventArgs(info));
-    //  }
-    //}
-
-    protected override void OnTextChanged(EventArgs e)
-    {
-      RaisePropertyChanged(nameof(Length));
-      base.OnTextChanged(e);
-    }
-
-    #region 1896
-
-    /// <summary>Dependency property for the editor text property binding.</summary>
-    public static readonly DependencyProperty TextProperty =
-      DependencyProperty.Register(nameof(Text), typeof(string), typeof(TextEditorExt),
-      new PropertyMetadata((obj, args) =>
-      {
-        TextEditorExt target = (TextEditorExt)obj;
-        target.Text = (string)args.NewValue;
-      }));
-
-    private static bool _canScroll = true;
-
-    /// <summary>Provide access to the Text.</summary>
-    public new string Text
-    {
-      get { return base.Text; }
-      set { base.Text = value; }
-    }
-
-    /// <summary>
-    /// Event that handles when the caret changes.
-    /// </summary>
-    private void TextArea_CaretPositionChanged(object sender, EventArgs e)
-    {
-      try
-      {
-        _canScroll = false;
-        this.TextLocation = TextLocation;
-      }
-      finally
-      {
-        _canScroll = true;
-      }
-    }
-
-    /// <summary>Event handler to update properties based upon the selection changed event.</summary>
-    private void TextArea_SelectionChanged(object sender, EventArgs e)
-    {
-      this.SelectionStart = SelectionStart;
-      this.SelectionLength = SelectionLength;
-    }
-
-    #endregion 1896
+    /// <summary>DependencyProperty for the TextEditor SelectedText property.</summary>
+    public static readonly DependencyProperty SelectedTextProperty =
+      DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(TextEdit),
+        new PropertyMetadata((obj, args) =>
+        {
+          TextEdit target = (TextEdit)obj;
+          target.SelectedText = (string)args.NewValue;
+        }));
 
     ///// <summary>
     ///// DependencyProperty for the TextEditorCaretOffset binding.
@@ -122,25 +41,14 @@ namespace Xeno.SQLiteAdmin.Controls
     //  set { SetValue(CaretOffsetProperty, value); }
     //}
 
-    #region Selection.
-
-    /// <summary>DependencyProperty for the TextEditor SelectedText property.</summary>
-    public static readonly DependencyProperty SelectedTextProperty =
-      DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(TextEditorExt),
-        new PropertyMetadata((obj, args) =>
-        {
-          TextEditorExt target = (TextEditorExt)obj;
-          target.SelectedText = (string)args.NewValue;
-        }));
-
     /// <summary>
     /// DependencyProperty for the TextEditor SelectionLength property.
     /// </summary>
     public static readonly DependencyProperty SelectionLengthProperty =
-      DependencyProperty.Register(nameof(SelectionLength), typeof(int), typeof(TextEditorExt),
+      DependencyProperty.Register(nameof(SelectionLength), typeof(int), typeof(TextEdit),
         new PropertyMetadata((obj, args) =>
         {
-          TextEditorExt target = (TextEditorExt)obj;
+          TextEdit target = (TextEdit)obj;
           if (target.SelectionLength != (int)args.NewValue)
           {
             target.SelectionLength = (int)args.NewValue;
@@ -152,10 +60,10 @@ namespace Xeno.SQLiteAdmin.Controls
     /// DependencyProperty for the TextEditor SelectionStart property.
     /// </summary>
     public static readonly DependencyProperty SelectionStartProperty =
-      DependencyProperty.Register(nameof(SelectionStart), typeof(int), typeof(TextEditorExt),
+      DependencyProperty.Register(nameof(SelectionStart), typeof(int), typeof(TextEdit),
       new PropertyMetadata((obj, args) =>
       {
-        TextEditorExt target = (TextEditorExt)obj;
+        TextEdit target = (TextEdit)obj;
         if (target.SelectionStart != (int)args.NewValue)
         {
           target.SelectionStart = (int)args.NewValue;
@@ -168,14 +76,55 @@ namespace Xeno.SQLiteAdmin.Controls
     /// will scroll the TextEditor to the desired TextLocation.
     /// </summary>
     public static readonly DependencyProperty TextLocationProperty =
-      DependencyProperty.Register(nameof(TextLocation), typeof(TextLocation), typeof(TextEditorExt),
+      DependencyProperty.Register(nameof(TextLocation), typeof(TextLocation), typeof(TextEdit),
         new PropertyMetadata((obj, args) =>
         {
-          TextEditorExt target = (TextEditorExt)obj;
+          TextEdit target = (TextEdit)obj;
           TextLocation loc = (TextLocation)args.NewValue;
           if (_canScroll)
             target.ScrollTo(loc.Line, loc.Column);
         }));
+
+    /// <summary>Dependency property for the editor text property binding.</summary>
+    public static readonly DependencyProperty TextProperty =
+      DependencyProperty.Register(nameof(Text), typeof(string), typeof(TextEdit),
+        new PropertyMetadata((obj, args) =>
+        {
+          TextEdit target = (TextEdit)obj;
+          target.Text = (string)args.NewValue;
+        }));
+
+    public static DependencyProperty CaretOffsetProperty =
+      DependencyProperty.Register(nameof(CaretOffset), typeof(int), typeof(TextEdit),
+        // binding changed callback: set value of underlying property
+        new PropertyMetadata((obj, args) =>
+        {
+          TextEdit target = (TextEdit)obj;
+          target.CaretOffset = (int)args.NewValue;
+        }));
+
+    private static bool _canScroll = true;
+
+    public TextEdit()
+    {
+      FontSize = 12;
+      FontFamily = new FontFamily("Consolas");
+      Options = new TextEditorOptions {
+        IndentationSize = 3,
+        ConvertTabsToSpaces = true
+      };
+    }
+
+    /// <summary>
+    /// Implement the INotifyPropertyChanged event handler.
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public new int CaretOffset
+    {
+      get => base.CaretOffset;
+      set => base.CaretOffset = value;
+    }
 
     /// <summary>Access to the SelectedText property.</summary>
     public new string SelectedText
@@ -202,6 +151,13 @@ namespace Xeno.SQLiteAdmin.Controls
       set => SetValue(SelectionStartProperty, value);
     }
 
+    /// <summary>Provide access to the Text.</summary>
+    public new string Text
+    {
+      get => base.Text;
+      set => base.Text = value;
+    }
+
     /// <summary>
     /// Get or set the TextLocation. Setting will scroll to that location.
     /// </summary>
@@ -211,9 +167,51 @@ namespace Xeno.SQLiteAdmin.Controls
       set => SetValue(TextLocationProperty, value);
     }
 
-    #endregion Selection.
+    public int Length => base.Text.Length;
 
-    #region Properties.
+    //public void RaisePropertyChanged(string info)
+    //{
+    //  if (PropertyChanged != null)
+    //  {
+    //    PropertyChanged(this, new PropertyChangedEventArgs(info));
+    //  }
+    //}
+
+    public void RaisePropertyChanged([CallerMemberName] string caller = null)
+    {
+      var handler = PropertyChanged;
+      if (handler != null)
+        PropertyChanged(this, new PropertyChangedEventArgs(caller));
+    }
+
+    protected override void OnTextChanged(EventArgs e)
+    {
+      RaisePropertyChanged(nameof(Length));
+      base.OnTextChanged(e);
+    }
+
+    /// <summary>
+    /// Event that handles when the caret changes.
+    /// </summary>
+    private void TextArea_CaretPositionChanged(object sender, EventArgs e)
+    {
+      try
+      {
+        _canScroll = false;
+        this.TextLocation = TextLocation;
+      }
+      finally
+      {
+        _canScroll = true;
+      }
+    }
+
+    /// <summary>Event handler to update properties based upon the selection changed event.</summary>
+    private void TextArea_SelectionChanged(object sender, EventArgs e)
+    {
+      this.SelectionStart = SelectionStart;
+      this.SelectionLength = SelectionLength;
+    }
 
     ///// <summary>
     ///// The currently loaded file name. This is bound to the ViewModel
@@ -231,22 +229,9 @@ namespace Xeno.SQLiteAdmin.Controls
     //     DependencyProperty.Register("FilePath", typeof(string), typeof(TextEditorEx),
     //     new PropertyMetadata(String.Empty, OnFilePathChanged));
 
-    #endregion Properties.
-
-    #region Raise Property Changed.
-
     ///// <summary>
     ///// Implement the INotifyPropertyChanged event handler.
     ///// </summary>
     //public event PropertyChangedEventHandler PropertyChanged;
-
-    public void RaisePropertyChanged([CallerMemberName] string caller = null)
-    {
-      var handler = PropertyChanged;
-      if (handler != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(caller));
-    }
-
-    #endregion Raise Property Changed.
   }
 }

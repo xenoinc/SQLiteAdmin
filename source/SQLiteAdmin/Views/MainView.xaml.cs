@@ -21,9 +21,10 @@ namespace Xeno.SQLiteAdmin.Views
     {
       InitializeComponent();
 
-      AvalonTextEditor.PreviewMouseWheel += new System.Windows.Input.MouseWheelEventHandler(AvalonTextEditor_PreviewMouseWheel);
+      //// AvalonTextEditor.PreviewMouseWheel += new System.Windows.Input.MouseWheelEventHandler(AvalonTextEditor_PreviewMouseWheel);
     }
 
+    /*
     /// <summary>Resize the editor's font size.</summary>
     /// <param name="increase">Increase or decrease</param>
     public void UpdateFontSize(bool increase)
@@ -58,5 +59,6 @@ namespace Xeno.SQLiteAdmin.Views
     {
       AvalonTextEditor.PreviewMouseWheel -= new System.Windows.Input.MouseWheelEventHandler(AvalonTextEditor_PreviewMouseWheel);
     }
+    */
   }
 }
