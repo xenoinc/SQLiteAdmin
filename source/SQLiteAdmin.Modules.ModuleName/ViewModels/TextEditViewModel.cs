@@ -154,27 +154,13 @@ namespace Xeno.SQLiteAdmin.Modules.TextEditorModule.ViewModels
     public int EditorSelectionLength
     {
       get => _editorSelectionLength;
-      set
-      {
-        if (_editorSelectionLength != value)
-        {
-          _editorSelectionLength = value;
-          RaisePropertyChanged();
-        }
-      }
+      set => SetProperty(ref _editorSelectionLength, value);
     }
 
     public int EditorSelectionStart
     {
       get => _editorSelectionStart;
-      set
-      {
-        if (_editorSelectionStart != value)
-        {
-          _editorSelectionStart = value;
-          RaisePropertyChanged();
-        }
-      }
+      set => SetProperty(ref _editorSelectionStart, value);
     }
 
     /// <summary>
@@ -186,40 +172,19 @@ namespace Xeno.SQLiteAdmin.Modules.TextEditorModule.ViewModels
     public IHighlightingDefinition EditorSyntaxType
     {
       get => _editorSyntaxType;
-      set
-      {
-        if (_editorSyntaxType != value)
-        {
-          _editorSyntaxType = value;
-          RaisePropertyChanged();
-        }
-      }
+      set => SetProperty(ref _editorSyntaxType, value);
     }
 
     public string EditorText
     {
       get => _editorText;
-      set
-      {
-        if (_editorText != value)
-        {
-          _editorText = value;
-          RaisePropertyChanged();
-        }
-      }
+      set => SetProperty(ref _editorText, value);
     }
 
     public bool EditorWordWrap
     {
       get => _editorWordWrap;
-      set
-      {
-        if (_editorWordWrap == value)
-          return;
-
-        _editorWordWrap = value;
-        RaisePropertyChanged();
-      }
+      set => SetProperty(ref _editorWordWrap, value);
     }
 
     public string Text
@@ -233,23 +198,27 @@ namespace Xeno.SQLiteAdmin.Modules.TextEditorModule.ViewModels
       get => _titleDisplayed;
       set
       {
-        _titleBase = value;
-        var title = _titleBase + (EditorIsDirty ? "*" : string.Empty);
-
-        SetProperty(ref _titleDisplayed, title);
+        SetProperty(ref _titleDisplayed, value);
+        ////_titleBase = value;
+        ////var title = _titleBase + (EditorIsDirty ? "*" : string.Empty);
+        ////SetProperty(ref _titleDisplayed, title);
       }
+    }
+
+    public override void OnNavigatedTo(NavigationContext navigationContext)
+    {
+      // do something
     }
 
     private void OnExecute(string misc)
     {
-
-      /*
       var text = EditorSelectionLength > 0 ? EditorSelectedText : EditorText;
 
       System.Diagnostics.Debug.WriteLine($"Exec - SelectedText: '{EditorSelectedText}'");
       System.Diagnostics.Debug.WriteLine($"Exec - Text: '{EditorText}'");
       System.Diagnostics.Debug.WriteLine($"Exec Query: '{text}'");
 
+      /*
       // _dbService.ExecuteNonQuery(text);
 
       var ds = _dbService.ExecuteQuery(text);
@@ -289,11 +258,6 @@ namespace Xeno.SQLiteAdmin.Modules.TextEditorModule.ViewModels
         }
       }
       */
-    }
-
-    public override void OnNavigatedTo(NavigationContext navigationContext)
-    {
-      // do something
     }
   }
 }

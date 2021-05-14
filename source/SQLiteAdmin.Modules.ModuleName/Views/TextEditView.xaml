@@ -6,13 +6,14 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
   <Grid>
 
+    <!--  sample: https://github.com/Dirkster99/Edi/blob/a5dda8ead9/Edi/Edi.Documents/Views/EdiDoc/EdiView.xaml  -->
     <local:TextEdit x:Name="AvalonTextEditor"
                     Height="Auto"
                     FontFamily="{Binding EditorFontFamily}"
                     FontSize="{Binding EditorFontSize}"
                     IsModified="{Binding Path=EditorIsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     IsReadOnly="{Binding EditorIsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectionLength="{Binding EditorSelectionLength, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionLength="{Binding EditorSelectionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectionStart="{Binding EditorSelectionStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     ShowLineNumbers="True"
                     SyntaxHighlighting="{Binding EditorSyntaxType}"
