@@ -14,9 +14,6 @@
     <OutputPath>..\..\output\SQLiteAdmin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Themes\Sqlite.xshd" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
@@ -26,17 +23,8 @@
     <ProjectReference Include="..\SQLiteAdmin.Services\SQLiteAdmin.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Themes\Sqlite.xshd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Controls\TextEdit.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\TextEdit.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
+    <Folder Include="Controls\" />
+    <Folder Include="Events\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
 </Project>

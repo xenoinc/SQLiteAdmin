@@ -6,7 +6,7 @@ using System.Windows.Media;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 
-namespace Xeno.SQLiteAdmin.Controls
+namespace Xeno.SQLiteAdmin.Modules.TextEditorModule.Controls
 {
   /// <summary>Interaction logic for TextEdit.xaml</summary>
   public class TextEdit : TextEditor, INotifyPropertyChanged

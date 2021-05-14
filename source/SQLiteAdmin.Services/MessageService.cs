@@ -1,4 +1,5 @@
-﻿using Xeno.SQLiteAdmin.Services.Interfaces;
+﻿using System;
+using Xeno.SQLiteAdmin.Services.Interfaces;
 
 namespace Xeno.SQLiteAdmin.Services
 {
@@ -6,7 +7,7 @@ namespace Xeno.SQLiteAdmin.Services
   {
     public string GetMessage()
     {
-      return "Hello from the Message Service";
+      return $"-- What the dev?!{Environment.NewLine}select * from FungKuFit.News;";
     }
   }
 }

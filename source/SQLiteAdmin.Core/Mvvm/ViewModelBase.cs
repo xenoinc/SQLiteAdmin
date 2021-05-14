@@ -7,12 +7,10 @@ namespace Xeno.SQLiteAdmin.Core.Mvvm
   {
     protected ViewModelBase()
     {
-
     }
 
     public virtual void Destroy()
     {
-
     }
   }
 }

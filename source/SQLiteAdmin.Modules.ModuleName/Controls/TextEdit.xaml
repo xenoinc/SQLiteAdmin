@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
                     xmlns:editing="clr-namespace:ICSharpCode.AvalonEdit.Editing;assembly=ICSharpCode.AvalonEdit"
-                    xmlns:local="clr-namespace:Xeno.SQLiteAdmin.Controls"
+                    xmlns:local="clr-namespace:Xeno.SQLiteAdmin.Modules.TextEditorModule.Controls"
                     xmlns:rendering="clr-namespace:ICSharpCode.AvalonEdit.Rendering;assembly=ICSharpCode.AvalonEdit">
   <Style TargetType="{x:Type local:TextEdit}">
     <Setter Property="FlowDirection" Value="LeftToRight" />

@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Xeno.SQLiteAdmin.Modules.Sample1</AssemblyName>
+    <AssemblyName>Xeno.SQLiteAdmin.Modules.TextEditorModule</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>Xeno.SQLiteAdmin.Modules.Sample1</RootNamespace>
+    <RootNamespace>Xeno.SQLiteAdmin.Modules.TextEditorModule.Controls</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\output\Modules</OutputPath>
@@ -13,6 +13,18 @@
     <OutputPath>..\..\output\Modules</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Themes\CSharpDarkTheme.xshd" />
+    <None Remove="Themes\CSharpLightTheme.xshd" />
+    <None Remove="Themes\DeepBlack.xshd" />
+    <None Remove="Themes\Sqlite.xshd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\CSharpDarkTheme.xshd" />
+    <EmbeddedResource Include="Themes\CSharpLightTheme.xshd" />
+    <EmbeddedResource Include="Themes\DeepBlack.xshd" />
+    <EmbeddedResource Include="Themes\Sqlite.xshd" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.1.1" />
     <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
@@ -20,5 +32,16 @@
   <ItemGroup>
     <ProjectReference Include="..\SQLiteAdmin.Core\SQLiteAdmin.Core.csproj" />
     <ProjectReference Include="..\SQLiteAdmin.Services.Interfaces\SQLiteAdmin.Services.Interfaces.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\TextEdit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\TextEdit.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

@@ -16,6 +16,8 @@ namespace Xeno.SQLiteAdmin
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
       moduleCatalog.AddModule<TextEditorModule>();
+      ////moduleCatalog.AddModule<ToolbarModule>();
+      ////moduleCatalog.AddModule<ExplorerModule>();
     }
 
     protected override Window CreateShell()
@@ -26,6 +28,7 @@ namespace Xeno.SQLiteAdmin
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
       containerRegistry.RegisterSingleton<IMessageService, MessageService>();
+      containerRegistry.RegisterSingleton<IDatabaseService, DatabaseService>();
     }
   }
 }
